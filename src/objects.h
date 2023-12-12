@@ -21,6 +21,14 @@ enum keypress
      KEY_E,
 };
 
+enum playerdirn{
+      UP,
+      LEFT,
+      DOWN,
+      RIGHT,
+};
+
+bool iscolliding( SDL_Rect a , SDL_Rect b );
 
 keypress getinput( SDL_Event e )
 {
@@ -57,6 +65,8 @@ class texrect{
        public: 
        int x,y,h,w;
        int speed;
+       playerdirn direction;
+       
         texrect( )//default constructer
        {
            x=0;
@@ -142,18 +152,22 @@ class texrect{
            {
              case(KEY_W):
                     y-=speed;
+                    direction=UP;
              break;
 
              case(KEY_A):
                     x-=speed;
+                    direction=LEFT;
              break;
 
              case(KEY_S):
                     y+=speed;
+                    direction=DOWN;
              break;
 
              case(KEY_D):
                     x+=speed;
+                    direction=RIGHT;
              break;
                          
            }
@@ -166,15 +180,19 @@ class texrect{
        SDL_Texture* text;
        SDL_Renderer* renderer;
        SDL_Window* window;
+       
+
 };
 
 
 class Sigma:public texrect
 {
       public:
-
+      
+      
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
+        direction=UP;  
         set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 4 , rend , wind );
         loadtexture("Assets/character.png");
       }

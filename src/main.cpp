@@ -23,13 +23,19 @@ void init()
 
 void update_display()
 {
-            SDL_SetRenderDrawColor(renderer, 0 , 0 ,0,SDL_ALPHA_OPAQUE);
+            SDL_SetRenderDrawColor(renderer, 25 , 25 , 25 , SDL_ALPHA_OPAQUE );
             SDL_RenderClear(renderer);
 }
 
 void show_display()
 {
         SDL_RenderPresent( renderer );
+}
+
+bool iscolliding( SDL_Rect a , SDL_Rect b )
+{
+          if(SDL_HasIntersection( &a , &b ))return true;
+          else return false;
 }
 
 
@@ -44,6 +50,7 @@ int main ( int argc , char* argv[] )
         keypress gkey;
 
         Sigma player( renderer , window );
+        texrect obstacle1( 50 , 50 , 150 , 50 , renderer , window ); 
         
          
         while(!quit) //gameloop

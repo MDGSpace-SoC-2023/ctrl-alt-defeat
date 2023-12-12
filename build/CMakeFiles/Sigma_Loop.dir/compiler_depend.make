@@ -349,8 +349,11 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/SDL2/SDL_misc.h \
   /usr/include/SDL2/SDL_ttf.h \
   /usr/include/SDL2/SDL.h \
-  /usr/include/SDL2/SDL_image.h
+  /usr/include/SDL2/SDL_image.h \
+  ../src/objects.h
 
+
+../src/objects.h:
 
 /usr/include/SDL2/SDL_image.h:
 

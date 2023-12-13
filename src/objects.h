@@ -238,6 +238,28 @@ bool iscolliding( texrect a , texrect b )
           else return false;
 }
 
+
+
+class Sigma:public texrect
+{
+      public:
+      
+      
+      Sigma( SDL_Renderer* rend , SDL_Window* wind)
+      { 
+        direction=UP;  
+        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 6 , rend , wind );
+        loadtexture("Assets/character.png");
+      }
+
+      playerdirn get_player_direction()
+      {
+            return direction;
+      }
+
+      
+      
+};
 class projectile:public texrect
 {
      public:
@@ -278,27 +300,6 @@ class projectile:public texrect
 
 
 
-};
-
-class Sigma:public texrect
-{
-      public:
-      
-      
-      Sigma( SDL_Renderer* rend , SDL_Window* wind)
-      { 
-        direction=UP;  
-        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 6 , rend , wind );
-        loadtexture("Assets/character.png");
-      }
-
-      playerdirn get_player_direction()
-      {
-            return direction;
-      }
-
-      
-      
 };
 
 void spawn_bullet( keypress gkey , vector <projectile> Bullets , Sigma player )

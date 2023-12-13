@@ -28,7 +28,13 @@ enum playerdirn{
       RIGHT,
 };
 
-bool iscolliding( SDL_Rect a , SDL_Rect b );
+enum boundary{
+       UPPERB,
+       LOWERB,
+       LEFTB,
+       RIGHTB,
+       NOB,
+};
 
 keypress getinput( SDL_Event e )
 {
@@ -38,22 +44,22 @@ keypress getinput( SDL_Event e )
                  {
                      case(SDLK_w):
                      return KEY_W;
-                     break;
+       
                      case(SDLK_a):
                      return KEY_A;
-                     break;
+              
                      case(SDLK_s):
                      return KEY_S;
-                     break;
+                     
                      case(SDLK_d):
                      return KEY_D;
-                     break;
+       
                      case(SDLK_SPACE):
                      return KEY_SPACE;
-                     break;
+              
                      case(SDLK_e):
                      return KEY_E;
-                     break;
+
                  }
 
            }
@@ -63,10 +69,16 @@ keypress getinput( SDL_Event e )
 class texrect{
        
        public: 
+
+       SDL_Rect rectangle;
+       SDL_Texture* text;
+       SDL_Renderer* renderer;
+       SDL_Window* window;
        int x,y,h,w;
        int speed;
        playerdirn direction;
-       
+       bool collision=false;
+
         texrect( )//default constructer
        {
            x=0;
@@ -113,8 +125,12 @@ class texrect{
         speed=sped;
        }
 
-        void set_dimension( int x , int y , int height , int width, int sped, SDL_Renderer* rend , SDL_Window* wind)
+        void set_dimension( int xin , int yin , int height , int width, int sped, SDL_Renderer* rend , SDL_Window* wind)
        {
+        x=xin;
+        y=yin;
+        h=height;
+        w=width;
         rectangle.x=x;
         rectangle.y=y;
         rectangle.h=height;
@@ -173,16 +189,59 @@ class texrect{
            }
        }
 
+       void reverse_input( keypress key )
+       {
+           switch(key)
+           {
+             case(KEY_W):
+                    y+=speed;
+                    direction=UP;
+             break;
 
-       private :
+             case(KEY_A):
+                    x+=speed;
+                    direction=LEFT;
+             break;
 
-       SDL_Rect rectangle;
-       SDL_Texture* text;
-       SDL_Renderer* renderer;
-       SDL_Window* window;
+             case(KEY_S):
+                    y-=speed;
+                    direction=DOWN;
+             break;
+
+             case(KEY_D):
+                    x-=speed;
+                    direction=RIGHT;
+             break;
+                         
+           }
+       }
        
+       boundary which_boundary()
+       {
+             if(x<=0)return LEFTB;
+             else if(x>= WIDTH- w/2)return RIGHTB;
+             else if(y<=0)return UPPERB;
+             else if(y >= HEIGHT - h/2)return LOWERB;
+             else return NOB;        
+       }
+
+       bool is_out_of_boundary()
+       {
+
+             if( which_boundary() == NOB )return false;
+             else return true;
+       }
 
 };
+
+bool iscolliding( texrect a , texrect b )
+{          
+          SDL_Rect rect_a = a.getrect();
+          SDL_Rect rect_b = b.getrect();
+        
+          if( SDL_HasIntersection ( &rect_a , &rect_b ) ) return true ;
+          else return false;
+}
 
 
 class Sigma:public texrect
@@ -193,17 +252,55 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 4 , rend , wind );
+        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 6 , rend , wind );
         loadtexture("Assets/character.png");
       }
   
       void update_sigma()
       { 
-        update();
-        loadtexture("Assets/character.png");   
+        update();   
       }
-            
+
+      void update_sigma_pos()
+      {
+         rectangle.x=x;
+         rectangle.y=y;
+      } 
+
+      playerdirn get_player_direction()
+      {
+            return direction;
+      }
       
+};
+
+class projectile:public texrect
+{
+     public:
+     int velx=0;
+     int vely=0;
+     
+     projectile( Sigma player )
+     {
+         switch( player.direction ){
+                
+                case(UP):
+                vely= -10;
+                case(DOWN):
+                vely= 10;
+                case(LEFT):
+                velx= -10;
+                case(RIGHT):
+                velx= 10;
+         }     
+     }
+
+     
+
+
+
+
+
 };
 
 #endif

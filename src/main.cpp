@@ -32,13 +32,6 @@ void show_display()
         SDL_RenderPresent( renderer );
 }
 
-bool iscolliding( SDL_Rect a , SDL_Rect b )
-{
-          if(SDL_HasIntersection( &a , &b ))return true;
-          else return false;
-}
-
-
 
 int main ( int argc , char* argv[] )
 {
@@ -50,7 +43,8 @@ int main ( int argc , char* argv[] )
         keypress gkey;
 
         Sigma player( renderer , window );
-        texrect obstacle1( 50 , 50 , 150 , 50 , renderer , window ); 
+        texrect obstacle1( 550 , 150 , 150 , 400 , renderer , window );
+        
         
          
         while(!quit) //gameloop
@@ -62,18 +56,20 @@ int main ( int argc , char* argv[] )
 
                      else if ( e.type == SDL_KEYDOWN )
                    {     
+                         
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                          player.process_input(gkey);
-
-
-                          update_display(); //clear screen to black or level texture
-                          player.update_sigma(); // update sigma pos and render sigma to screen
-                          show_display();  //present renderer
-
+                         player.update_sigma_pos();
+                         if( iscolliding(obstacle1,player) || player.is_out_of_boundary() )
+                         {
+                                player.reverse_input(gkey);
+                         }
+                         
                    }   
                    }
-
+    
              update_display(); //clear screen to black or level texture
+             obstacle1.loadtexture( "Assets/brick.png");
              player.update_sigma(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
 

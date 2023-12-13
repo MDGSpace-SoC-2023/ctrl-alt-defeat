@@ -21,7 +21,7 @@ void init()
 }
 
 
-void update_display()
+void clear_display()
 {
             SDL_SetRenderDrawColor(renderer, 25 , 25 , 25 , SDL_ALPHA_OPAQUE );
             SDL_RenderClear(renderer);
@@ -44,6 +44,10 @@ int main ( int argc , char* argv[] )
 
         Sigma player( renderer , window );
         texrect obstacle1( 550 , 150 , 150 , 400 , renderer , window );
+        obstacle1.loadtexture( "Assets/brick.png") ;
+        vector <projectile> Bullets;
+
+
         
         
          
@@ -52,14 +56,15 @@ int main ( int argc , char* argv[] )
         
              while(SDL_PollEvent(&e) )
                    {
-                     if( e.type == SDL_QUIT ) quit = true;
-
+                     if( e.type == SDL_QUIT ) quit = true;             
+                                                                                  
                      else if ( e.type == SDL_KEYDOWN )
                    {     
                          
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                          player.process_input(gkey);
-                         player.update_sigma_pos();
+                         spawn_bullet(gkey , Bullets , player);
+
                          if( iscolliding(obstacle1,player) || player.is_out_of_boundary() )
                          {
                                 player.reverse_input(gkey);
@@ -68,9 +73,15 @@ int main ( int argc , char* argv[] )
                    }   
                    }
     
-             update_display(); //clear screen to black or level texture
-             obstacle1.loadtexture( "Assets/brick.png");
-             player.update_sigma(); // update sigma pos and render sigma to screen
+             clear_display(); //clear screen to black or level texture
+             for( int i=0 ; i<Bullets.size() ; ++i ){
+                   
+                   Bullets[i].update_projectile();
+                   Bullets[i].update();
+             
+             }
+             obstacle1.update(); 
+             player.update(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
 
         } 

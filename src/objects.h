@@ -257,8 +257,8 @@ class projectile:public texrect
        {
               velx=0;
               vely=0;
-              rectangle.w=10;
-              rectangle.h=10;
+              rectangle.w=20;
+              rectangle.h=20;
               rectangle.x=player.rectangle.x;
               rectangle.y=player.rectangle.y;
               renderer = player.renderer;
@@ -267,13 +267,21 @@ class projectile:public texrect
               switch( player.direction ){
                 
               case(UP):
-                     vely= -10;
+                     vely= -5;
+                     velx=0;
+                     break;
               case(DOWN):
-                     vely= 10;
+                     vely= 5;
+                     velx=0;
+                     break;
               case(LEFT):
-                     velx= -10;
+                     velx= -5;
+                     vely=0;
+                     break;
               case(RIGHT):
-                     velx= 10;
+                     velx= 5;
+                     vely=0;
+                     break;
               } 
               loadtexture("Assets/ball.png");
        }
@@ -286,12 +294,13 @@ class projectile:public texrect
        }
 };
 
-void spawn_bullet( keypress gkey , vector <projectile> Bullets , Sigma player )
+void spawn_bullet( keypress gkey , vector <projectile> &Bullets , Sigma player )
       {    
               if(gkey==KEY_SPACE)
               {        
                      projectile bullet( player );
-                     Bullets.push_back( bullet ) ;
+                     Bullets.push_back( bullet );
+
               }
       }
 

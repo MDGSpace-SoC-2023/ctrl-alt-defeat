@@ -8,6 +8,7 @@
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
+vector <projectile> Bullets;
 
 
 
@@ -47,8 +48,6 @@ int main ( int argc , char* argv[] )
         Sigma player( renderer , window );
         texrect obstacle1( 550 , 150 , 150 , 400 , renderer , window );
         obstacle1.loadtexture( "Assets/brick.png") ;
-        vector <projectile> Bullets;
-
 
         
         

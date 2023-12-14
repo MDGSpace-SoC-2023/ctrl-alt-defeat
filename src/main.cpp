@@ -66,6 +66,7 @@ int main ( int argc , char* argv[] )
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                          player.process_input(gkey);
                          spawn_bullet(gkey , Bullets , player);
+                  
 
                          if( iscolliding(obstacle1,player) || player.is_out_of_boundary() )
                          {
@@ -74,18 +75,21 @@ int main ( int argc , char* argv[] )
                          
                    }   
                    }
-    
+              
              clear_display(); //clear screen to black or level texture
              for( int i=0 ; i<Bullets.size() ; ++i ){
                    
+                   
                    Bullets[i].update_projectile();
                    Bullets[i].update();
+                   if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);
              
              }
+
              obstacle1.update(); 
              player.update(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
-
+             SDL_Delay(16.66);
         } 
 
 

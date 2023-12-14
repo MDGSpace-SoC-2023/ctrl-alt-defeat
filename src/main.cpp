@@ -10,6 +10,8 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
 
 
+
+
 void init()
 {       
         //initialize all subsystems
@@ -33,9 +35,9 @@ void show_display()
 }
 
 
+
 int main ( int argc , char* argv[] )
 {
-        
         init();
         
         bool quit=false;

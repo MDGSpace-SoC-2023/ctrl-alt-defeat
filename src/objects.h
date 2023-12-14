@@ -91,70 +91,65 @@ class texrect {
 
        texrect( int x , int y , int height , int width ,SDL_Renderer* rend , SDL_Window* wind )//paremeterised constructor
        {
-        rectangle.x=x;
-        rectangle.y=y;
-        rectangle.h=height;
-        rectangle.w=width;
-         window=wind;
-         renderer=rend;
+              rectangle.x=x;
+              rectangle.y=y;
+              rectangle.h=height;
+              rectangle.w=width;
+              window=wind;
+              renderer=rend;
        }
 
        void set_dimension( int x , int y , int height , int width)
        {
-        rectangle.x=x;
-        rectangle.y=y;
-        rectangle.h=height;
-        rectangle.w=width;
+              rectangle.x=x;
+              rectangle.y=y;
+              rectangle.h=height;
+              rectangle.w=width;
        }
 
-        void set_dimension( int x , int y , int height , int width , SDL_Renderer* rend , SDL_Window* wind)
+       void set_dimension( int x , int y , int height , int width , SDL_Renderer* rend , SDL_Window* wind)
        {
-        rectangle.x=x;
-        rectangle.y=y;
-        rectangle.h=height;
-        rectangle.w=width;
-        window=wind;
-        renderer=rend;
+              rectangle.x=x;
+              rectangle.y=y;
+              rectangle.h=height;
+              rectangle.w=width;
+              window=wind;
+              renderer=rend;
        }
        
-         void set_dimension( int x , int y , int height , int width, int sped)
+       void set_dimension( int x , int y , int height , int width, int sped)
        {
-        rectangle.x=x;
-        rectangle.y=y;
-        rectangle.h=height;
-        rectangle.w=width;
-        speed=sped;
+              rectangle.x=x;
+              rectangle.y=y;
+              rectangle.h=height;
+              rectangle.w=width;
+              speed=sped;
        }
 
-        void set_dimension( int x , int y , int height , int width, int sped, SDL_Renderer* rend , SDL_Window* wind)
+       void set_dimension( int x , int y , int height , int width, int sped, SDL_Renderer* rend , SDL_Window* wind)
        {
-        rectangle.x=x;
-        rectangle.y=y;
-        rectangle.h=height;
-        rectangle.w=width;
-        speed=sped;
-        window=wind;
-        renderer=rend;
+              rectangle.x=x;
+              rectangle.y=y;
+              rectangle.h=height;
+              rectangle.w=width;
+              speed=sped;
+              window=wind;
+              renderer=rend;
        }
        
        void loadtexture( std::string path)//loading texture from a path
        {
 
-        SDL_Surface* temp=IMG_Load( path.c_str() );
-        text = SDL_CreateTextureFromSurface( renderer , temp );
-        SDL_FreeSurface(temp);
-        SDL_RenderCopy(renderer , text , NULL , &rectangle );
+              SDL_Surface* temp=IMG_Load( path.c_str() );
+              text = SDL_CreateTextureFromSurface( renderer , temp );
+              SDL_FreeSurface(temp);
+              SDL_RenderCopy(renderer , text , NULL , &rectangle );
 
        }
        
-       void update() // updating position of rectangle and updating to renderer
+       void update() // updating to renderer
        {      
-               SDL_RenderCopy(renderer , text , NULL , &rectangle );
-       }
-
-       SDL_Rect getrect()
-       {
-        return rectangle;
+              SDL_RenderCopy(renderer , text , NULL , &rectangle );
        }
        
        void process_input( keypress key )
@@ -231,8 +226,8 @@ class texrect {
 
 bool iscolliding( texrect a , texrect b )
 {          
-          SDL_Rect rect_a = a.getrect();
-          SDL_Rect rect_b = b.getrect();
+          SDL_Rect rect_a = a.rectangle;
+          SDL_Rect rect_b = b.rectangle;
         
           if( SDL_HasIntersection ( &rect_a , &rect_b ) ) return true ;
           else return false;
@@ -243,72 +238,61 @@ bool iscolliding( texrect a , texrect b )
 class Sigma:public texrect
 {
       public:
-      
-      
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
         set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 6 , rend , wind );
         loadtexture("Assets/character.png");
-      }
-
-      playerdirn get_player_direction()
-      {
-            return direction;
-      }
-
-      
+      }      
       
 };
+
 class projectile:public texrect
 {
-     public:
-     int velx;
-     int vely;
+       public:
+       int velx;
+       int vely;
      
-     projectile( Sigma player )
-     {
-       velx=0;
-       vely=0;
-       rectangle.w=10;
-       rectangle.h=10;
-       rectangle.x=player.rectangle.x;
-       rectangle.y=player.rectangle.y;
+       projectile( Sigma player )
+       {
+              velx=0;
+              vely=0;
+              rectangle.w=10;
+              rectangle.h=10;
+              rectangle.x=player.rectangle.x;
+              rectangle.y=player.rectangle.y;
+              renderer = player.renderer;
+              window = player.window;
        
-         switch( player.direction ){
+              switch( player.direction ){
                 
-                case(UP):
-                vely= -10;
-                case(DOWN):
-                vely= 10;
-                case(LEFT):
-                velx= -10;
-                case(RIGHT):
-                velx= 10;
-         } 
-         loadtexture("Assets/ball.png");
-     }
+              case(UP):
+                     vely= -10;
+              case(DOWN):
+                     vely= 10;
+              case(LEFT):
+                     velx= -10;
+              case(RIGHT):
+                     velx= 10;
+              } 
+              loadtexture("Assets/ball.png");
+       }
      
 
-     void update_projectile ()
-     {
-       rectangle.x+=velx;
-       rectangle.y+=vely;
-     }
-
-
-
-
-
+       void update_projectile ()
+       {
+              rectangle.x+=velx;
+              rectangle.y+=vely;
+       }
 };
 
 void spawn_bullet( keypress gkey , vector <projectile> Bullets , Sigma player )
       {    
-                   if(gkey==KEY_SPACE)
-                   {        
-                            projectile bullet( player );
-                            Bullets.push_back( bullet ) ;
-                   }
+              if(gkey==KEY_SPACE)
+              {        
+                     projectile bullet( player );
+                     Bullets.push_back( bullet ) ;
+              }
       }
 
 

@@ -9,8 +9,8 @@
 #include <vector>
 using namespace std;
 
-int WIDTH  =1280;
-int HEIGHT =720 ;
+int WIDTH  =1920 ;
+int HEIGHT =1080 ;
 
 enum keypress
 {
@@ -241,7 +241,7 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 6 , rend , wind );
+        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 3 , rend , wind );
         loadtexture("Assets/character.png");
       }      
       

@@ -48,6 +48,8 @@ int main ( int argc , char* argv[] )
         Sigma player( renderer , window );
         texrect obstacle1( 550 , 150 , 150 , 400 , renderer , window );
         obstacle1.loadtexture( "Assets/brick.png") ;
+        SDL_Surface* surf = IMG_Load( "Assets/basic.png");
+        SDL_Texture* test = SDL_CreateTextureFromSurface( renderer , surf) ;
 
         
         
@@ -86,6 +88,7 @@ int main ( int argc , char* argv[] )
              }
 
              obstacle1.update(); 
+             SDL_RenderCopy( renderer, test , NULL , NULL );
              player.update(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
              SDL_Delay(16.66);

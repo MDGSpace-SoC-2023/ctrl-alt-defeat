@@ -222,6 +222,8 @@ class texrect {
              else return true;
        }
 
+       
+
 };
 
 bool iscolliding( texrect a , texrect b )
@@ -241,7 +243,7 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( WIDTH/2 , HEIGHT/2 , 60 , 60 , 3 , rend , wind );
+        set_dimension( WIDTH/2 , HEIGHT/2 , 20 , 20 , 3 , rend , wind );
         loadtexture("Assets/character.png");
       }      
       

@@ -51,8 +51,6 @@ int main ( int argc , char* argv[] )
 
         level main_menu;
         load_main_menu( renderer , main_menu );
-        cout<<main_menu.tileset.size()<<endl;
-        cout<<main_menu.tiles_layer1.size()<<endl;
 
         
          
@@ -81,7 +79,8 @@ int main ( int argc , char* argv[] )
               
              clear_display(); //clear screen to black or level texture
 
-             main_menu.draw_layer( renderer , main_menu.tiles_layer1 );
+             main_menu.draw_level(renderer);
+           
 
              for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    

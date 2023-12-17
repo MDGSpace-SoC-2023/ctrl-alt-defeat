@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "objects.h"
+#include "level.hpp"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
@@ -46,12 +47,13 @@ int main ( int argc , char* argv[] )
         keypress gkey;
 
         Sigma player( renderer , window );
-        texrect obstacle1( 550 , 150 , 150 , 400 , renderer , window );
-        obstacle1.loadtexture( "Assets/brick.png") ;
-        SDL_Surface* surf = IMG_Load( "Assets/basic.png");
-        SDL_Texture* test = SDL_CreateTextureFromSurface( renderer , surf) ;
-
         
+
+        level main_menu;
+        load_main_menu( renderer , main_menu );
+        cout<<main_menu.tileset.size()<<endl;
+        cout<<main_menu.tiles_layer1.size()<<endl;
+
         
          
         while(!quit) //gameloop
@@ -69,26 +71,27 @@ int main ( int argc , char* argv[] )
                          spawn_bullet(gkey , Bullets , player);
                   
 
-                         if( iscolliding(obstacle1,player) || player.is_out_of_boundary() )
-                         {
-                                player.reverse_input(gkey);
-                         }
+                        //  if( iscolliding(obstacle1,player) || player.is_out_of_boundary() )
+                        //  {
+                        //         player.reverse_input(gkey);
+                        //  }
                          
                    }   
                    }
               
              clear_display(); //clear screen to black or level texture
-             for( int i=0 ; i<Bullets.size() ; ++i ){
+
+             main_menu.draw_layer( renderer , main_menu.tiles_layer1 );
+
+             for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    
                    
                    Bullets[i].update_projectile();
                    Bullets[i].update();
-                   if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);
+                  //  if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);
              
              }
 
-             obstacle1.update(); 
-             SDL_RenderCopy( renderer, test , NULL , NULL );
              player.update(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
              SDL_Delay(16.66);

@@ -9,8 +9,8 @@
 #include <vector>
 using namespace std;
 
-int WIDTH  =1920 ;
-int HEIGHT =1080 ;
+int WIDTH  =1024 ;
+int HEIGHT =960 ;
 
 enum keypress
 {

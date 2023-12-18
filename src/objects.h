@@ -11,6 +11,7 @@ using namespace std;
 
 int WIDTH  =1280;
 int HEIGHT =720 ;
+int COUNTER = 0;
 
 enum keypress
 {
@@ -88,7 +89,7 @@ class texrect {
            rectangle.w=0;    
            speed=0;   
        }
-
+       
        texrect( int x , int y , int height , int width ,SDL_Renderer* rend , SDL_Window* wind )//paremeterised constructor
        {
               rectangle.x=x;
@@ -253,7 +254,7 @@ class projectile:public texrect
        int velx;
        int vely;
      
-       projectile( Sigma player )
+       projectile( texrect player )
        {
               velx=0;
               vely=0;
@@ -294,16 +295,52 @@ class projectile:public texrect
        }
 };
 
-void spawn_bullet( keypress gkey , vector <projectile> &Bullets , Sigma player )
-      {    
-              if(gkey==KEY_SPACE)
-              {        
-                     projectile bullet( player );
-                     Bullets.push_back( bullet );
+void spawn_bullet(vector <projectile> &Bullets , texrect player )
+{       
+       projectile bullet( player );
+       Bullets.push_back( bullet );
+}
 
+
+class Enemy:public texrect{
+       public:
+              int x1;
+              int y1;
+              int x2;
+              int y2;
+              Enemy(int height,int width,int a1,int b1, int a2, int b2, SDL_Renderer* ren, SDL_Window* win){
+                     rectangle.h = height;
+                     rectangle.w = width;
+                     x1 = a1;
+                     x2 = a2;
+                     y1 = b1;
+                     y2 = b2;
+                     renderer = ren;
+                     window = win;
+                     speed = 2;
+                     rectangle.x = (x1+x2)/2;
+                     rectangle.y = (y1+y2)/2;
+                     loadtexture("Assets/enemy.png");
               }
-      }
 
+              void update_enemy(){
+                     if((rectangle.x==x1 && rectangle.y == y1) || (rectangle.x==x2 && rectangle.y == y2)) speed = -speed;
+                     if(x1==x2){
+                            rectangle.y += speed;
+                            if(speed>0) direction = DOWN;
+                            else direction = UP;
+                     }
+                     else{
+                            rectangle.x +=speed;
+                            if(speed>0) direction = RIGHT;
+                            else direction = LEFT;
+                     }
+                      
+                     COUNTER++;
+              }
+
+
+};
 
 
 #endif

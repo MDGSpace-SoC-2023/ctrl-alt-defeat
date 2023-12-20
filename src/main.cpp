@@ -68,18 +68,22 @@ int main ( int argc , char* argv[] )
                          player.process_input(gkey);
                          spawn_bullet(gkey , Bullets , player);
                   
-
-                        //  if( iscolliding(obstacle1,player) || player.is_out_of_boundary() )
-                        //  {
-                        //         player.reverse_input(gkey);
-                        //  }
-                         
-                   }   
+                          
+                           if(check_collision_for_level(main_menu , player , main_menu_collider))
+                                {
+                                player.reverse_input(gkey);
+                                }    
+                           else if( player.is_out_of_boundary() )
+                           {
+                                player.reverse_input(gkey);
+                           }     
+                   }
                    }
               
              clear_display(); //clear screen to black or level texture
 
-             main_menu.draw_level(renderer);
+                main_menu.draw_level(renderer);
+
            
 
              for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop

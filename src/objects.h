@@ -219,9 +219,13 @@ class texrect {
        {
 
              if( which_boundary() == NOB )return false;
-             else return true;
+             else 
+             {
+              return true;
+             } 
        }
-
+       
+       
        
 
 };
@@ -243,7 +247,7 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( WIDTH/2 , HEIGHT/2 , 20 , 20 , 3 , rend , wind );
+        set_dimension( 512 , 300 , 20 , 20 , 3 , rend , wind );
         loadtexture("Assets/character.png");
       }      
       

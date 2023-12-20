@@ -9,9 +9,11 @@
 #include <vector>
 using namespace std;
 
-int WIDTH  =1280;
-int HEIGHT =720 ;
+int WIDTH  =1024;
+int HEIGHT =960;
+
 int COUNTER = 0;
+
 
 enum keypress
 {
@@ -295,6 +297,7 @@ class projectile:public texrect
        }
 };
 
+vector <projectile> eBullets;
 void spawn_bullet(vector <projectile> &Bullets , texrect player )
 {       
        projectile bullet( player );
@@ -308,13 +311,13 @@ class Enemy:public texrect{
               int y1;
               int x2;
               int y2;
-              Enemy(int height,int width,int a1,int b1, int a2, int b2, SDL_Renderer* ren, SDL_Window* win){
+              Enemy(int height,int width,int xpt1,int ypt1, int xpt2, int ypt2, SDL_Renderer* ren, SDL_Window* win){
                      rectangle.h = height;
                      rectangle.w = width;
-                     x1 = a1;
-                     x2 = a2;
-                     y1 = b1;
-                     y2 = b2;
+                     x1 = xpt1;
+                     x2 = xpt2;
+                     y1 = ypt1;
+                     y2 = ypt2;
                      renderer = ren;
                      window = win;
                      speed = 2;
@@ -323,7 +326,7 @@ class Enemy:public texrect{
                      loadtexture("Assets/enemy.png");
               }
 
-              void update_enemy(){
+              void update_enemy_position(){
                      if((rectangle.x==x1 && rectangle.y == y1) || (rectangle.x==x2 && rectangle.y == y2)) speed = -speed;
                      if(x1==x2){
                             rectangle.y += speed;
@@ -342,6 +345,34 @@ class Enemy:public texrect{
 
 };
 
+void update_enemy(Sigma& player,Enemy& enmy){
+       
+       if(iscolliding(enmy,player)){//killing player on collision with enemy
+              SDL_DestroyTexture(player.text);
+              player.text = NULL;
+       }
+
+       for(int i=0 ; i<eBullets.size() ; ++i){
+              eBullets[i].update_projectile();
+              eBullets[i].update();
+              
+              if(iscolliding(player,eBullets[i])){
+                     eBullets.erase(eBullets.begin()+i);
+                     SDL_DestroyTexture(player.text);
+                     player.text = NULL;
+              }
+              //else if( iscolliding(obstacle1 , eBullets[i]) || eBullets[i].is_out_of_boundary() ) eBullets.erase( eBullets.begin()+i);
+       }
+
+       enmy.update_enemy_position();
+       if(COUNTER==110) spawn_bullet(eBullets,enmy);
+       else if(COUNTER==130){
+              spawn_bullet(eBullets,enmy);
+              COUNTER = 0;
+       } 
+
+       enmy.update();
+
+}
 
 #endif
-

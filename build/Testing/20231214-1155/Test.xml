@@ -21,6 +21,7 @@
 	TotalVirtualMemory="17589"
 	TotalPhysicalMemory="15381"
 	LogicalProcessorsPerPhysical="2"
+<<<<<<< HEAD
 	ProcessorClockFrequency="3062.37"
 	>
 	<Testing>
@@ -29,6 +30,16 @@
 		<TestList/>
 		<EndDateTime>Dec 14 22:19 IST</EndDateTime>
 		<EndTestTime>1702572594</EndTestTime>
+=======
+	ProcessorClockFrequency="3328.23"
+	>
+	<Testing>
+		<StartDateTime>Dec 14 17:35 IST</StartDateTime>
+		<StartTestTime>1702555555</StartTestTime>
+		<TestList/>
+		<EndDateTime>Dec 14 17:35 IST</EndDateTime>
+		<EndTestTime>1702555555</EndTestTime>
+>>>>>>> soc/anmol
 		<ElapsedMinutes>0</ElapsedMinutes>
 	</Testing>
 </Site>

@@ -16,31 +16,31 @@ vector <projectile> Bullets;
 
 void init()
 {       
-        //initialize all subsystems
-        SDL_Init(SDL_INIT_EVERYTHING);
-        IMG_Init(IMG_INIT_PNG);
-        TTF_Init();
-        window= SDL_CreateWindow( "Sigma_Loop" , SDL_WINDOWPOS_CENTERED , SDL_WINDOWPOS_CENTERED , WIDTH , HEIGHT , SDL_WINDOW_SHOWN);
-        renderer = SDL_CreateRenderer( window , -1 , SDL_RENDERER_ACCELERATED );
+      //initialize all subsystems
+      SDL_Init(SDL_INIT_EVERYTHING);
+      IMG_Init(IMG_INIT_PNG);
+      TTF_Init();
+      window= SDL_CreateWindow( "Sigma_Loop" , SDL_WINDOWPOS_CENTERED , SDL_WINDOWPOS_CENTERED , WIDTH , HEIGHT , SDL_WINDOW_SHOWN);
+      renderer = SDL_CreateRenderer( window , -1 , SDL_RENDERER_ACCELERATED );
 }
 
 
 void clear_display()
 {
-            SDL_SetRenderDrawColor(renderer, 25 , 25 , 25 , SDL_ALPHA_OPAQUE );
-            SDL_RenderClear(renderer);
+      SDL_SetRenderDrawColor(renderer, 25 , 25 , 25 , SDL_ALPHA_OPAQUE );
+      SDL_RenderClear(renderer);
 }
 
 void show_display()
 {
-        SDL_RenderPresent( renderer );
+      SDL_RenderPresent( renderer );
 }
 
 
 
 int main ( int argc , char* argv[] )
 {
-        init();
+      init();
         
         bool quit=false;
         SDL_Event e;
@@ -54,15 +54,15 @@ int main ( int argc , char* argv[] )
 
         
          
-        while(!quit) //gameloop
-        {
+      while(!quit) //gameloop
+      {
         
-             while(SDL_PollEvent(&e) )
-                   {
-                     if( e.type == SDL_QUIT ) quit = true;             
+            while(SDL_PollEvent(&e) )
+            {
+                  if( e.type == SDL_QUIT ) quit = true;             
                                                                                   
-                     else if ( e.type == SDL_KEYDOWN )
-                   {     
+                  else if ( e.type == SDL_KEYDOWN )
+                  {     
                          
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                          player.process_input(gkey);
@@ -101,6 +101,6 @@ int main ( int argc , char* argv[] )
         } 
 
 
-        return 0;
+      return 0;
 
 }

@@ -13,6 +13,8 @@ int WIDTH  =1024;
 int HEIGHT =960;
 
 int COUNTER = 0;
+int framecount = 0;
+int dashcounter = 0;
 
 
 enum keypress
@@ -155,59 +157,6 @@ class texrect {
               SDL_RenderCopy(renderer , text , NULL , &rectangle );
        }
        
-       void process_input( keypress key )
-       {
-           switch(key)
-           {
-             case(KEY_W):                                                        
-                    rectangle.y-=speed;
-                    direction=UP;
-             break;
-
-             case(KEY_A):
-                    rectangle.x-=speed;
-                    direction=LEFT;
-             break;
-
-             case(KEY_S):
-                    rectangle.y+=speed;
-                    direction=DOWN;
-             break;
-
-             case(KEY_D):
-                    rectangle.x+=speed;
-                    direction=RIGHT;
-             break;
-
-           }            
-       }
-
-       void reverse_input( keypress key )
-       {
-           switch(key)
-           {
-             case(KEY_W):
-                    rectangle.y+=speed;
-                    direction=UP;
-             break;
-
-             case(KEY_A):
-                    rectangle.x+=speed;
-                    direction=LEFT;
-             break;
-
-             case(KEY_S):
-                    rectangle.y-=speed;
-                    direction=DOWN;
-             break;
-
-             case(KEY_D):
-                    rectangle.x-=speed;
-                    direction=RIGHT;
-             break;
-                         
-           }
-       }
        
        boundary which_boundary()
        {
@@ -247,13 +196,126 @@ bool iscolliding( texrect a , texrect b )
 class Sigma:public texrect
 {
       public:
+      bool dashing = false;
+
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( 512 , 300 , 20 , 20 , 3 , rend , wind );
-        loadtexture("Assets/character.png");
+        set_dimension( 512 , 300 , 32 , 32 , 1 , rend , wind );
+        loadtexture("Assets/chibi_tileset.png");
       }      
       
+         void update_sigma() // updating to renderer
+       {      
+              int frame = (framecount/3) % 3;
+              SDL_Rect src;
+              src.w = 32;
+              src.h = 32;
+
+              switch(direction)
+              {
+                 case(DOWN):
+                 src.x = frame * 32;
+                 src.y = 0;
+                 break;
+                 case(RIGHT):
+                 src.x = frame * 32;
+                 src.y = 32;
+                 break;
+                 case(LEFT):
+                 src.x = frame * 32;
+                 src.y = 64;
+                 break;
+                 case(UP):
+                 src.x = frame * 32;
+                 src.y = 96;
+                 break;
+              }
+
+            if(dashing)
+            {
+              switch(direction)
+              {
+                 case(DOWN):
+                 rectangle.y += 6;
+                 break;
+                 case(RIGHT):
+                 rectangle.x += 6;
+                 break;
+                 case(LEFT):
+                 rectangle.x -= 6;
+                 break;
+                 case(UP):
+                 rectangle.y -= 6;
+                 break;
+              } 
+
+              dashcounter++;
+              if(dashcounter==7){
+                     dashing = false;
+                     dashcounter = 0;
+              }
+
+            }  
+              SDL_RenderCopy(renderer , text , &src , &rectangle );
+       }
+       void process_input( keypress key )
+       {
+           framecount++;
+           switch(key)
+           {
+             case(KEY_W):                                                        
+                    rectangle.y-=speed;
+                    direction=UP;
+             break;
+
+             case(KEY_A):
+                    rectangle.x-=speed;
+                    direction=LEFT;
+             break;
+
+             case(KEY_S):
+                    rectangle.y+=speed;
+                    direction=DOWN;
+             break;
+
+             case(KEY_D):
+                    rectangle.x+=speed;
+                    direction=RIGHT;
+             break;
+             case(KEY_E):
+                    dashing = true;
+                    break;
+
+           }            
+       }
+
+       void reverse_input( keypress key )
+       {
+           switch(key)
+           {
+             case(KEY_W):
+                    rectangle.y+=speed;
+                    direction=UP;
+             break;
+
+             case(KEY_A):
+                    rectangle.x+=speed;
+                    direction=LEFT;
+             break;
+
+             case(KEY_S):
+                    rectangle.y-=speed;
+                    direction=DOWN;
+             break;
+
+             case(KEY_D):
+                    rectangle.x-=speed;
+                    direction=RIGHT;
+             break;
+                         
+           }
+       }
 };
 
 class projectile:public texrect

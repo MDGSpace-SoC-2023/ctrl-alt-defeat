@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include <vector>
 #include "objects.h"
 
 using namespace std;
@@ -330,7 +331,7 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
 
 vector <int> main_menu_collider=
  {
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,1055,44,0,0,44,44,0,15,16,201,196,0,925,0,0,0,925,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,15,16,113,114,115,135,0,23,24,0,194,0,933,0,0,0,933,0,0,0,0,195,201,201,196,0,0,0,0,0,
 0,0,23,24,129,130,131,143,0,64,1055,0,194,13,14,0,0,0,0,0,0,0,0,193,0,0,206,200,135,0,0,0,
@@ -366,13 +367,13 @@ vector <int> main_menu_collider=
  {
         
             int ind;
-            int column = entity.rectangle.x/cur_level.tile_width;
-            int rows = entity.rectangle.y/cur_level.tile_height;
+            int column = floor((float)entity.rectangle.x/(float)cur_level.tile_width) ;
+            int rows = floor((float)entity.rectangle.y/(float)cur_level.tile_height);
             ind = column + rows*cur_level.columns;
 
             if( collider[ind] != 0 )
             {
-               return true;
+                return true;
             } 
             else 
             {

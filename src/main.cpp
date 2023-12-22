@@ -69,21 +69,16 @@ int main ( int argc , char* argv[] )
                          spawn_bullet(gkey , Bullets , player);
                   
                           
-                           if(check_collision_for_level(main_menu , player , main_menu_collider))
-                                {
-                                player.reverse_input(gkey);
-                                }    
-                           else if( player.is_out_of_boundary() )
-                           {
-                                player.reverse_input(gkey);
-                           }     
+                           if(check_collision_for_level(main_menu , player , main_menu_collider))player.reverse_input(gkey);  
+                           else if( player.is_out_of_boundary() )player.reverse_input(gkey);
+    
                    }
                    }
               
              clear_display(); //clear screen to black or level texture
 
-                main_menu.draw_level(renderer);
-
+                   main_menu.draw_level(renderer);
+              //     main_menu.draw_layer(renderer , main_menu.tiles_layer2);
            
 
              for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
@@ -95,7 +90,7 @@ int main ( int argc , char* argv[] )
              
              }
 
-             player.update(); // update sigma pos and render sigma to screen
+             player.update_sigma(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
              SDL_Delay(16.66);
         } 

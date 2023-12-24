@@ -9,6 +9,7 @@
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
+SDL_Renderer* present = SDL_CreateRenderer( window , -1 , 0);
 vector <projectile> Bullets;
 
 
@@ -33,7 +34,8 @@ void clear_display()
 
 void show_display()
 {
-      SDL_RenderPresent( renderer );
+      SDL_RenderPresent(renderer);
+
 }
 
 
@@ -71,11 +73,27 @@ int main ( int argc , char* argv[] )
                           
                            if(check_collision_for_level(main_menu , player , main_menu_collider))player.reverse_input(gkey);  
                            else if( player.is_out_of_boundary() )player.reverse_input(gkey);
+                           else if( player.dashing)
+                           {
+                              if(check_collision_for_level( main_menu , player , main_menu_collider))
+                              {
+                                    player.dashing = false;
+                                    player.reverse_dash();
+                              }
+                           }
     
                    }
                    }
-              
-             clear_display(); //clear screen to black or level texture
+                   
+                if( player.dashing)
+                           {
+                              if(check_collision_for_level( main_menu , player , main_menu_collider))
+                              {
+                                    player.dashing = false;
+                                    player.reverse_dash();
+                              }
+                           }
+             clear_display(); //clear screen to black or level textur
 
                    main_menu.draw_level(renderer);
               //     main_menu.draw_layer(renderer , main_menu.tiles_layer2);
@@ -83,7 +101,7 @@ int main ( int argc , char* argv[] )
 
              for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    
-                   
+                   if(check_collision_for_level(main_menu , Bullets[i] , main_menu_collider))Bullets.erase(Bullets.begin() + i);
                    Bullets[i].update_projectile();
                    Bullets[i].update();
                   //  if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);

@@ -213,7 +213,7 @@ void load_main_menu( SDL_Renderer* renderer , level &main_menu )
 
 
      layer_2_values = {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,1055,44,0,0,44,44,0,15,16,201,196,0,925,0,0,0,925,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,15,16,113,114,115,135,0,23,24,0,194,0,933,0,0,0,933,0,0,0,0,195,201,201,196,0,0,0,0,0,
 0,0,23,24,129,130,131,143,0,64,1055,0,194,13,14,0,0,0,0,0,0,0,0,193,0,0,206,200,135,0,0,0,
@@ -247,7 +247,7 @@ void load_main_menu( SDL_Renderer* renderer , level &main_menu )
 
 
      layer_3_values = {
-         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,51,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,51,0,0,0,0,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,134,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,51,0,0,
@@ -367,8 +367,10 @@ vector <int> main_menu_collider=
  {
         
             int ind;
-            int column = floor((float)entity.rectangle.x/(float)cur_level.tile_width) ;
-            int rows = floor((float)entity.rectangle.y/(float)cur_level.tile_height);
+            int cx = entity.rectangle.x+(entity.rectangle.w/2);
+            int cy = entity.rectangle.y + (entity.rectangle.h/2);
+            int column = cx/cur_level.tile_width ;
+            int rows = cy/cur_level.tile_height;
             ind = column + rows*cur_level.columns;
 
             if( collider[ind] != 0 )
@@ -381,11 +383,5 @@ vector <int> main_menu_collider=
             }
  }
      
-
-
-
-
-
-
 
 #endif

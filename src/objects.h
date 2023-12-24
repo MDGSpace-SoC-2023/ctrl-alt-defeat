@@ -237,16 +237,16 @@ class Sigma:public texrect
               switch(direction)
               {
                  case(DOWN):
-                 rectangle.y += 6;
+                 rectangle.y += 1;
                  break;
                  case(RIGHT):
-                 rectangle.x += 6;
+                 rectangle.x += 1;
                  break;
                  case(LEFT):
-                 rectangle.x -= 6;
+                 rectangle.x -= 1;
                  break;
                  case(UP):
-                 rectangle.y -= 6;
+                 rectangle.y -= 1;
                  break;
               } 
 
@@ -288,6 +288,25 @@ class Sigma:public texrect
                     break;
 
            }            
+       }
+
+       void reverse_dash()
+       {
+               switch(direction)
+              {
+                 case(DOWN):
+                 rectangle.y -= 1;
+                 break;
+                 case(RIGHT):
+                 rectangle.x -= 1;
+                 break;
+                 case(LEFT):
+                 rectangle.x += 1;
+                 break;
+                 case(UP):
+                 rectangle.y += 1;
+                 break;
+              }
        }
 
        void reverse_input( keypress key )

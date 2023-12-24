@@ -5,7 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include "objects.h"
-
+#include "level.hpp"
 using namespace std;
 
 int CAM = 0;

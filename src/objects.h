@@ -7,6 +7,8 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
+
+
 using namespace std;
 
 int WIDTH  =1024;
@@ -26,6 +28,7 @@ enum keypress
      KEY_D,  
      KEY_SPACE,
      KEY_E,
+     KEY_I,
 };
 
 enum playerdirn{
@@ -42,6 +45,8 @@ enum boundary{
        RIGHTB,
        NOB,
 };
+
+
 
 keypress getinput( SDL_Event e )
 {
@@ -66,6 +71,9 @@ keypress getinput( SDL_Event e )
               
                      case(SDLK_e):
                      return KEY_E;
+
+                     case(SDLK_i):
+                     return KEY_I;
                      
                  }
 
@@ -197,13 +205,37 @@ class Sigma:public texrect
 {
       public:
       bool dashing = false;
+      int health;
+      SDL_Texture* heart=NULL;
 
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
         set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
-      }      
+
+        health = 10;
+        SDL_Surface* temp = IMG_Load( "Assets/heart.png" );
+        heart = SDL_CreateTextureFromSurface(renderer , temp);
+        SDL_FreeSurface(temp);
+
+      }     
+
+      void draw_hearts()
+      {
+         
+         for( int i=1 ; i<=health ; ++i){
+               SDL_Rect dest;
+               dest.w = 16;
+               dest.h = 16;
+               dest.y = 10;
+               dest.x = 10 + i*20;
+
+               SDL_RenderCopy(renderer , heart , NULL , &dest);  
+               
+         }
+
+      } 
       
          void update_sigma() // updating to renderer
        {      
@@ -257,7 +289,10 @@ class Sigma:public texrect
               }
 
             }  
+
+              draw_hearts();
               SDL_RenderCopy(renderer , text , &src , &rectangle );
+
        }
        void process_input( keypress key )
        {
@@ -283,9 +318,10 @@ class Sigma:public texrect
                     rectangle.x+=speed;
                     direction=RIGHT;
              break;
+
              case(KEY_E):
                     dashing = true;
-                    break;
+             break;
 
            }            
        }
@@ -335,6 +371,11 @@ class Sigma:public texrect
                          
            }
        }
+
+  
+ 
+
+ 
 };
 
 class projectile:public texrect
@@ -347,10 +388,10 @@ class projectile:public texrect
        {
               velx=0;
               vely=0;
-              rectangle.w=20;
-              rectangle.h=20;
-              rectangle.x=player.rectangle.x;
-              rectangle.y=player.rectangle.y;
+              rectangle.w=10;
+              rectangle.h=10;
+              rectangle.x=player.rectangle.x + player.rectangle.w/2;
+              rectangle.y=player.rectangle.y + player.rectangle.h/2;
               renderer = player.renderer;
               window = player.window;
        
@@ -395,9 +436,9 @@ void spawn_bullet( keypress gkey , vector <projectile> &Bullets , Sigma player )
       
 
 vector <projectile> eBullets;
-void spawn_bullet(vector <projectile> &Bullets , texrect player )
+void spawn_bullet(vector <projectile> &Bullets , texrect enemy )
 {       
-       projectile bullet( player );
+       projectile bullet( enemy );
        Bullets.push_back( bullet );
 }
 
@@ -408,6 +449,7 @@ class Enemy:public texrect{
               int y1;
               int x2;
               int y2;
+              int ehealth=3;
               Enemy(int height,int width,int xpt1,int ypt1, int xpt2, int ypt2, SDL_Renderer* ren, SDL_Window* win){
                      rectangle.h = height;
                      rectangle.w = width;
@@ -417,10 +459,20 @@ class Enemy:public texrect{
                      y2 = ypt2;
                      renderer = ren;
                      window = win;
-                     speed = 2;
+                     speed = 1;
                      rectangle.x = (x1+x2)/2;
                      rectangle.y = (y1+y2)/2;
                      loadtexture("Assets/enemy.png");
+              }
+
+              void change( int x , int y , int xi , int yi)
+              {
+                     x1=x;
+                     y1=y;
+                     x2=xi;
+                     y2=yi;
+                     rectangle.x = (x1+x2)/2;
+                     rectangle.y = (y1+y2)/2;
               }
 
               void update_enemy_position(){
@@ -444,10 +496,10 @@ class Enemy:public texrect{
 
 void update_enemy(Sigma& player,Enemy& enmy){
        
-       if(iscolliding(enmy,player)){//killing player on collision with enemy
-              SDL_DestroyTexture(player.text);
-              player.text = NULL;
-       }
+       // if(iscolliding(enmy,player)){//killing player on collision with enemy
+       //        SDL_DestroyTexture(player.text);
+       //        player.text = NULL;
+       // }
 
        for(int i=0 ; i<eBullets.size() ; ++i){
               eBullets[i].update_projectile();
@@ -455,10 +507,8 @@ void update_enemy(Sigma& player,Enemy& enmy){
               
               if(iscolliding(player,eBullets[i])){
                      eBullets.erase(eBullets.begin()+i);
-                     SDL_DestroyTexture(player.text);
-                     player.text = NULL;
+                     player.health--;
               }
-              //else if( iscolliding(obstacle1 , eBullets[i]) || eBullets[i].is_out_of_boundary() ) eBullets.erase( eBullets.begin()+i);
        }
 
        enmy.update_enemy_position();
@@ -471,5 +521,8 @@ void update_enemy(Sigma& player,Enemy& enmy){
        enmy.update();
 
 }
+
+         
+  
 
 #endif

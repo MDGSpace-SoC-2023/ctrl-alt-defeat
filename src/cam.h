@@ -12,7 +12,7 @@ using namespace std;
 int CAMX = 0;
 int CAMY = 0;
 
-void process_cam_input(keypress key){
+void process_cam_input(keypress key, Sigma &player){
     switch(key)
     {
         case(KEY_W):
@@ -29,6 +29,11 @@ void process_cam_input(keypress key){
 
         case(KEY_D):
         CAMX+=2;
+        break;
+
+        case(KEY_I):
+                    cout<<player.rectangle.x<<" "<<player.rectangle.y<<" cam"<<endl;
+                    cout<<player.rectangle.x-CAMX<<" "<<player.rectangle.y - CAMY<<" actual"<<endl;
         break;
     }     
 }

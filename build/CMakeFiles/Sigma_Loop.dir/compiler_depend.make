@@ -356,7 +356,8 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/bits/stl_vector.h \
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
-  ../src/level.hpp
+  ../src/level.hpp \
+  ../src/cam.h
 
 
 /usr/include/c++/11/bits/stl_uninitialized.h:
@@ -916,6 +917,8 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/c++/11/ios:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h:
+
+../src/cam.h:
 
 /usr/include/c++/11/stdexcept:
 

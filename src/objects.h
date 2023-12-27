@@ -8,8 +8,10 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
+
+int CAMX = 0;
+int CAMY = 0;
 
 int WIDTH  =1024;
 int HEIGHT =960;
@@ -92,6 +94,7 @@ class texrect {
        int speed;
        playerdirn direction;
        bool collision=false;
+       SDL_Rect srectangle;
 
         texrect( )//default constructer
        {
@@ -162,7 +165,9 @@ class texrect {
        
        void update() // updating to renderer
        {      
-              SDL_RenderCopy(renderer , text , NULL , &rectangle );
+              srectangle.x = rectangle.x - CAMX;
+              srectangle.y = rectangle.y - CAMY;
+              SDL_RenderCopy(renderer , text , NULL , &srectangle );
        }
        
        
@@ -388,29 +393,31 @@ class projectile:public texrect
        {
               velx=0;
               vely=0;
-              rectangle.w=10;
-              rectangle.h=10;
+              srectangle.w=10;
+              srectangle.h=10;
               rectangle.x=player.rectangle.x + player.rectangle.w/2;
               rectangle.y=player.rectangle.y + player.rectangle.h/2;
+              srectangle.x = rectangle.x - CAMX;
+              srectangle.y = rectangle.y - CAMY;
               renderer = player.renderer;
               window = player.window;
        
               switch( player.direction ){
                 
               case(UP):
-                     vely= -5;
+                     vely= -1;
                      velx=0;
                      break;
               case(DOWN):
-                     vely= 5;
+                     vely= 1;
                      velx=0;
                      break;
               case(LEFT):
-                     velx= -5;
+                     velx= -1;
                      vely=0;
                      break;
               case(RIGHT):
-                     velx= 5;
+                     velx= 1;
                      vely=0;
                      break;
               } 
@@ -422,18 +429,10 @@ class projectile:public texrect
        {
               rectangle.x+=velx;
               rectangle.y+=vely;
+              srectangle.x = rectangle.x - CAMX;
+              srectangle.y = rectangle.y - CAMY;
        }
 };
-
-void spawn_bullet( keypress gkey , vector <projectile> &Bullets , Sigma player )
-      {    
-              if(gkey==KEY_SPACE)
-              {        
-                     projectile bullet( player );
-                     Bullets.push_back( bullet );
-              }
-      }
-      
 
 vector <projectile> eBullets;
 void spawn_bullet(vector <projectile> &Bullets , texrect enemy )
@@ -443,6 +442,8 @@ void spawn_bullet(vector <projectile> &Bullets , texrect enemy )
 }
 
 
+
+
 class Enemy:public texrect{
        public:
               int x1;
@@ -450,40 +451,53 @@ class Enemy:public texrect{
               int x2;
               int y2;
               int ehealth=3;
-              Enemy(int height,int width,int xpt1,int ypt1, int xpt2, int ypt2, SDL_Renderer* ren, SDL_Window* win){
-                     rectangle.h = height;
-                     rectangle.w = width;
+              int mode = 1;
+              //1-same direction
+              //2-up down enmy shoots right, right left enmy shoots up
+              //3-opposite
+              
+              Enemy(int height,int width,int xpt1,int ypt1, int xpt2, int ypt2,int MODE, SDL_Renderer* ren, SDL_Window* win){
+                     srectangle.h = height;
+                     srectangle.w = width;
                      x1 = xpt1;
                      x2 = xpt2;
                      y1 = ypt1;
                      y2 = ypt2;
+                     mode = MODE;
                      renderer = ren;
                      window = win;
                      speed = 1;
                      rectangle.x = (x1+x2)/2;
                      rectangle.y = (y1+y2)/2;
+                     srectangle.x = rectangle.x - CAMX;
+                     srectangle.y = rectangle.y - CAMY;
                      loadtexture("Assets/enemy.png");
               }
 
-              void change( int x , int y , int xi , int yi)
+              void change( int x , int y , int xi , int yi,int MODE)
               {
                      x1=x;
                      y1=y;
                      x2=xi;
                      y2=yi;
+                     mode = MODE;
                      rectangle.x = (x1+x2)/2;
                      rectangle.y = (y1+y2)/2;
+                     srectangle.x = rectangle.x - CAMX;
+                     srectangle.y = rectangle.y - CAMY;
               }
 
               void update_enemy_position(){
                      if((rectangle.x==x1 && rectangle.y == y1) || (rectangle.x==x2 && rectangle.y == y2)) speed = -speed;
                      if(x1==x2){
                             rectangle.y += speed;
+                            srectangle.y = rectangle.y - CAMY;
                             if(speed>0) direction = DOWN;
                             else direction = UP;
                      }
                      else{
                             rectangle.x +=speed;
+                            srectangle.x = rectangle.x - CAMX;
                             if(speed>0) direction = RIGHT;
                             else direction = LEFT;
                      }
@@ -493,6 +507,21 @@ class Enemy:public texrect{
 
 
 };
+
+void spawn_enemy_bullets(vector <projectile> &Bullets,Enemy enmy){
+       switch(enmy.mode){
+              case(3) : 
+                     if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=LEFT;
+                     else enmy.direction=DOWN;
+                     spawn_bullet(Bullets,enmy);
+                     break;
+              case(2) :
+                     if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=RIGHT;
+                     else enmy.direction=UP;
+              case(1) : 
+                     spawn_bullet(Bullets,enmy);
+       }
+}
 
 void update_enemy(Sigma& player,Enemy& enmy){
        
@@ -512,9 +541,11 @@ void update_enemy(Sigma& player,Enemy& enmy){
        }
 
        enmy.update_enemy_position();
-       if(ECOUNTER==110) spawn_bullet(eBullets,enmy);
+       if(ECOUNTER==110){
+              spawn_enemy_bullets(eBullets,enmy);
+       }
        else if(ECOUNTER==130){
-              spawn_bullet(eBullets,enmy);
+              spawn_enemy_bullets(eBullets,enmy);
               ECOUNTER = 0;
        } 
 
@@ -522,7 +553,61 @@ void update_enemy(Sigma& player,Enemy& enmy){
 
 }
 
-         
+void process_cam_input(keypress key, Sigma &player){
+    switch(key)
+    {
+        case(KEY_W):
+        CAMY-=2;
+        break;
+
+        case(KEY_S):
+        CAMY+=2;
+        break;
+
+        case(KEY_A):
+        CAMX-=2;
+        break;
+
+        case(KEY_D):
+        CAMX+=2;
+        break;
+
+        case(KEY_I):
+            cout<<player.rectangle.x<<" "<<player.rectangle.y<<" cam"<<endl;
+            cout<<player.rectangle.x-CAMX<<" "<<player.rectangle.y - CAMY<<" actual"<<endl;
+        break;
+    }     
+}
+
+void reverse_cam_input(keypress key){
+    switch(key)
+    {
+        case(KEY_W):
+        CAMY+=2;
+        break;
+
+        case(KEY_S):
+        CAMY-=2;
+        break;
+
+        case(KEY_A):
+        CAMX+=2;
+        break;
+
+        case(KEY_D):
+        CAMX-=2;
+        break;
+    }  
+}
+
+void limit_cam(){
+    if(CAMY>960) CAMY = 960;
+    else if(CAMY<0) CAMY = 0;
+    if(CAMX>1024) CAMX = 1024;
+    else if(CAMX<0) CAMX = 0;
+    
+}
+     
   
 
 #endif

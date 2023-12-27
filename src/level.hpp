@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include "objects.h"
-#include "cam.h"
 
 using namespace std;
 
@@ -554,8 +553,8 @@ vector <int> level_1_collider
                      cur_col = colliders[1];
                      cur_enemy = enemies[1]; 
 
-                     player.rectangle.x = 70;
-                     player.rectangle.y = 120;
+                     player.rectangle.x = 120;
+                     player.rectangle.y = 230;
                      index++;
 
                 }   
@@ -575,25 +574,25 @@ vector <int> level_1_collider
             vector <Enemy> level1;
               
 
-            Enemy temp(64,64,283, 215, 350 , 215 ,renderer ,window);
+            Enemy temp(64,64,283, 215, 350 , 215 ,1,renderer ,window);
             level1.push_back( temp );
 
-            temp.change( 476 , 121 , 476 , 121);
+            temp.change( 476 , 121 , 476 , 121,2);
             level1.push_back(temp);
 
-            temp.change( 475 , 249 , 521 , 249 );
+            temp.change( 475 , 249 , 521 , 249,1 );
             level1.push_back(temp);
 
-            temp.change( 468 , 390 , 514 , 390);
+            temp.change( 468 , 390 , 514 , 390,1);
             level1.push_back(temp);
 
-            temp.change( 573 , 566 , 573 , 566);
+            temp.change( 573 , 300 , 573 , 566,3);
             level1.push_back(temp);
 
-            temp.change( 381 , 707 , 381 , 799 );
+            temp.change( 381 , 707 , 381 , 799 ,2);
             level1.push_back(temp);
 
-            temp.change( 223 , 853 , 223 , 891);
+            temp.change( 223 , 853 , 223 , 891,1);
             level1.push_back(temp);    
 
             enemies.push_back(level1);       

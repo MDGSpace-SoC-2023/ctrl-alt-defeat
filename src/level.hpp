@@ -461,8 +461,8 @@ for( int i=0 ; i< layer_1_values.size() ; ++i){
         {
         tile temp_tile;
         temp_tile.copytile( level_1.tileset[index-1] );
-        temp_tile.x = i%level_1.columns * level_1.tile_width;
-        temp_tile.y = i/(level_1.columns) * level_1.tile_height;
+        temp_tile.x = i%level_1.columns * temp_tile.width;
+        temp_tile.y = i/(level_1.columns) * temp_tile.height;
 
         level_1.tiles_layer1.push_back( temp_tile );
         }
@@ -476,8 +476,8 @@ for( int i=0 ; i< layer_2_values.size() ; ++i){
         {
         tile temp_tile;
         temp_tile.copytile( level_1.tileset[indx-1] );
-        temp_tile.x = i%level_1.columns * level_1.tile_width;
-        temp_tile.y = i/(level_1.columns) * level_1.tile_height;
+        temp_tile.x = i%level_1.columns * temp_tile.width;
+        temp_tile.y = i/(level_1.columns) * temp_tile.height;
         temp_tile.isobstacle=true;
 
         level_1.tiles_layer2.push_back( temp_tile );

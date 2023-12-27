@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <vector>
 #include "objects.h"
@@ -11,6 +12,7 @@
 
 using namespace std;
 
+int textcounter = 0;
 
 
 class tile 
@@ -109,6 +111,10 @@ class level
      int tileset_rows;
      int tileset_columns;
 
+     TTF_Font* levelfont=NULL;
+     SDL_Texture* font = NULL;
+     bool fontstart = false;
+
      level()
      {
         rows=0;
@@ -180,6 +186,10 @@ class level
 
 void load_main_menu( SDL_Renderer* renderer , level &main_menu )
 {
+     main_menu.levelfont = TTF_OpenFont( "Assets/8bit_font.ttf" , 32);
+     SDL_Surface* temp = TTF_RenderText_Solid( main_menu.levelfont , "Game Started" , {255,255,51});
+     main_menu.font = SDL_CreateTextureFromSurface(renderer, temp);
+
 
      main_menu.set_level_dimensions( 30 , 32 , 133 , 8 );
      
@@ -377,7 +387,10 @@ vector <int> main_menu_collider=
 
 void load_level_1( SDL_Renderer* renderer , level &level_1 )
 {
-
+     
+     level_1.levelfont = TTF_OpenFont( "Assets/8bit_font.ttf" , 32);
+     SDL_Surface* temp = TTF_RenderText_Solid( level_1.levelfont , "Level 1" , {255,255,51});
+     level_1.font = SDL_CreateTextureFromSurface(renderer, temp);
      level_1.set_level_dimensions( 30 , 32 , 21 , 34 );
      
      level_1.set_tileset("Assets/Level_1_Mining_Cave/Level1_tileset.png" , renderer); 
@@ -539,25 +552,42 @@ vector <int> level_1_collider
             }
  }    
 
+
     void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player )
      {
                 
                 int player_screenx = player.rectangle.x-CAMX;
                 int player_screeny = player.rectangle.y - CAMY;
+
+                if( player.health == 0)
+                {     
+                        levels[0].fontstart = true;
+                        cur = levels[0];
+                        cur_col = colliders[0];
+                        cur_enemy = enemies[0];
+                      
+                        player.rectangle.x = 120;
+                        player.rectangle.y = 230;
+                        index = 0;
+
+
+                }
                 switch( index )
                 {
                 case 0:
+                
+
                 if( player_screenx == 377 && player_screeny == 354)
                 {
-                         
+                     levels[1].fontstart = true;
                      cur = levels[1];
                      cur_col = colliders[1];
                      cur_enemy = enemies[1]; 
 
-                     player.rectangle.x = 70;
-                     player.rectangle.y = 120;
-                     index++;
-
+                     player.rectangle.x = 120;
+                     player.rectangle.y = 230;
+                     index = 1;
+                     
                 }   
                 break;    
               
@@ -623,7 +653,29 @@ vector <int> level_1_collider
               }
        }    
 
+ 
+       void trigger_font( level &cur_level , SDL_Renderer* renderer)
+       {
+             
+              if(cur_level.fontstart && textcounter<300){
+                     
+                    SDL_Rect dest;
+                    dest.w = 800;
+                    dest.h = 500;
+                    dest.x = 112;
+                    dest.y = 230;
 
+                    SDL_RenderCopy( renderer , cur_level.font , NULL , &dest);
+                    textcounter++;
+
+              }
+              else 
+              {
+               textcounter = 0;
+               cur_level.fontstart = false;
+              }
+
+       }
 
 
 

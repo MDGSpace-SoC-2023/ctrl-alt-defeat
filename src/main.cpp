@@ -92,7 +92,7 @@ int main ( int argc , char* argv[] )
                               spawn_bullet(Bullets , player);
                         
                         process_cam_input(gkey, player);
-                         level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player);
+                        level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player);
                           
                            if(check_collision_for_level(cur_level , player , cur_collider)){
                               player.reverse_input(gkey);
@@ -135,9 +135,10 @@ int main ( int argc , char* argv[] )
              }
 
              update_enemies( cur_enemies , player );
-           update_enemy_bullets( cur_level , cur_collider);
+            update_enemy_bullets( cur_level , cur_collider);
 
              player.update_sigma(); // update sigma pos and render sigma to screen
+             trigger_font(cur_level, renderer);
              show_display();  //present renderer
              SDL_Delay(16.66);
       } 

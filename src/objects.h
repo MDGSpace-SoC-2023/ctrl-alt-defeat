@@ -12,7 +12,7 @@ using namespace std;
 int WIDTH  =1024;
 int HEIGHT =960;
 
-int COUNTER = 0;
+int ECOUNTER = 0;
 int framecount = 0;
 int dashcounter = 0;
 
@@ -201,7 +201,7 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( 512 , 300 , 32 , 32 , 1 , rend , wind );
+        set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
       }      
       
@@ -436,7 +436,7 @@ class Enemy:public texrect{
                             else direction = LEFT;
                      }
                       
-                     COUNTER++;
+                     ECOUNTER++;
               }
 
 
@@ -462,10 +462,10 @@ void update_enemy(Sigma& player,Enemy& enmy){
        }
 
        enmy.update_enemy_position();
-       if(COUNTER==110) spawn_bullet(eBullets,enmy);
-       else if(COUNTER==130){
+       if(ECOUNTER==110) spawn_bullet(eBullets,enmy);
+       else if(ECOUNTER==130){
               spawn_bullet(eBullets,enmy);
-              COUNTER = 0;
+              ECOUNTER = 0;
        } 
 
        enmy.update();

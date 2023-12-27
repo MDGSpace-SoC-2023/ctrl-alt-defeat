@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "objects.h"
+#include "cam.h"
 
 using namespace std;
 
@@ -18,11 +19,13 @@ class tile
 
     SDL_Texture* tiletext = NULL;
 
-    int width=32;
-    int height=32;
+    int width=64;
+    int height=64;
 
     int x; //x and y coords on the map
     int y;
+    int screen_x = x-CAMX;
+    int screen_y = y-CAMY;
      
     int sx; // x and y coords on the sprite sheet
     int sy;
@@ -55,20 +58,23 @@ class tile
      
     void rendertile ( SDL_Renderer* renderer )
     {
-         
+         screen_x = x - CAMX;
+         screen_y = y - CAMY;
+
          SDL_Rect src;
          src.x=sx;
          src.y=sy;
-         src.w=width;
-         src.h=height;
+         src.w=32;
+         src.h=32;
          
          SDL_Rect dest;
-         dest.x=x;
-         dest.y=y;
-         dest.w=src.w;
-         dest.h=src.h;
+         dest.x=screen_x;
+         dest.y=screen_y;
+         dest.w=64;
+         dest.h=64;
         
-         SDL_RenderCopy( renderer , tiletext , &src , &dest );
+          
+          SDL_RenderCopy( renderer , tiletext , &src , &dest );
 
      }
 
@@ -78,9 +84,6 @@ class tile
          tiletext = tileset_tile.tiletext;
          sx=tileset_tile.sx;
          sy=tileset_tile.sy;
-         width = tileset_tile.width;
-         height = tileset_tile.height;
-
      }
 
 };
@@ -213,7 +216,7 @@ void load_main_menu( SDL_Renderer* renderer , level &main_menu )
 
 
      layer_2_values = {
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,1055,44,0,0,44,44,0,15,16,201,196,0,925,0,0,0,925,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,15,16,113,114,115,135,0,23,24,0,194,0,933,0,0,0,933,0,0,0,0,195,201,201,196,0,0,0,0,0,
 0,0,23,24,129,130,131,143,0,64,1055,0,194,13,14,0,0,0,0,0,0,0,0,193,0,0,206,200,135,0,0,0,
@@ -247,7 +250,7 @@ void load_main_menu( SDL_Renderer* renderer , level &main_menu )
 
 
      layer_3_values = {
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,51,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,51,0,0,0,0,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,134,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,51,0,0,
@@ -288,8 +291,8 @@ for( int i=0 ; i< layer_1_values.size() ; ++i){
         {
         tile temp_tile;
         temp_tile.copytile( main_menu.tileset[index-1] );
-        temp_tile.x = i%main_menu.columns * main_menu.tile_width;
-        temp_tile.y = i/(main_menu.columns) * main_menu.tile_height;
+        temp_tile.x = i%main_menu.columns * temp_tile.width;
+        temp_tile.y = i/(main_menu.columns) * temp_tile.height;
 
         main_menu.tiles_layer1.push_back( temp_tile );
         }
@@ -303,8 +306,8 @@ for( int i=0 ; i< layer_2_values.size() ; ++i){
         {
         tile temp_tile;
         temp_tile.copytile( main_menu.tileset[indx-1] );
-        temp_tile.x = i%main_menu.columns * main_menu.tile_width;
-        temp_tile.y = i/(main_menu.columns) * main_menu.tile_height;
+        temp_tile.x = i%main_menu.columns * temp_tile.width ;
+        temp_tile.y = i/(main_menu.columns) * temp_tile.height;
         temp_tile.isobstacle=true;
 
         main_menu.tiles_layer2.push_back( temp_tile );
@@ -319,8 +322,8 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
         {
         tile temp_tile;
         temp_tile.copytile( main_menu.tileset[index-1] );
-        temp_tile.x = i%main_menu.columns * main_menu.tile_width;
-        temp_tile.y = i/(main_menu.columns) * main_menu.tile_height;
+        temp_tile.x = i%main_menu.columns * temp_tile.width;
+        temp_tile.y = i/(main_menu.columns) * temp_tile.height;
 
         main_menu.tiles_layer3.push_back( temp_tile );
         }
@@ -367,10 +370,10 @@ vector <int> main_menu_collider=
  {
         
             int ind;
-            int cx = entity.rectangle.x+(entity.rectangle.w/2);
-            int cy = entity.rectangle.y + (entity.rectangle.h/2);
-            int column = cx/cur_level.tile_width ;
-            int rows = cy/cur_level.tile_height;
+            int cx = entity.rectangle.x+(entity.rectangle.w/2)+CAMX;
+            int cy = entity.rectangle.y + (entity.rectangle.h/2)+CAMY;
+            int column = cx/64 ;
+            int rows = cy/64;
             ind = column + rows*cur_level.columns;
 
             if( collider[ind] != 0 )
@@ -381,7 +384,12 @@ vector <int> main_menu_collider=
             {
                return false;
             }
- }
-     
+ }    
+
+
+
+
+
+
 
 #endif

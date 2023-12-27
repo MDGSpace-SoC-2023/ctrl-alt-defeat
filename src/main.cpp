@@ -68,50 +68,56 @@ int main ( int argc , char* argv[] )
                          
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                          player.process_input(gkey);
-                         spawn_bullet(gkey , Bullets , player);
-                  
+                         if(gkey == KEY_SPACE)
+                              spawn_bullet(Bullets , player);
+                        
+                        process_cam_input(gkey);
                           
-                           if(check_collision_for_level(main_menu , player , main_menu_collider))player.reverse_input(gkey);  
-                           else if( player.is_out_of_boundary() )player.reverse_input(gkey);
-                           else if( player.dashing)
-                           {
-                              if(check_collision_for_level( main_menu , player , main_menu_collider))
-                              {
-                                    player.dashing = false;
-                                    player.reverse_dash();
-                              }
-                           }
+                           if(check_collision_for_level(main_menu , player , main_menu_collider)){
+                              player.reverse_input(gkey);
+                              reverse_cam_input(gkey);
+                           }  
+                            else if( player.dashing)
+                            {
+                               if(check_collision_for_level( main_menu , player , main_menu_collider))
+                               {
+                                     player.dashing = false;
+                                     player.reverse_dash();
+                               }
+                            }
+                        
     
                    }
-                   }
+            }
                    
-                if( player.dashing)
-                           {
-                              if(check_collision_for_level( main_menu , player , main_menu_collider))
-                              {
-                                    player.dashing = false;
-                                    player.reverse_dash();
-                              }
-                           }
-             clear_display(); //clear screen to black or level textur
-
-                   main_menu.draw_level(renderer);
+                 if( player.dashing)
+                            {
+                               if(check_collision_for_level( main_menu , player , main_menu_collider))
+                               {
+                                     player.dashing = false;
+                                     player.reverse_dash();
+                               }
+                            }
+            clear_display(); //clear screen to black or level texture
+            limit_cam();
+            main_menu.draw_level(renderer);
               //     main_menu.draw_layer(renderer , main_menu.tiles_layer2);
            
 
-             for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
+              for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    
-                   if(check_collision_for_level(main_menu , Bullets[i] , main_menu_collider))Bullets.erase(Bullets.begin() + i);
-                   Bullets[i].update_projectile();
-                   Bullets[i].update();
-                  //  if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);
+                    if(check_collision_for_level(main_menu , Bullets[i] , main_menu_collider))Bullets.erase(Bullets.begin() + i);
+                    Bullets[i].update_projectile();
+                    Bullets[i].update();
+                     //if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);
              
-             }
-
+              }
+            
              player.update_sigma(); // update sigma pos and render sigma to screen
              show_display();  //present renderer
              SDL_Delay(16.66);
-        } 
+      } 
+      
 
 
       return 0;

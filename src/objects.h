@@ -164,9 +164,9 @@ class texrect {
        }
        
        void update() // updating to renderer
-       {      
-              srectangle.x = rectangle.x - CAMX;
-              srectangle.y = rectangle.y - CAMY;
+        {      
+             srectangle.x = rectangle.x - CAMX;
+             srectangle.y = rectangle.y - CAMY;   
               SDL_RenderCopy(renderer , text , NULL , &srectangle );
        }
        
@@ -393,12 +393,12 @@ class projectile:public texrect
        {
               velx=0;
               vely=0;
-              srectangle.w=10;
-              srectangle.h=10;
+              srectangle.w=20;
+              srectangle.h=20;
               rectangle.x=player.rectangle.x + player.rectangle.w/2;
               rectangle.y=player.rectangle.y + player.rectangle.h/2;
-              srectangle.x = rectangle.x - CAMX;
-              srectangle.y = rectangle.y - CAMY;
+              srectangle.x = rectangle.x - CAMX  ;
+              srectangle.y = rectangle.y  - CAMY ;
               renderer = player.renderer;
               window = player.window;
        
@@ -429,8 +429,9 @@ class projectile:public texrect
        {
               rectangle.x+=velx;
               rectangle.y+=vely;
-              srectangle.x = rectangle.x - CAMX;
-              srectangle.y = rectangle.y - CAMY;
+              // srectangle.x = rectangle.x - CAMX;
+              // srectangle.y = rectangle.y - CAMY;
+              
        }
 };
 
@@ -573,8 +574,7 @@ void process_cam_input(keypress key, Sigma &player){
         break;
 
         case(KEY_I):
-            cout<<player.rectangle.x<<" "<<player.rectangle.y<<" cam"<<endl;
-            cout<<player.rectangle.x-CAMX<<" "<<player.rectangle.y - CAMY<<" actual"<<endl;
+            cout<<player.rectangle.x+CAMX<<" "<<player.rectangle.y + CAMY<<endl;
         break;
     }     
 }
@@ -607,6 +607,49 @@ void limit_cam(){
     else if(CAMX<0) CAMX = 0;
     
 }
+
+enum Effect{
+        NO_EFFECT,
+        HEALTH_INCREASE,
+        SPEED_INCREASE,
+        BULLET_DAMAGE_INCREASE,
+
+};
+
+int powerup_counter = 0;
+class powerup:public texrect{
+
+       public:
+       vector <SDL_Texture*> powerup_textures;
+
+       void spawn_powerup( int x , int y , Effect effect )
+       {
+              rectangle.x = x;
+              rectangle.y = y;
+              rectangle.w = 128;
+              rectangle.h = 128;
+
+              switch( effect ){
+               
+               case HEALTH_INCREASE:
+               loadtexture("Assets/powerup.png");
+               break;
+               case SPEED_INCREASE:
+               loadtexture("Assets/powerup.png");
+               break;
+               case BULLET_DAMAGE_INCREASE:
+               loadtexture("Assets/powerup.png");
+               break;
+
+              }
+       }
+       
+
+
+
+
+
+};
      
   
 

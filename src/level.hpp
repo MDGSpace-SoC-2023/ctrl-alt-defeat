@@ -115,6 +115,8 @@ class level
      SDL_Texture* font = NULL;
      bool fontstart = false;
 
+     vector <powerup> powerups;
+
      level()
      {
         rows=0;
@@ -577,7 +579,7 @@ vector <int> level_1_collider
                 case 0:
                 
 
-                if( player_screenx == 377 && player_screeny == 354)
+                if( player_screenx <400 && player_screenx>377 && player_screeny == 354)
                 {
                      levels[1].fontstart = true;
                      cur = levels[1];
@@ -605,26 +607,49 @@ vector <int> level_1_collider
             vector <Enemy> level1;
               
 
-            Enemy temp(64,64,283, 215, 350 , 215 ,1,renderer ,window);
+            Enemy temp( 128 ,128 , 561 , 390 , 708 , 390  ,1,renderer ,window);
             level1.push_back( temp );
 
-            temp.change( 476 , 121 , 476 , 121,2);
+            temp.change( 953 , 180 , 940 , 180 ,2);
             level1.push_back(temp);
 
-            temp.change( 475 , 249 , 521 , 249,1 );
+            temp.change( 953 , 440 , 1025 , 440 ,2 );
             level1.push_back(temp);
 
-            temp.change( 468 , 390 , 514 , 390,1);
+            temp.change( 941 , 1000 , 1025 , 1000 ,1);
             level1.push_back(temp);
 
-            temp.change( 573 , 300 , 573 , 566,3);
+            temp.change( 1154 , 1141 , 1082 , 1141 ,3);
             level1.push_back(temp);
 
-            temp.change( 381 , 707 , 381 , 799 ,2);
+            temp.change( 759 , 1412 , 759 , 1583 ,2);
             level1.push_back(temp);
 
-            temp.change( 223 , 853 , 223 , 891,1);
+            temp.change( 450 , 1777 , 450 ,1639,1);
             level1.push_back(temp);    
+
+            temp.change( 315 , 1333 , 207 , 1333 ,2);
+            level1.push_back(temp);
+
+            temp.change( 1488 , 1330 , 1650 , 1330 ,2);
+            level1.push_back(temp);
+             
+            temp.change( 1344 , 1779 , 1344 , 1593 ,2);
+            level1.push_back(temp);
+
+            temp.change( 1919 , 1656 , 1919 , 1790 ,2);
+            level1.push_back(temp);
+
+            temp.change( 1463 , 692 , 1463 , 554 ,2);
+            level1.push_back(temp);
+
+            temp.change( 1538 , 362 , 1538 , 437 ,2);
+            level1.push_back(temp);
+
+            temp.change( 1598 , 437 , 1598 , 359 ,2);
+            level1.push_back(temp);
+ 
+
 
             enemies.push_back(level1);       
             

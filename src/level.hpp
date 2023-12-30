@@ -555,7 +555,7 @@ vector <int> level_1_collider
  }    
 
 
-    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player )
+    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup)
      {
                 
                 int player_screenx = player.rectangle.x-CAMX;
@@ -567,7 +567,8 @@ vector <int> level_1_collider
                         cur = levels[0];
                         cur_col = colliders[0];
                         cur_enemy = enemies[0];
-                      
+                        cur_powerup = powerups[0]; 
+
                         player.rectangle.x = 120;
                         player.rectangle.y = 230;
                         index = 0;
@@ -584,7 +585,8 @@ vector <int> level_1_collider
                      levels[1].fontstart = true;
                      cur = levels[1];
                      cur_col = colliders[1];
-                     cur_enemy = enemies[1]; 
+                     cur_enemy = enemies[1];
+                     cur_powerup = powerups[1]; 
 
                      player.rectangle.x = 120;
                      player.rectangle.y = 230;
@@ -657,6 +659,22 @@ vector <int> level_1_collider
 
      }
 
+     void load_powerups( vector <vector <powerup> > &powerups , SDL_Renderer* renderer , SDL_Window* window ){
+                    
+                  vector <powerup> level0;
+                  powerups.push_back(level0);
+
+                  vector <powerup> level1;
+
+                  powerup temp( renderer , window );
+                  temp.spawn_powerup( 400 , 500 , HEALTH_INCREASE);
+                  level1.push_back( temp );
+
+                  powerups.push_back(level1); 
+                  
+
+     }
+
 
      void update_enemies( vector <Enemy> &enemies , Sigma &player)
      {
@@ -674,7 +692,7 @@ vector <int> level_1_collider
                      {
                                   eBullets.erase(eBullets.begin() + i); 
                      }
-                 
+                    
               }
        }    
 
@@ -701,6 +719,7 @@ vector <int> level_1_collider
               }
 
        }
+
 
 
 

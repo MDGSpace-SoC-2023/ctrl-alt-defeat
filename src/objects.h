@@ -167,6 +167,8 @@ class texrect {
         {      
              srectangle.x = rectangle.x - CAMX;
              srectangle.y = rectangle.y - CAMY;   
+             srectangle.w = rectangle.w;
+             srectangle.h = rectangle.h;
               SDL_RenderCopy(renderer , text , NULL , &srectangle );
        }
        
@@ -195,14 +197,16 @@ class texrect {
 
 };
 
-bool iscolliding( texrect a , texrect b )
+bool iscolliding( texrect &a , texrect &b )
 {          
-          SDL_Rect rect_a = a.rectangle;
-          SDL_Rect rect_b = b.rectangle;
+          SDL_Rect &rect_a = a.rectangle;
+          SDL_Rect &rect_b = b.rectangle;
         
           if( SDL_HasIntersection ( &rect_a , &rect_b ) ) return true ;
           else return false;
 }
+
+
 
 
 
@@ -211,6 +215,8 @@ class Sigma:public texrect
       public:
       bool dashing = false;
       int health;
+      int bullet_damage = 1;
+
       SDL_Texture* heart=NULL;
 
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
@@ -616,41 +622,166 @@ enum Effect{
 
 };
 
-int powerup_counter = 0;
+int active_powerups=0;
+
 class powerup:public texrect{
 
        public:
-       vector <SDL_Texture*> powerup_textures;
+       Effect powerup_effect;
+       int powerup_counter ;
+       bool powerup_started ;   
+       SDL_Texture* icon;
+       
+     
+
+       powerup( SDL_Renderer* ren , SDL_Window* win){
+               
+               rectangle.x = 0;
+               rectangle.y = 0;
+               rectangle.w = 32;
+               rectangle.h = 32;
+               renderer = ren;
+               window = win;
+       }   
+       
+       void loadicon( std::string path)
+       {
+              SDL_Surface* temp=IMG_Load( path.c_str() );
+              icon = SDL_CreateTextureFromSurface( renderer , temp );
+              SDL_FreeSurface(temp);
+       }
 
        void spawn_powerup( int x , int y , Effect effect )
        {
               rectangle.x = x;
               rectangle.y = y;
-              rectangle.w = 128;
-              rectangle.h = 128;
+
+              powerup_counter = 0;
+              powerup_started = false;
 
               switch( effect ){
                
                case HEALTH_INCREASE:
-               loadtexture("Assets/powerup.png");
+
+               powerup_effect = HEALTH_INCREASE;
+              loadtexture("Assets/powerup.png");
                break;
+
                case SPEED_INCREASE:
+
+               powerup_effect = SPEED_INCREASE;
                loadtexture("Assets/powerup.png");
+               loadicon( "Assets/speed.png");
                break;
+
                case BULLET_DAMAGE_INCREASE:
+
+               powerup_effect = BULLET_DAMAGE_INCREASE;
                loadtexture("Assets/powerup.png");
+               loadicon( "Assets/bullet_icon.png");
                break;
 
               }
        }
-       
 
+       void trigger_powerup( Sigma &player)
 
+       {
+              
+              switch( powerup_effect ){
 
+                  case( HEALTH_INCREASE ):
 
+                  if(player.health <=7)player.health +=3;
+                  else player.health = 10;
+                  break;
+
+                  case( SPEED_INCREASE ):
+
+                  player.speed*=2;
+                  powerup_started = true;
+                  break;
+
+                  case ( BULLET_DAMAGE_INCREASE):
+
+                  player.bullet_damage*=3;
+                  powerup_started = true;
+                  break;
+
+              }
+
+       }
+
+     
 
 };
-     
+
+        bool isplayercolliding( texrect &a , Sigma &player ){
+          
+           SDL_Rect playerrect = player.rectangle;
+           playerrect.x+=CAMX;
+           playerrect.y+=CAMY;
+           SDL_Rect &rect_b = a.rectangle;
+
+           
+          if( SDL_HasIntersection ( &playerrect , &rect_b ) ) return true ;
+          else return false; 
+}
+       
+        void update_icons( SDL_Renderer* renderer , vector <powerup> &cur_powerup ){
+
+                     for( int i=0 ; i< active_powerups ; ++i){
+                     
+                                   SDL_Rect dest;
+                                   dest.h = 64;
+                                   dest.w = 64;
+                                   dest.y = 200;
+                                   dest.x = 1000 - 80*i;
+
+                                   SDL_RenderCopy( renderer , cur_powerup[i].icon , NULL , &dest);                         
+                     }
+       }
+
+       void update_powerup( SDL_Renderer* renderer , vector <powerup> &cur_powerup  ,Sigma &player ){
+
+                   
+
+                   for( int i=0 ; i<cur_powerup.size() ; ++i){
+                   
+                             powerup &current_powerup = cur_powerup[i];
+                            
+
+                             if( isplayercolliding( current_powerup , player ) ){
+                                        
+                                        current_powerup.trigger_powerup( player );
+                                        active_powerups++;
+                             }
+
+                             if( !current_powerup.powerup_started){
+                                        current_powerup.update();
+                             }
+
+                             else{
+
+                                         current_powerup.powerup_counter++;
+
+                                         if( current_powerup.powerup_counter >= 300 ){
+ 
+                                                 player.speed = 1;
+                                                 player.bullet_damage = 1;
+                                                 cur_powerup.erase( cur_powerup.begin() + i );
+                                                 active_powerups--;
+
+                                         }
+                             }
+
+                           //  update_icons( renderer , cur_powerup);
+                   }   
+       }
+   
+      
+
+
   
 
 #endif

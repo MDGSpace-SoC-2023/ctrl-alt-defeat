@@ -6,6 +6,7 @@
 #include <string>
 #include "objects.h"
 #include "level.hpp"
+#include "sound.hpp"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
@@ -16,6 +17,7 @@ vector <projectile> Bullets;
 vector <level> levels;
 vector < vector <int> > colliders;
 vector < vector <Enemy>> enemies; 
+vector < vector <powerup> > powerups;
 
 
 void init()
@@ -41,7 +43,7 @@ void show_display()
 
 }
 
-void load_levels_and_colliders( vector <level> &levels , vector < vector <int> > &colliders , vector <vector <Enemy> > &enemies )
+void load_levels( vector <level> &levels , vector < vector <int> > &colliders , vector <vector <Enemy> > &enemies , vector <vector <powerup> > &powerups )
 {
 
         level temp;
@@ -55,6 +57,7 @@ void load_levels_and_colliders( vector <level> &levels , vector < vector <int> >
         colliders.push_back(level_1_collider);
         
         load_enemies(enemies , renderer , window );
+        load_powerups( powerups , renderer , window  );
 }
 
 
@@ -68,14 +71,16 @@ int main ( int argc , char* argv[] )
 
         Sigma player( renderer , window );
         
-        load_levels_and_colliders( levels , colliders , enemies);
+        load_levels( levels , colliders , enemies , powerups );
 
         
         level &cur_level = levels[0];
         vector <int> &cur_collider = colliders[0];
         int cur_level_index = 0;
         vector <Enemy> &cur_enemies = enemies[0];
-         
+        vector <powerup> &cur_powerup = powerups[0];
+      
+
       while(!quit) //gameloop
       {
         
@@ -92,7 +97,7 @@ int main ( int argc , char* argv[] )
                               spawn_bullet(Bullets , player);
                         
                         process_cam_input(gkey, player);
-                        level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player);
+                        level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup);
                           
                            if(check_collision_for_level(cur_level , player , cur_collider)){
                               player.reverse_input(gkey);
@@ -135,7 +140,8 @@ int main ( int argc , char* argv[] )
              }
 
              update_enemies( cur_enemies , player );
-            update_enemy_bullets( cur_level , cur_collider);
+             update_enemy_bullets( cur_level , cur_collider);
+             update_powerup( renderer , cur_powerup , player );
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              trigger_font(cur_level, renderer);

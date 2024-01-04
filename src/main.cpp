@@ -94,7 +94,7 @@ int main ( int argc , char* argv[] )
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                          player.process_input(gkey);
                          if(gkey == KEY_SPACE)
-                              spawn_bullet(Bullets , player);
+                              spawn_bullet(Bullets , player, 0);
                         
                         process_cam_input(gkey, player);
                         level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup);
@@ -132,15 +132,14 @@ int main ( int argc , char* argv[] )
 
               for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    
-                   if(check_collision_for_level(cur_level , Bullets[i] , cur_collider))Bullets.erase(Bullets.begin() + i);
+             //      if(check_collision_for_level(cur_level , Bullets[i] , cur_collider))Bullets.erase(Bullets.begin() + i);
                    Bullets[i].update_projectile();
                    Bullets[i].update();
-                  //  if( iscolliding(obstacle1 , Bullets[i]) || Bullets[i].is_out_of_boundary() ) Bullets.erase( Bullets.begin()+i);
              
              }
 
              update_enemies( cur_enemies , player );
-             update_enemy_bullets( cur_level , cur_collider);
+          // update_enemy_bullets( cur_level , cur_collider);
              update_powerup( renderer , cur_powerup , player );
 
              player.update_sigma(); // update sigma pos and render sigma to screen

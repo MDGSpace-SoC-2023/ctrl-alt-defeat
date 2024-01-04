@@ -165,10 +165,8 @@ class texrect {
        
        void update() // updating to renderer
         {      
-             srectangle.x = rectangle.x - CAMX;
-             srectangle.y = rectangle.y - CAMY;   
-             srectangle.w = rectangle.w;
-             srectangle.h = rectangle.h;
+           srectangle.x = rectangle.x - CAMX;
+           srectangle.y = rectangle.y - CAMY;   
               SDL_RenderCopy(renderer , text , NULL , &srectangle );
        }
        
@@ -395,39 +393,49 @@ class projectile:public texrect
        int velx;
        int vely;
      
-       projectile( texrect player )
+       projectile( texrect player , int code)
        {
               velx=0;
               vely=0;
               srectangle.w=20;
               srectangle.h=20;
-              rectangle.x=player.rectangle.x + player.rectangle.w/2;
-              rectangle.y=player.rectangle.y + player.rectangle.h/2;
+              rectangle.x=player.rectangle.x + player.rectangle.w/2 + CAMX;
+              rectangle.y=player.rectangle.y + player.rectangle.h/2 + CAMY;
               srectangle.x = rectangle.x - CAMX  ;
               srectangle.y = rectangle.y  - CAMY ;
+
+              if(code == 1){
+                       
+                     rectangle.x=player.rectangle.x + player.rectangle.w/2;
+                     rectangle.y=player.rectangle.y + player.rectangle.h/2;
+                     srectangle.x = rectangle.x - CAMX ;
+                     srectangle.y = rectangle.y - CAMY ;
+                       
+              }
+               
               renderer = player.renderer;
               window = player.window;
        
               switch( player.direction ){
                 
               case(UP):
-                     vely= -1;
+                     vely= -4;
                      velx=0;
                      break;
               case(DOWN):
-                     vely= 1;
+                     vely= 4;
                      velx=0;
                      break;
               case(LEFT):
-                     velx= -1;
+                     velx= -4;
                      vely=0;
                      break;
               case(RIGHT):
-                     velx= 1;
+                     velx= 4;
                      vely=0;
                      break;
               } 
-              loadtexture("Assets/ball.png");
+              loadtexture("Assets/heart.png");
        }
      
 
@@ -435,16 +443,14 @@ class projectile:public texrect
        {
               rectangle.x+=velx;
               rectangle.y+=vely;
-              // srectangle.x = rectangle.x - CAMX;
-              // srectangle.y = rectangle.y - CAMY;
               
        }
 };
 
 vector <projectile> eBullets;
-void spawn_bullet(vector <projectile> &Bullets , texrect enemy )
+void spawn_bullet(vector <projectile> &Bullets , texrect enemy , int code )
 {       
-       projectile bullet( enemy );
+       projectile bullet( enemy ,code);
        Bullets.push_back( bullet );
 }
 
@@ -481,7 +487,7 @@ class Enemy:public texrect{
                      loadtexture("Assets/enemy.png");
               }
 
-              void change( int x , int y , int xi , int yi,int MODE)
+              void change( int x , int y , int xi , int yi,int MODE) //this is to make it easier to set enemies on the map
               {
                      x1=x;
                      y1=y;
@@ -495,7 +501,11 @@ class Enemy:public texrect{
               }
 
               void update_enemy_position(){
+
+                     
                      if((rectangle.x==x1 && rectangle.y == y1) || (rectangle.x==x2 && rectangle.y == y2)) speed = -speed;
+
+
                      if(x1==x2){
                             rectangle.y += speed;
                             srectangle.y = rectangle.y - CAMY;
@@ -520,13 +530,15 @@ void spawn_enemy_bullets(vector <projectile> &Bullets,Enemy enmy){
               case(3) : 
                      if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=LEFT;
                      else enmy.direction=DOWN;
-                     spawn_bullet(Bullets,enmy);
+                     spawn_bullet(Bullets,enmy, 1);
                      break;
               case(2) :
                      if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=RIGHT;
                      else enmy.direction=UP;
+                     spawn_bullet(Bullets,enmy , 1);
+                     break;
               case(1) : 
-                     spawn_bullet(Bullets,enmy);
+                     spawn_bullet(Bullets,enmy , 1);
        }
 }
 
@@ -537,17 +549,7 @@ void update_enemy(Sigma& player,Enemy& enmy){
        //        player.text = NULL;
        // }
 
-       for(int i=0 ; i<eBullets.size() ; ++i){
-              eBullets[i].update_projectile();
-              eBullets[i].update();
-              
-              if(iscolliding(player,eBullets[i])){
-                     eBullets.erase(eBullets.begin()+i);
-                     player.health--;
-              }
-       }
-
-       enmy.update_enemy_position();
+       
        if(ECOUNTER==110){
               spawn_enemy_bullets(eBullets,enmy);
        }
@@ -555,6 +557,7 @@ void update_enemy(Sigma& player,Enemy& enmy){
               spawn_enemy_bullets(eBullets,enmy);
               ECOUNTER = 0;
        } 
+       enmy.update_enemy_position();
 
        enmy.update();
 
@@ -579,9 +582,6 @@ void process_cam_input(keypress key, Sigma &player){
         CAMX+=2;
         break;
 
-        case(KEY_I):
-            cout<<player.rectangle.x+CAMX<<" "<<player.rectangle.y + CAMY<<endl;
-        break;
     }     
 }
 
@@ -638,8 +638,8 @@ class powerup:public texrect{
                
                rectangle.x = 0;
                rectangle.y = 0;
-               rectangle.w = 32;
-               rectangle.h = 32;
+               srectangle.w = 32;
+               srectangle.h = 32;
                renderer = ren;
                window = win;
        }   
@@ -694,6 +694,7 @@ class powerup:public texrect{
 
                   if(player.health <=7)player.health +=3;
                   else player.health = 10;
+                  powerup_started = true;
                   break;
 
                   case( SPEED_INCREASE ):
@@ -775,13 +776,8 @@ class powerup:public texrect{
                                          }
                              }
 
-                           //  update_icons( renderer , cur_powerup);
+                          // update_icons( renderer , cur_powerup);
                    }   
        }
    
-      
-
-
-  
-
 #endif

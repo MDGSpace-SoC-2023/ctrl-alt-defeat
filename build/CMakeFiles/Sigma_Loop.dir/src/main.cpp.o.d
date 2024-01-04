@@ -289,4 +289,5 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/jshishimaru/development/Sigma_Loop/src/level.hpp
+ /home/jshishimaru/development/Sigma_Loop/src/level.hpp \
+ /home/jshishimaru/development/Sigma_Loop/src/sound.hpp

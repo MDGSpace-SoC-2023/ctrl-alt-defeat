@@ -42,6 +42,7 @@ class tile
          sy=0;
     }
 
+
     tile ( SDL_Texture* text)
     {
          tiletext = text;
@@ -609,47 +610,47 @@ vector <int> level_1_collider
             vector <Enemy> level1;
               
 
-            Enemy temp( 128 ,128 , 561 , 390 , 708 , 390  ,1,renderer ,window);
+            Enemy temp( 32 ,32 , 561 , 390 , 708 , 390  ,2,renderer ,window);
             level1.push_back( temp );
 
-            temp.change( 953 , 180 , 940 , 180 ,2);
-            level1.push_back(temp);
+             temp.change( 953 , 180 , 940 , 180 ,2);
+             level1.push_back(temp);
 
-            temp.change( 953 , 440 , 1025 , 440 ,2 );
-            level1.push_back(temp);
+             temp.change( 953 , 440 , 1025 , 440 ,2 );
+             level1.push_back(temp);
 
-            temp.change( 941 , 1000 , 1025 , 1000 ,1);
-            level1.push_back(temp);
+             temp.change( 941 , 1000 , 1025 , 1000 ,2);
+             level1.push_back(temp);
 
-            temp.change( 1154 , 1141 , 1082 , 1141 ,3);
-            level1.push_back(temp);
+          //   temp.change( 1154 , 1141 , 1082 , 1141 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 759 , 1412 , 759 , 1583 ,2);
-            level1.push_back(temp);
+          //   temp.change( 759 , 1412 , 759 , 1583 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 450 , 1777 , 450 ,1639,1);
-            level1.push_back(temp);    
+          //   temp.change( 450 , 1777 , 450 ,1639,2);
+          //   level1.push_back(temp);    
 
-            temp.change( 315 , 1333 , 207 , 1333 ,2);
-            level1.push_back(temp);
+          //   temp.change( 315 , 1333 , 207 , 1333 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 1488 , 1330 , 1650 , 1330 ,2);
-            level1.push_back(temp);
+          //   temp.change( 1488 , 1330 , 1650 , 1330 ,2);
+          //   level1.push_back(temp);
              
-            temp.change( 1344 , 1779 , 1344 , 1593 ,2);
-            level1.push_back(temp);
+          //   temp.change( 1344 , 1779 , 1344 , 1593 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 1919 , 1656 , 1919 , 1790 ,2);
-            level1.push_back(temp);
+          //   temp.change( 1919 , 1656 , 1919 , 1790 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 1463 , 692 , 1463 , 554 ,2);
-            level1.push_back(temp);
+          //   temp.change( 1463 , 692 , 1463 , 554 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 1538 , 362 , 1538 , 437 ,2);
-            level1.push_back(temp);
+          //   temp.change( 1538 , 362 , 1538 , 437 ,2);
+          //   level1.push_back(temp);
 
-            temp.change( 1598 , 437 , 1598 , 359 ,2);
-            level1.push_back(temp);
+          //   temp.change( 1598 , 437 , 1598 , 359 ,2);
+          //   level1.push_back(temp);
  
 
 
@@ -682,6 +683,19 @@ vector <int> level_1_collider
                {
                       update_enemy( player , enemies[i] );
                }
+
+         for(int i=0 ; i<eBullets.size() ; ++i){
+              eBullets[i].update_projectile();
+              eBullets[i].update();
+              
+              if(iscolliding(player,eBullets[i])){
+                     eBullets.erase(eBullets.begin()+i);
+                     player.health--;
+              }
+       }
+
+
+
      }
        void update_enemy_bullets( level &cur_level , vector <int> &cur_collider )
   {
@@ -690,7 +704,7 @@ vector <int> level_1_collider
                
                      if(check_collision_for_level( cur_level , eBullets[i] , cur_collider))
                      {
-                                  eBullets.erase(eBullets.begin() + i); 
+                                 eBullets.erase(eBullets.begin() + i); 
                      }
                     
               }
@@ -704,7 +718,7 @@ vector <int> level_1_collider
                      
                     SDL_Rect dest;
                     dest.w = 800;
-                    dest.h = 500;
+                    dest.h = 250;
                     dest.x = 112;
                     dest.y = 230;
 

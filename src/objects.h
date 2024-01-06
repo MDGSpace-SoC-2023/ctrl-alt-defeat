@@ -31,6 +31,7 @@ enum keypress
      KEY_SPACE,
      KEY_E,
      KEY_I,
+     KEY_ENTER,
 };
 
 enum playerdirn{
@@ -76,6 +77,9 @@ keypress getinput( SDL_Event e )
 
                      case(SDLK_i):
                      return KEY_I;
+
+                     case(SDLK_RETURN):
+                     return KEY_ENTER;
                      
                  }
 
@@ -208,6 +212,8 @@ bool iscolliding( texrect &a , texrect &b )
 
 
 
+int staminacounter = 0;
+int bulletcounter = 0;
 
 
 class Sigma:public texrect
@@ -216,8 +222,12 @@ class Sigma:public texrect
       bool dashing = false;
       int health;
       int bullet_damage = 1;
+      int stamina;
 
       SDL_Texture* heart=NULL;
+      SDL_Texture* stamina_text = NULL;
+      SDL_Texture* gameover_text1 =NULL;
+      SDL_Texture* gameover_text2 =NULL;
 
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
@@ -225,12 +235,24 @@ class Sigma:public texrect
         set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
 
-        health = 10;
+        health = 1;
         SDL_Surface* temp = IMG_Load( "Assets/heart.png" );
         heart = SDL_CreateTextureFromSurface(renderer , temp);
+
+        temp = IMG_Load("Assets/power.png");
+        stamina_text = SDL_CreateTextureFromSurface( renderer , temp);
         SDL_FreeSurface(temp);
 
-      }     
+            
+       TTF_Font* gameover_font = TTF_OpenFont( "Assets/8bit_font.ttf" , 32);
+
+       SDL_Surface* temp1 = TTF_RenderText_Solid( gameover_font , "Game Over!" , {255,255,51});
+       gameover_text1 = SDL_CreateTextureFromSurface( renderer , temp1 );
+
+       SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {255,255,51});
+       gameover_text2 = SDL_CreateTextureFromSurface( renderer , temp2 );
+
+}     
 
       void draw_hearts()
       {
@@ -247,6 +269,23 @@ class Sigma:public texrect
          }
 
       } 
+
+      void draw_stamina()
+      {
+            
+             for( int i=1 ; i<=stamina ; ++i){
+               SDL_Rect dest;
+               dest.w = 20;
+               dest.h = 20;
+               dest.y = 40;
+               dest.x = 10 + i*20;
+
+               SDL_RenderCopy(renderer , stamina_text , NULL , &dest);  
+               
+         }
+
+
+      }
       
          void update_sigma() // updating to renderer
        {      
@@ -301,7 +340,17 @@ class Sigma:public texrect
 
             }  
 
+              staminacounter++;
+              if( staminacounter >= 30){
+   
+                  if(stamina < 10)stamina++;
+                  staminacounter = 0;
+
+              }
+
+              bulletcounter++;
               draw_hearts();
+              draw_stamina();
               SDL_RenderCopy(renderer , text , &src , &rectangle );
 
        }
@@ -331,7 +380,13 @@ class Sigma:public texrect
              break;
 
              case(KEY_E):
+                    
+                   if(stamina == 10)
+                   { 
                     dashing = true;
+                    stamina = 0;
+                   }
+
              break;
 
            }            
@@ -399,6 +454,8 @@ class projectile:public texrect
        {
               velx=0;
               vely=0;
+              rectangle.w = 20;
+              rectangle.h = 20;
               srectangle.w=20;
               srectangle.h=20;
               rectangle.x=player.rectangle.x + player.rectangle.w/2 + CAMX;
@@ -449,7 +506,9 @@ class projectile:public texrect
        }
 };
 
+vector <projectile> Bullets;
 vector <projectile> eBullets;
+
 void spawn_bullet(vector <projectile> &Bullets , texrect enemy , int code )
 {       
        projectile bullet( enemy ,code);
@@ -474,6 +533,8 @@ class Enemy:public texrect{
               Enemy(int height,int width,int xpt1,int ypt1, int xpt2, int ypt2,int MODE, SDL_Renderer* ren, SDL_Window* win){
                      srectangle.h = height;
                      srectangle.w = width;
+                     rectangle.h = height;
+                     rectangle.w = width;
                      x1 = xpt1;
                      x2 = xpt2;
                      y1 = ypt1;
@@ -545,11 +606,6 @@ void spawn_enemy_bullets(vector <projectile> &Bullets,Enemy enmy){
 
 void update_enemy(Sigma& player,Enemy& enmy){
        
-       // if(iscolliding(enmy,player)){//killing player on collision with enemy
-       //        SDL_DestroyTexture(player.text);
-       //        player.text = NULL;
-       // }
-
        
        if(ECOUNTER==110){
               spawn_enemy_bullets(eBullets,enmy);
@@ -785,5 +841,8 @@ class powerup:public texrect{
                            update_icons( renderer , cur_powerup);
                    }   
        }
+
+
+   
    
 #endif

@@ -540,7 +540,7 @@ vector <int> level_1_collider
         
             int ind,cx,cy;
            
-            if( code == 1){
+            if( code == 1){ // code 1 implies entity is a projectile
 
                  cx = entity.rectangle.x +  (entity.rectangle.w/2);
                  cy = entity.rectangle.y +  (entity.rectangle.h/2);
@@ -568,30 +568,29 @@ vector <int> level_1_collider
  }    
 
 
-    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup)
+    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer)
      {
                 
-                int player_screenx = player.rectangle.x-CAMX;
+                int player_screenx = player.rectangle.x - CAMX;
                 int player_screeny = player.rectangle.y - CAMY;
 
-                if( player.health == 0)
-                {     
-                        levels[0].fontstart = true;
-                        cur = levels[0];
-                        cur_col = colliders[0];
-                        cur_enemy = enemies[0];
-                        cur_powerup = powerups[0]; 
+                //cout << index << endl;
 
-                        player.rectangle.x = 120;
-                        player.rectangle.y = 230;
-                        index = 0;
-
-
-                }
                 switch( index )
                 {
+                case -1:
+                player.rectangle.x = 500;
+                player.rectangle.y = 500;
+                index = 0;
+                load_level_1(renderer , levels[1]);
+                cur = levels[0];
+                cur_col = colliders[0];
+                cur_enemy = enemies[0];
+                cur_powerup = powerups[0];
+
+                break;
+
                 case 0:
-                
 
                 if( player_screenx <400 && player_screenx>377 && player_screeny == 354)
                 {
@@ -622,7 +621,7 @@ vector <int> level_1_collider
             vector <Enemy> level1;
               
 
-            Enemy temp( 32 ,32 , 561 , 390 , 708 , 390  ,2,renderer ,window);
+            Enemy temp( 32 ,32 , 561 , 390 , 708 , 390  ,1,renderer ,window);
             level1.push_back( temp );
 
              temp.change( 953 , 180 , 940 , 180 ,2);
@@ -693,6 +692,11 @@ vector <int> level_1_collider
      {
                for( int i=0 ; i< enemies.size() ; ++i)
                {
+                      if( enemies[i].ehealth <= 0){
+                   
+                                 enemies.erase(enemies.begin() + i);
+
+                      }
                       update_enemy( player , enemies[i] );
                }
 
@@ -700,15 +704,13 @@ vector <int> level_1_collider
               eBullets[i].update_projectile();
               eBullets[i].update();
               
-              if(iscolliding(player,eBullets[i])){
+              if( isplayercolliding(eBullets[i],player) ){
                      eBullets.erase(eBullets.begin()+i);
-                     cout<<"aaaaaaaaaa"<<endl;
                      player.health--;
               }
        }
 
        ECOUNTER++;
-
 
 
      }
@@ -741,6 +743,7 @@ vector <int> level_1_collider
                     textcounter++;
 
               }
+
               else 
               {
                textcounter = 0;
@@ -748,6 +751,73 @@ vector <int> level_1_collider
               }
 
        }
+
+          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level ){
+
+              update_enemy_bullets( cur_level , cur_collider);
+
+              for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
+                   
+                   if(check_collision_for_level(cur_level , Bullets[i] , cur_collider, 1))
+                     {
+                            Bullets.erase(Bullets.begin() + i);
+                     }
+
+                     for ( int j = 0 ; j < cur_enemies.size() ; ++j){
+
+                                 if( iscolliding( Bullets[i] , cur_enemies[j] )){
+
+                                        cur_enemies[j].ehealth--;
+                                        Bullets.erase( Bullets.begin() + i);
+                                        break;
+              
+                                 }
+
+                     }
+                     
+                     Bullets[i].update_projectile();
+                     Bullets[i].update();
+             
+              }
+
+      }
+
+      bool gameisover = false;
+
+      void check_game_over ( Sigma &player , int &cur_level_index , keypress gkey , SDL_Renderer* renderer ){
+
+               if( player.health <= 0 ){
+
+                     gameisover = true;
+
+                     SDL_Rect rect1;
+                     rect1.h = 250;
+                     rect1.w = 900;
+                     rect1.x = 62;
+                     rect1.y = 300;
+
+                     SDL_Rect rect2;
+                     rect2.h = 75;
+                     rect2.w = 900;
+                     rect2.x = 62;
+                     rect2.y = 600;
+
+                     
+                      
+                    SDL_RenderCopy( renderer , player.gameover_text1 , NULL , &rect1);
+                    SDL_RenderCopy( renderer , player.gameover_text2 , NULL , &rect2);
+
+                    if( gkey == KEY_ENTER )
+                    {
+                         cur_level_index = -1;
+                         player.health = 10;
+                         player.stamina = 10;
+                         gameisover = false;
+                    }
+
+               }
+
+      }
 
 
 

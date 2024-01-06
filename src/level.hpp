@@ -637,7 +637,7 @@ vector <int> level_1_collider
 
             temp.change( 450 , 1777 , 450 ,1639,2);
             level1.push_back(temp);    
-
+            
             temp.change( 315 , 1333 , 207 , 1333 ,2);
             level1.push_back(temp);
 
@@ -675,7 +675,7 @@ vector <int> level_1_collider
                   vector <powerup> level1;
 
                   powerup temp( renderer , window );
-                  temp.spawn_powerup( 400 , 500 , HEALTH_INCREASE);
+                  temp.spawn_powerup( 400 , 500 , SPEED_INCREASE);
                   level1.push_back( temp );
 
                   powerups.push_back(level1); 

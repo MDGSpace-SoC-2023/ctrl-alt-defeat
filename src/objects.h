@@ -111,6 +111,8 @@ class texrect {
               rectangle.y=y;
               rectangle.h=height;
               rectangle.w=width;
+              srectangle.h = height;
+              srectangle.w = width;
               window=wind;
               renderer=rend;
        }
@@ -278,21 +280,21 @@ class Sigma:public texrect
               switch(direction)
               {
                  case(DOWN):
-                 rectangle.y += 1;
+                 rectangle.y += 5;
                  break;
                  case(RIGHT):
-                 rectangle.x += 1;
+                 rectangle.x += 5;
                  break;
                  case(LEFT):
-                 rectangle.x -= 1;
+                 rectangle.x -= 5;
                  break;
                  case(UP):
-                 rectangle.y -= 1;
+                 rectangle.y -= 5;
                  break;
               } 
 
               dashcounter++;
-              if(dashcounter==7){
+              if(dashcounter==20){
                      dashing = false;
                      dashcounter = 0;
               }
@@ -519,7 +521,6 @@ class Enemy:public texrect{
                             else direction = LEFT;
                      }
                       
-                     ECOUNTER++;
               }
 
 
@@ -553,7 +554,7 @@ void update_enemy(Sigma& player,Enemy& enmy){
        if(ECOUNTER==110){
               spawn_enemy_bullets(eBullets,enmy);
        }
-       else if(ECOUNTER==130){
+       else if(ECOUNTER>=130){
               spawn_enemy_bullets(eBullets,enmy);
               ECOUNTER = 0;
        } 

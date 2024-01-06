@@ -639,6 +639,8 @@ class powerup:public texrect{
                
                rectangle.x = 0;
                rectangle.y = 0;
+               rectangle.w = 32;
+               rectangle.h = 32;
                srectangle.w = 32;
                srectangle.h = 32;
                renderer = ren;
@@ -700,7 +702,7 @@ class powerup:public texrect{
 
                   case( SPEED_INCREASE ):
 
-                  player.speed*=2;
+                  player.speed*=4;
                   powerup_started = true;
                   break;
 
@@ -724,10 +726,10 @@ class powerup:public texrect{
            playerrect.x+=CAMX;
            playerrect.y+=CAMY;
            SDL_Rect &rect_b = a.rectangle;
-
            
           if( SDL_HasIntersection ( &playerrect , &rect_b ) ) return true ;
           else return false; 
+
 }
        
         void update_icons( SDL_Renderer* renderer , vector <powerup> &cur_powerup ){
@@ -756,6 +758,8 @@ class powerup:public texrect{
                              if( isplayercolliding( current_powerup , player ) ){
                                         
                                         current_powerup.trigger_powerup( player );
+                                        current_powerup.rectangle.w = 0;
+                                        current_powerup.rectangle.h = 0;
                                         active_powerups++;
                              }
 
@@ -773,11 +777,12 @@ class powerup:public texrect{
                                                  player.bullet_damage = 1;
                                                  cur_powerup.erase( cur_powerup.begin() + i );
                                                  active_powerups--;
+       
 
                                          }
                              }
 
-                          // update_icons( renderer , cur_powerup);
+                           update_icons( renderer , cur_powerup);
                    }   
        }
    

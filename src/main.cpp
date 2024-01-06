@@ -141,14 +141,14 @@ int main ( int argc , char* argv[] )
              }
 
              update_enemies( cur_enemies , player );
-           update_enemy_bullets( cur_level , cur_collider);
+             update_enemy_bullets( cur_level , cur_collider);
              update_powerup( renderer , cur_powerup , player );
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              trigger_font(cur_level, renderer);
 
 
-            //  if( !iscolliding( x , player)){
+            //  if( !isplayercolliding( x , player)){
             //        x.update();
             //  }
 

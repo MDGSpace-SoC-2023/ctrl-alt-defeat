@@ -538,19 +538,24 @@ vector <int> level_1_collider
  bool check_collision_for_level( level cur_level , texrect entity , vector <int> collider , int code )          
  {
         
-            int ind;
-            int cx = entity.rectangle.x+(entity.rectangle.w/2)+CAMX;
-            int cy = entity.rectangle.y + (entity.rectangle.h/2)+CAMY;
-
+            int ind,cx,cy;
+           
             if( code == 1){
 
-                int cx = entity.rectangle.x+(entity.rectangle.w/2);
-                int cy = entity.rectangle.y + (entity.rectangle.h/2);
-                 
+                 cx = entity.rectangle.x +  (entity.rectangle.w/2);
+                 cy = entity.rectangle.y +  (entity.rectangle.h/2);
+    
+            }
+            else{
+
+                   cx = entity.rectangle.x+(entity.rectangle.w/2)+CAMX;
+                   cy = entity.rectangle.y + (entity.rectangle.h/2)+CAMY;
+
+
             }
             int column = cx/64 ;
             int rows = cy/64;
-            ind = column + rows*cur_level.columns;
+            ind = column + rows*cur_level.columns;            
 
             if( collider[ind] != 0 )
             {
@@ -637,7 +642,7 @@ vector <int> level_1_collider
 
             temp.change( 450 , 1777 , 450 ,1639,2);
             level1.push_back(temp);    
-            
+
             temp.change( 315 , 1333 , 207 , 1333 ,2);
             level1.push_back(temp);
 

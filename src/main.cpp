@@ -97,7 +97,7 @@ int main ( int argc , char* argv[] )
                          player.process_input(gkey);
                          if(gkey == KEY_SPACE)
                               spawn_bullet(Bullets , player, 0);
-                        
+
                         process_cam_input(gkey, player);
                         level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup);
                           

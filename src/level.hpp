@@ -535,12 +535,19 @@ vector <int> level_1_collider
 164,130,198,96,409,410,411,412,420,421,428,681,681,428,428,681,682,409,410,411,412,410,410,410,411,412,414,415,416,417,418,428
 };
 
- bool check_collision_for_level( level cur_level , texrect entity , vector <int> collider )          
+ bool check_collision_for_level( level cur_level , texrect entity , vector <int> collider , int code )          
  {
         
             int ind;
             int cx = entity.rectangle.x+(entity.rectangle.w/2)+CAMX;
             int cy = entity.rectangle.y + (entity.rectangle.h/2)+CAMY;
+
+            if( code == 1){
+
+                int cx = entity.rectangle.x+(entity.rectangle.w/2);
+                int cy = entity.rectangle.y + (entity.rectangle.h/2);
+                 
+            }
             int column = cx/64 ;
             int rows = cy/64;
             ind = column + rows*cur_level.columns;
@@ -622,35 +629,35 @@ vector <int> level_1_collider
              temp.change( 941 , 1000 , 1025 , 1000 ,2);
              level1.push_back(temp);
 
-          //   temp.change( 1154 , 1141 , 1082 , 1141 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1154 , 1141 , 1082 , 1141 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 759 , 1412 , 759 , 1583 ,2);
-          //   level1.push_back(temp);
+            temp.change( 759 , 1412 , 759 , 1583 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 450 , 1777 , 450 ,1639,2);
-          //   level1.push_back(temp);    
+            temp.change( 450 , 1777 , 450 ,1639,2);
+            level1.push_back(temp);    
 
-          //   temp.change( 315 , 1333 , 207 , 1333 ,2);
-          //   level1.push_back(temp);
+            temp.change( 315 , 1333 , 207 , 1333 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 1488 , 1330 , 1650 , 1330 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1488 , 1330 , 1650 , 1330 ,2);
+            level1.push_back(temp);
              
-          //   temp.change( 1344 , 1779 , 1344 , 1593 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1344 , 1779 , 1344 , 1593 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 1919 , 1656 , 1919 , 1790 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1919 , 1656 , 1919 , 1790 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 1463 , 692 , 1463 , 554 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1463 , 692 , 1463 , 554 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 1538 , 362 , 1538 , 437 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1538 , 362 , 1538 , 437 ,2);
+            level1.push_back(temp);
 
-          //   temp.change( 1598 , 437 , 1598 , 359 ,2);
-          //   level1.push_back(temp);
+            temp.change( 1598 , 437 , 1598 , 359 ,2);
+            level1.push_back(temp);
  
 
 
@@ -690,9 +697,12 @@ vector <int> level_1_collider
               
               if(iscolliding(player,eBullets[i])){
                      eBullets.erase(eBullets.begin()+i);
+                     cout<<"aaaaaaaaaa"<<endl;
                      player.health--;
               }
        }
+
+       ECOUNTER++;
 
 
 
@@ -702,7 +712,7 @@ vector <int> level_1_collider
                 
            for(int i=0 ; i<eBullets.size() ; ++i){
                
-                     if(check_collision_for_level( cur_level , eBullets[i] , cur_collider))
+                     if(check_collision_for_level( cur_level , eBullets[i] , cur_collider , 1))
                      {
                                  eBullets.erase(eBullets.begin() + i); 
                      }

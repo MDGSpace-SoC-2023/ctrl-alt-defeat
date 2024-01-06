@@ -79,7 +79,9 @@ int main ( int argc , char* argv[] )
         int cur_level_index = 0;
         vector <Enemy> &cur_enemies = enemies[0];
         vector <powerup> &cur_powerup = powerups[0];
-      
+
+        texrect x( 500,500, 300, 300 , renderer , window);
+        x.loadtexture( "Assets/brick.png");      
 
       while(!quit) //gameloop
       {
@@ -99,13 +101,13 @@ int main ( int argc , char* argv[] )
                         process_cam_input(gkey, player);
                         level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup);
                           
-                           if(check_collision_for_level(cur_level , player , cur_collider)){
+                           if(check_collision_for_level(cur_level , player , cur_collider, 0)){
                               player.reverse_input(gkey);
                               reverse_cam_input(gkey);
                            }  
                             else if( player.dashing)
                             {
-                               if(check_collision_for_level( cur_level , player , cur_collider))
+                               if(check_collision_for_level( cur_level , player , cur_collider, 0))
                                {
                                      player.dashing = false;
                                      player.reverse_dash();
@@ -118,7 +120,7 @@ int main ( int argc , char* argv[] )
                    
                  if( player.dashing)
                             {
-                               if(check_collision_for_level( cur_level , player , cur_collider))
+                               if(check_collision_for_level( cur_level , player , cur_collider, 0))
                                {
                                      player.dashing = false;
                                      player.reverse_dash();
@@ -132,21 +134,31 @@ int main ( int argc , char* argv[] )
 
               for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    
-             //      if(check_collision_for_level(cur_level , Bullets[i] , cur_collider))Bullets.erase(Bullets.begin() + i);
+                  if(check_collision_for_level(cur_level , Bullets[i] , cur_collider, 1))Bullets.erase(Bullets.begin() + i);
                    Bullets[i].update_projectile();
                    Bullets[i].update();
              
              }
 
              update_enemies( cur_enemies , player );
-          // update_enemy_bullets( cur_level , cur_collider);
+           update_enemy_bullets( cur_level , cur_collider);
              update_powerup( renderer , cur_powerup , player );
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              trigger_font(cur_level, renderer);
+
+
+            //  if( !iscolliding( x , player)){
+            //        x.update();
+            //  }
+
              show_display();  //present renderer
              SDL_Delay(16.66);
-      } 
+
+             
+
+             
+      }
       
 
 

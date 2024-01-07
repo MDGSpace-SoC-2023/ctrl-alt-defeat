@@ -571,8 +571,8 @@ vector <int> level_1_collider
     void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer)
      {
                 
-                int player_screenx = player.rectangle.x - CAMX;
-                int player_screeny = player.rectangle.y - CAMY;
+                int player_screenx = player.rectangle.x + CAMX;
+                int player_screeny = player.rectangle.y + CAMY;
 
                 //cout << index << endl;
 
@@ -600,8 +600,8 @@ vector <int> level_1_collider
                      cur_enemy = enemies[1];
                      cur_powerup = powerups[1]; 
 
-                     player.rectangle.x = 120;
-                     player.rectangle.y = 230;
+                     player.rectangle.x = 120 - CAMX;
+                     player.rectangle.y = 230 - CAMY;
                      index = 1;
                      
                 }   
@@ -621,46 +621,46 @@ vector <int> level_1_collider
             vector <Enemy> level1;
               
 
-            Enemy temp( 32 ,32 , 561 , 390 , 708 , 390  ,1,renderer ,window);
+            Enemy temp( 48 ,48 , 561 , 390 , 708 , 390  ,1,renderer ,window);
             level1.push_back( temp );
 
-             temp.change( 953 , 180 , 940 , 180 ,2);
+             temp.change( 953 , 270  ,  940 , 270 ,3);
              level1.push_back(temp);
 
-             temp.change( 953 , 440 , 1025 , 440 ,2 );
+             temp.change( 953 , 460 , 1025 , 460 ,1 );
              level1.push_back(temp);
 
-             temp.change( 941 , 1000 , 1025 , 1000 ,2);
+             temp.change( 941 , 1080 , 1025 , 1080 ,2);
              level1.push_back(temp);
 
-            temp.change( 1154 , 1141 , 1082 , 1141 ,2);
+            temp.change( 1154 , 1141 , 1082 , 1141 ,1);
             level1.push_back(temp);
 
-            temp.change( 759 , 1412 , 759 , 1583 ,2);
+            temp.change( 759 , 1412 , 759 , 1583 ,1);
             level1.push_back(temp);
 
             temp.change( 450 , 1777 , 450 ,1639,2);
             level1.push_back(temp);    
 
-            temp.change( 315 , 1333 , 207 , 1333 ,2);
+            temp.change( 315 , 1333 , 207 , 1333 ,1);
             level1.push_back(temp);
 
-            temp.change( 1488 , 1330 , 1650 , 1330 ,2);
+            temp.change( 1488 , 1330 , 1650 , 1330 ,1);
             level1.push_back(temp);
              
-            temp.change( 1344 , 1779 , 1344 , 1593 ,2);
+            temp.change( 1344 , 1779 , 1344 , 1593 ,1);
             level1.push_back(temp);
 
-            temp.change( 1919 , 1656 , 1919 , 1790 ,2);
+            temp.change( 1919 , 1656 , 1919 , 1790 ,1);
             level1.push_back(temp);
 
-            temp.change( 1463 , 692 , 1463 , 554 ,2);
+            temp.change( 1463 , 692 , 1463 , 554 ,1);
             level1.push_back(temp);
 
-            temp.change( 1538 , 362 , 1538 , 437 ,2);
+            temp.change( 1538 , 362 , 1538 , 437 ,1);
             level1.push_back(temp);
 
-            temp.change( 1598 , 437 , 1598 , 359 ,2);
+            temp.change( 1598 , 437 , 1598 , 359 ,1);
             level1.push_back(temp);
  
 
@@ -802,7 +802,6 @@ vector <int> level_1_collider
                      rect2.x = 62;
                      rect2.y = 600;
 
-                     
                       
                     SDL_RenderCopy( renderer , player.gameover_text1 , NULL , &rect1);
                     SDL_RenderCopy( renderer , player.gameover_text2 , NULL , &rect2);

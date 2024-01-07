@@ -13,7 +13,7 @@ SDL_Renderer* renderer= NULL;
 SDL_Renderer* present = SDL_CreateRenderer( window , -1 , 0);
 
 //resources
-vector < level > levels;
+vector <level> levels;
 vector < vector <int> > colliders;
 vector < vector <Enemy>> enemies; 
 vector < vector <powerup> > powerups;
@@ -49,9 +49,11 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         load_main_menu ( renderer , temp );
         levels.push_back(temp);
         temp.destory_level();
-        load_level_1 (renderer , temp);
-        levels.push_back(temp);
-        temp.destory_level();
+
+        level temp2;
+        load_level_1 (renderer , temp2);
+        levels.push_back(temp2);
+        temp2.destory_level();
 
         colliders.push_back(main_menu_collider);
         colliders.push_back(level_1_collider);
@@ -74,11 +76,12 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
 
         
-        level &cur_level = levels[0];
-        vector <int> &cur_collider = colliders[0];
+        level cur_level = levels[0];
+        vector <int> cur_collider = colliders[0];
         int cur_level_index = 0;
-        vector <Enemy> &cur_enemies = enemies[0];
-        vector <powerup> &cur_powerup = powerups[0];
+        vector <Enemy> cur_enemies = enemies[0];
+        vector <powerup> cur_powerup = powerups[0];
+
 
       while(!quit) //gameloop
       {
@@ -90,17 +93,6 @@ int main ( int argc , char* argv[] )
                   else if ( e.type == SDL_KEYDOWN)
                   {     
                          
-
-                         // temp
-                        //  if( gkey == KEY_ENTER ){
-                                     
-                        //             cout << levels[0].tileset.size()<<" "<<levels[0].tiles_layer3.size()<<endl; 
-
-                        //        //    cur_level = levels[0];
-                        //            cur_level_index = 0; 
-                                   
-                        //  }
-
 
                          gkey= getinput(e);  //convert SDL_input to keypress type input
                         if( !gameisover) player.process_input(gkey);

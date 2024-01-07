@@ -232,10 +232,11 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
+        set_dimension( 512 , 400 , 64 , 64 , 4 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
 
-        health = 1;
+        health = 10;
+        stamina = 10;
         SDL_Surface* temp = IMG_Load( "Assets/heart.png" );
         heart = SDL_CreateTextureFromSurface(renderer , temp);
 

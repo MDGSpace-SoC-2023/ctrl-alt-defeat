@@ -582,8 +582,9 @@ vector <int> level_1_collider
                 switch( index )
                 {
                 case -1:
-                player.rectangle.x = 500;
-                player.rectangle.y = 500;
+                CAMX = CAMY = 0;
+                player.rectangle.x = 512;
+                player.rectangle.y = 400;
                 index = 0;
                 load_level_1(renderer , levels[1]);
                 cur = levels[0];

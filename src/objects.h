@@ -96,7 +96,7 @@ class texrect {
        SDL_Texture* text;
        SDL_Renderer* renderer;
        SDL_Window* window;
-       int speed;
+       int speedx,speedy;
        playerdirn direction;
        bool collision=false;
        SDL_Rect srectangle;
@@ -107,7 +107,7 @@ class texrect {
            rectangle.y=0;
            rectangle.h=0;
            rectangle.w=0;    
-           speed=0;   
+           speedx=speedy=0;   
        }
        
        texrect( int x , int y , int height , int width ,SDL_Renderer* rend , SDL_Window* wind )//paremeterised constructor
@@ -146,7 +146,7 @@ class texrect {
               rectangle.y=y;
               rectangle.h=height;
               rectangle.w=width;
-              speed=sped;
+              speedx = speedy =sped;
        }
 
        void set_dimension( int x , int y , int height , int width, int sped, SDL_Renderer* rend , SDL_Window* wind)
@@ -155,7 +155,7 @@ class texrect {
               rectangle.y=y;
               rectangle.h=height;
               rectangle.w=width;
-              speed=sped;
+              speedx = speedy =sped;
               window=wind;
               renderer=rend;
        }
@@ -238,6 +238,7 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
+        set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
 
@@ -328,18 +329,43 @@ class Sigma:public texrect
               switch(direction)
               {
                  case(DOWN):
-                 rectangle.y += 5;
+                 rectangle.y += 2;
+                 CAMY += 4;
+                 if(CAMY>960){
+                     int gap = CAMY-960;
+                     CAMY = 960;
+                     rectangle.y += gap;
+                 }
                  break;
                  case(RIGHT):
-                 rectangle.x += 5;
+                 rectangle.x += 2;
+                 CAMX += 4;
+                 if(CAMX>1024){
+                     int gap = CAMX-1024;
+                     CAMX = 1024;
+                     rectangle.x += gap;
+                 }
                  break;
                  case(LEFT):
-                 rectangle.x -= 5;
+                 rectangle.x -= 2;
+                 CAMX -= 4;
+                 if(CAMX<0){
+                     int gap = -CAMX;
+                     CAMX = 0;
+                     rectangle.x -= gap;
+                 }
                  break;
                  case(UP):
-                 rectangle.y -= 5;
+                 rectangle.y -= 2;
+                 CAMY -= 4;
+                 if(CAMY<0){
+                     int gap = -CAMY;
+                     CAMY = 0;
+                     rectangle.y -= gap;
+                 }
                  break;
               } 
+              
 
               dashcounter++;
               if(dashcounter==20){
@@ -369,22 +395,22 @@ class Sigma:public texrect
            switch(key)
            {
              case(KEY_W):                                                        
-                    rectangle.y-=speed;
+                    rectangle.y-=speedy;
                     direction=UP;
              break;
 
              case(KEY_A):
-                    rectangle.x-=speed;
+                    rectangle.x-=speedx;
                     direction=LEFT;
              break;
 
              case(KEY_S):
-                    rectangle.y+=speed;
+                    rectangle.y+=speedy;
                     direction=DOWN;
              break;
 
              case(KEY_D):
-                    rectangle.x+=speed;
+                    rectangle.x+=speedx;
                     direction=RIGHT;
              break;
 
@@ -406,16 +432,20 @@ class Sigma:public texrect
                switch(direction)
               {
                  case(DOWN):
-                 rectangle.y -= 1;
+                 rectangle.y -= 2;
+                 CAMY -= 4;
                  break;
                  case(RIGHT):
-                 rectangle.x -= 1;
+                 rectangle.x -= 2;
+                 CAMX -= 4;
                  break;
                  case(LEFT):
-                 rectangle.x += 1;
+                 rectangle.x += 2;
+                 CAMX += 4;
                  break;
                  case(UP):
-                 rectangle.y += 1;
+                 rectangle.y += 2;
+                 CAMY += 4;
                  break;
               }
        }
@@ -425,22 +455,22 @@ class Sigma:public texrect
            switch(key)
            {
              case(KEY_W):
-                    rectangle.y+=speed;
+                    rectangle.y+=speedy;
                     direction=UP;
              break;
 
              case(KEY_A):
-                    rectangle.x+=speed;
+                    rectangle.x+=speedx;
                     direction=LEFT;
              break;
 
              case(KEY_S):
-                    rectangle.y-=speed;
+                    rectangle.y-=speedy;
                     direction=DOWN;
              break;
 
              case(KEY_D):
-                    rectangle.x-=speed;
+                    rectangle.x-=speedx;
                     direction=RIGHT;
              break;
                          
@@ -534,6 +564,7 @@ class Enemy:public texrect{
               int x2;
               int y2;
               int ehealth=3;
+              int speed;
               int mode = 1;
               //1-same direction
               //2-up down enmy shoots right, right left enmy shoots up
@@ -680,12 +711,25 @@ void reverse_cam_input(keypress key){
     }  
 }
 
-void limit_cam(){
-    if(CAMY>960) CAMY = 960;
-    else if(CAMY<0) CAMY = 0;
-    if(CAMX>1024) CAMX = 1024;
-    else if(CAMX<0) CAMX = 0;
-    
+void limit_cam(Sigma& player){
+    if(CAMY>960){
+       CAMY = 960;
+       player.speedy = 3;
+    }
+    else if(CAMY<0){
+       CAMY = 0;
+       player.speedy = 3;
+    }
+    else player.speedy = 1;
+    if(CAMX>1024){
+       CAMX = 1024;
+       player.speedx = 3;
+    }
+    else if(CAMX<0){
+       CAMX = 0;
+       player.speedx = 3;
+    }
+    else player.speedx = 1;
 }
 
 enum Effect{
@@ -772,11 +816,11 @@ class powerup:public texrect{
                   powerup_started = true;
                   break;
 
-                  case( SPEED_INCREASE ):
+              //     case( SPEED_INCREASE ):
 
-                  player.speed*=4;
-                  powerup_started = true;
-                  break;
+              //     player.speed*=4;
+              //     powerup_started = true;
+              //     break;
 
                   case ( BULLET_DAMAGE_INCREASE):
 
@@ -846,7 +890,7 @@ class powerup:public texrect{
 
                                          if( current_powerup.powerup_counter >= 300 ){
  
-                                                 player.speed = 1;
+                                                 player.speedx = player.speedy = 1;
                                                  player.bullet_damage = 1;
                                                  cur_powerup.erase( cur_powerup.begin() + i );
                                                  active_powerups--;

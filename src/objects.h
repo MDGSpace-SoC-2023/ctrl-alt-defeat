@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
+#include "Music.hpp"
 
 using namespace std;
 
@@ -229,10 +230,15 @@ class Sigma:public texrect
       SDL_Texture* gameover_text1 =NULL;
       SDL_Texture* gameover_text2 =NULL;
 
+      Music gunshot_sound;
+      Music damage_taken_sound;
+      Music Game_over_sound;
+
+
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( 512 , 400 , 64 , 64 , 4 , rend , wind );
+        set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
 
         health = 10;
@@ -253,7 +259,9 @@ class Sigma:public texrect
        SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {255,255,51});
        gameover_text2 = SDL_CreateTextureFromSurface( renderer , temp2 );
 
-}     
+       gunshot_sound.Load_Music("Assets/Audio/Music/blaster.mp3" , 50);
+
+      }     
 
       void draw_hearts()
       {
@@ -495,7 +503,7 @@ class projectile:public texrect
                      vely=0;
                      break;
               } 
-              loadtexture("Assets/heart.png");
+              loadtexture("Assets/gunshot.png");
        }
      
 
@@ -530,6 +538,10 @@ class Enemy:public texrect{
               //1-same direction
               //2-up down enmy shoots right, right left enmy shoots up
               //3-opposite
+
+              Music enemy_damage_taken_sound;
+              Music enemy_death_sound;
+
               
               Enemy(int height,int width,int xpt1,int ypt1, int xpt2, int ypt2,int MODE, SDL_Renderer* ren, SDL_Window* win){
                      srectangle.h = height;
@@ -640,6 +652,10 @@ void process_cam_input(keypress key, Sigma &player){
         CAMX+=2;
         break;
 
+        case(KEY_I):
+        cout << player.rectangle.x + CAMX << " "<<player.rectangle.y + CAMY<<endl;
+        break;
+
     }     
 }
 
@@ -688,9 +704,8 @@ class powerup:public texrect{
        Effect powerup_effect;
        int powerup_counter ;
        bool powerup_started ;   
-       SDL_Texture* icon;
+       SDL_Texture* icon = NULL;
        
-     
 
        powerup( SDL_Renderer* ren , SDL_Window* win){
                
@@ -724,20 +739,20 @@ class powerup:public texrect{
                case HEALTH_INCREASE:
 
                powerup_effect = HEALTH_INCREASE;
-              loadtexture("Assets/powerup.png");
+              loadtexture("Assets/health_powerup.png");
                break;
 
                case SPEED_INCREASE:
 
                powerup_effect = SPEED_INCREASE;
-               loadtexture("Assets/powerup.png");
-               loadicon( "Assets/speed.png");
+               loadtexture("Assets/speed_powerup.png");
+               loadicon( "Assets/sped.png");
                break;
 
                case BULLET_DAMAGE_INCREASE:
 
                powerup_effect = BULLET_DAMAGE_INCREASE;
-               loadtexture("Assets/powerup.png");
+               loadtexture("Assets/bullet_powerup.png");
                loadicon( "Assets/bullet_icon.png");
                break;
 
@@ -792,14 +807,15 @@ class powerup:public texrect{
         void update_icons( SDL_Renderer* renderer , vector <powerup> &cur_powerup ){
 
                      for( int i=0 ; i< active_powerups ; ++i){
+
                      
                                    SDL_Rect dest;
                                    dest.h = 64;
                                    dest.w = 64;
-                                   dest.y = 200;
-                                   dest.x = 1000 - 80*i;
+                                   dest.y = 10;
+                                   dest.x = 950 - 80*i;
 
-                                   SDL_RenderCopy( renderer , cur_powerup[i].icon , NULL , &dest);                         
+                          if( cur_powerup[i].powerup_effect != HEALTH_INCREASE) SDL_RenderCopy( renderer , cur_powerup[i].icon , NULL , &dest);                         
                      }
        }
 
@@ -840,10 +856,8 @@ class powerup:public texrect{
                              }
 
                            update_icons( renderer , cur_powerup);
+
                    }   
        }
 
-
-   
-   
 #endif

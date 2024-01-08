@@ -4,9 +4,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include <SDL2/SDL_mixer.h>
 #include "objects.h"
 #include "level.hpp"
-#include "sound.hpp"
+#include "Music.hpp"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
@@ -25,6 +26,7 @@ void init()
       SDL_Init(SDL_INIT_EVERYTHING);
       IMG_Init(IMG_INIT_PNG);
       TTF_Init();
+      Mix_Init(MIX_INIT_MP3);
       window= SDL_CreateWindow( "Sigma_Loop" , SDL_WINDOWPOS_CENTERED , SDL_WINDOWPOS_CENTERED , WIDTH , HEIGHT , SDL_WINDOW_SHOWN);
       renderer = SDL_CreateRenderer( window , -1 , SDL_RENDERER_ACCELERATED );
 }
@@ -82,10 +84,13 @@ int main ( int argc , char* argv[] )
         vector <Enemy> cur_enemies = enemies[0];
         vector <powerup> cur_powerup = powerups[0];
 
+        Music musictrack( "Assets/Audio/Music/around_the_world.mp3" , 60);
+        musictrack.playmusic(-1);
 
       while(!quit) //gameloop
-      {
-        
+      {  
+            
+
             while( SDL_PollEvent(&e) )
             {
                   if( e.type == SDL_QUIT ) quit = true;             
@@ -100,6 +105,7 @@ int main ( int argc , char* argv[] )
                               if(bulletcounter >= 25 )
                              {
                               spawn_bullet(Bullets , player, 0);
+                              player.gunshot_sound.playmusic(1);
                               bulletcounter = 0;
                              }
                          }

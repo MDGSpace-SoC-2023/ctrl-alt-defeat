@@ -100,7 +100,11 @@ int main ( int argc , char* argv[] )
                          
 
                          gkey= getinput(e);  //convert SDL_input to keypress type input
-                        if( !gameisover) player.process_input(gkey);
+                        if( !gameisover){
+                              process_cam_input(gkey, player);
+                              limit_cam(player);
+                              player.process_input(gkey);
+                        }
                          if(gkey == KEY_SPACE){
                               if(bulletcounter >= 25 )
                              {
@@ -111,9 +115,9 @@ int main ( int argc , char* argv[] )
                          }
 
                         
-                        if(!gameisover){
-                              process_cam_input(gkey, player);
-                        }
+                        // if(!gameisover){
+                              
+                        // }
 
                           
                         if(check_collision_for_level(cur_level , player , cur_collider, 0)){
@@ -146,7 +150,7 @@ int main ( int argc , char* argv[] )
                             }
 
             clear_display(); //clear screen to black or level texture
-            limit_cam();
+            
             cur_level.draw_level(renderer);
               //     cur_level.draw_layer(renderer , cur_level.tiles_layer2);
                       
@@ -156,6 +160,7 @@ int main ( int argc , char* argv[] )
              update_powerup( renderer , cur_powerup , player );
 
              player.update_sigma(); // update sigma pos and render sigma to screen
+             //limit_cam(player);
              trigger_font(cur_level, renderer); // trigger font on level change
              check_game_over(player , cur_level_index , gkey , renderer );
 

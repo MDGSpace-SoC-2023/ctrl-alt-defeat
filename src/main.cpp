@@ -8,6 +8,7 @@
 #include "objects.h"
 #include "level.hpp"
 #include "Music.hpp"
+#include "Keyboard_handler.hpp"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
@@ -88,56 +89,48 @@ int main ( int argc , char* argv[] )
         musictrack.playmusic(-1);
 
       while(!quit) //gameloop
-      {  
-            
+      {     
 
             while( SDL_PollEvent(&e) )
             {
-                  if( e.type == SDL_QUIT ) quit = true;             
-                                                                                  
-                  else if ( e.type == SDL_KEYDOWN)
-                  {     
-                         
+                  if( e.type == SDL_QUIT ) quit = true;   
 
-                         gkey= getinput(e);  //convert SDL_input to keypress type input
-                        if( !gameisover){
-                              process_cam_input(gkey, player);
-                              limit_cam(player);
-                              player.process_input(gkey);
+                  else{
+
+                        handle_input(e);
+
+                        if( e.type == SDL_KEYDOWN){
+                                keypress gkey;
+                                gkey = getinput(e);
+                                player.process_input_direction( gkey );
+
+                                    if(gkey == KEY_SPACE){
+
+                                        if(bulletcounter >= 25 )
+                                      {
+                                          spawn_bullet(Bullets , player, 0);
+                                          player.gunshot_sound.playmusic(1);
+                                          bulletcounter = 0;
+                                      }
+                                    }
+
                         }
-                         if(gkey == KEY_SPACE){
-                              if(bulletcounter >= 25 )
-                             {
-                              spawn_bullet(Bullets , player, 0);
-                              player.gunshot_sound.playmusic(1);
-                              bulletcounter = 0;
-                             }
-                         }
-
-                        
-                        // if(!gameisover){
-                              
-                        // }
-
-                          
-                        if(check_collision_for_level(cur_level , player , cur_collider, 0)){
-                              player.reverse_input(gkey);
-                              reverse_cam_input(gkey);
-                        }  
-
-                        else if( player.dashing)
-                        {
-                               if(check_collision_for_level( cur_level , player , cur_collider, 0))
-                               {
-                                     player.dashing = false;
-                                     player.reverse_dash();
-                               }
-                        }
-                        
-    
-                   }
+                  }
             }
+            player.process_input(player);
+            process_cam_input( player );
 
+
+            if(check_collision_for_level(cur_level , player , cur_collider, 0)){
+                              player.reverse_input(gkey,player);
+                              reverse_cam_input(gkey , player);
+                              if( player.dashing){
+                                      player.dashing = false;
+                                      player.reverse_dash();
+                              }
+            }  
+
+            
             level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup, renderer);
       
                  if( player.dashing)

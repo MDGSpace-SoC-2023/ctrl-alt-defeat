@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <vector>
 #include "objects.h"
@@ -571,9 +570,23 @@ vector <int> level_1_collider
  }    
 
 
+
     void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer)
      {
                 
+                if( player.health == 0)
+                {     
+                        levels[0].fontstart = true;
+                        cur = levels[0];
+                        cur_col = colliders[0];
+                        cur_enemy = enemies[0];
+                      
+                        player.rectangle.x = 120;
+                        player.rectangle.y = 230;
+                        index = 0;
+
+
+                }
                 int player_screenx = player.rectangle.x + CAMX;
                 int player_screeny = player.rectangle.y + CAMY;
 
@@ -663,11 +676,9 @@ vector <int> level_1_collider
 
             temp.change( 1598 , 437 , 1598 , 359 ,1);
             level1.push_back(temp);
-   temp.change( 953 , 270  ,  940 , 270 ,3);
+
+            temp.change( 953 , 270  ,  940 , 270 ,3);
             level1.push_back(temp);
-
-             
-
 
            enemies.push_back(level1);       
             

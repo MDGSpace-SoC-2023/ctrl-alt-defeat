@@ -21,6 +21,8 @@ int ECOUNTER = 0;
 int framecount = 0;
 int dashcounter = 0;
 
+bool keystate[10];
+
 
 enum keypress
 {
@@ -239,7 +241,6 @@ class Sigma:public texrect
       { 
         direction=UP;  
         set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
-        set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
 
         health = 10;
@@ -299,7 +300,7 @@ class Sigma:public texrect
       
          void update_sigma() // updating to renderer
        {      
-              int frame = (framecount/3) % 3;
+              int frame = (framecount/6) % 3;
               SDL_Rect src;
               src.w = 32;
               src.h = 32;
@@ -389,28 +390,24 @@ class Sigma:public texrect
               SDL_RenderCopy(renderer , text , &src , &rectangle );
 
        }
-       void process_input( keypress key )
+       void process_input_direction( keypress key )
        {
-           framecount++;
+       //    framecount++;
            switch(key)
            {
              case(KEY_W):                                                        
-                    rectangle.y-=speedy;
                     direction=UP;
              break;
 
              case(KEY_A):
-                    rectangle.x-=speedx;
                     direction=LEFT;
              break;
 
              case(KEY_S):
-                    rectangle.y+=speedy;
                     direction=DOWN;
              break;
 
              case(KEY_D):
-                    rectangle.x+=speedx;
                     direction=RIGHT;
              break;
 
@@ -424,7 +421,59 @@ class Sigma:public texrect
 
              break;
 
-           }            
+           }
+
+       }
+
+       void process_input( Sigma &player){
+           
+           int pressed = 0;
+           
+           switch( player.direction ){
+    
+           case(UP):
+           if( keystate[KEY_W]){
+
+                    rectangle.y -=speedy;
+                    pressed++;
+                    
+           }
+           break;
+
+           case(LEFT):
+           if( keystate[KEY_A]){
+
+                    rectangle.x -=speedx;
+                    pressed++;
+                    
+           }
+           break;
+
+           case(DOWN):
+           if( keystate[KEY_S]){
+
+                    rectangle.y +=speedy;
+                    pressed++;
+                    
+
+           }
+           break;
+
+           case(RIGHT):
+           if( keystate[KEY_D]){
+
+                    rectangle.x +=speedx;
+                    pressed++;                    
+
+           }
+           break;
+
+         }
+
+         if(pressed){
+               framecount++;
+         }
+           
        }
 
        void reverse_dash()
@@ -450,36 +499,51 @@ class Sigma:public texrect
               }
        }
 
-       void reverse_input( keypress key )
+       void reverse_input( keypress key , Sigma &player )
        {
-           switch(key)
-           {
-             case(KEY_W):
-                    rectangle.y+=speedy;
-                    direction=UP;
-             break;
+          switch( player.direction ){
+    
+           case(UP):
+           if( keystate[KEY_W]){
 
-             case(KEY_A):
-                    rectangle.x+=speedx;
-                    direction=LEFT;
-             break;
-
-             case(KEY_S):
-                    rectangle.y-=speedy;
-                    direction=DOWN;
-             break;
-
-             case(KEY_D):
-                    rectangle.x-=speedx;
-                    direction=RIGHT;
-             break;
-                         
+                    rectangle.y +=speedy;
+           //         keystate[KEY_W]=false;
+                    
            }
+           break;
+
+           case(LEFT):
+           if( keystate[KEY_A]){
+
+                    rectangle.x +=speedx;
+          //          keystate[KEY_A]=false;
+                    
+                    
+           }
+           break;
+
+           case(DOWN):
+           if( keystate[KEY_S]){
+
+                    rectangle.y -=speedy;
+          //          keystate[KEY_S]=false;
+                    
+              
+           }
+           break;
+
+           case(RIGHT):
+           if( keystate[KEY_D]){
+
+                    rectangle.x -=speedx;
+           //         keystate[KEY_D]=false;
+                                        
+
+           }
+           break;
+
+         }
        }
-
-  
- 
-
  
 };
 
@@ -664,51 +728,81 @@ void update_enemy(Sigma& player,Enemy& enmy){
 
 }
 
-void process_cam_input(keypress key, Sigma &player){
-    switch(key)
-    {
-        case(KEY_W):
-        CAMY-=2;
-        break;
+void process_cam_input(Sigma &player){
 
-        case(KEY_S):
-        CAMY+=2;
-        break;
+          switch( player.direction ){
 
-        case(KEY_A):
-        CAMX-=2;
-        break;
+           case(UP):
+           if( keystate[KEY_W]){
 
-        case(KEY_D):
-        CAMX+=2;
-        break;
+                    CAMY -=2;
 
-        case(KEY_I):
-        cout << player.rectangle.x + CAMX << " "<<player.rectangle.y + CAMY<<endl;
-        break;
+           }
+           break;
+           case(LEFT):
+           if( keystate[KEY_A]){
 
-    }     
+                    CAMX -=2;
+
+
+           }
+           break;
+           case(DOWN):
+           if( keystate[KEY_S]){
+
+                    CAMY +=2;
+
+           }
+           break;
+           case(RIGHT):
+           if( keystate[KEY_D]){
+
+                    CAMX +=2;
+
+           }
+           break;
+
+          }
+
 }
 
-void reverse_cam_input(keypress key){
-    switch(key)
-    {
-        case(KEY_W):
-        CAMY+=2;
-        break;
+void reverse_cam_input(keypress key , Sigma &player){
+    
+    switch( player.direction ){
 
-        case(KEY_S):
-        CAMY-=2;
-        break;
+           case(UP):
+           if( keystate[KEY_W]){
 
-        case(KEY_A):
-        CAMX+=2;
-        break;
+                    CAMY +=2;
 
-        case(KEY_D):
-        CAMX-=2;
-        break;
-    }  
+           }
+           break;
+
+           case(LEFT):
+           if( keystate[KEY_A]){
+
+                    CAMX +=2;
+
+           }
+           break;
+
+           case(DOWN):
+           if( keystate[KEY_S]){
+
+                    CAMY -=2;
+
+           }
+           break;
+           
+           case(RIGHT):
+           if( keystate[KEY_D]){
+
+                    CAMX -=2;
+
+           }
+           break;
+
+          }
 }
 
 void limit_cam(Sigma& player){

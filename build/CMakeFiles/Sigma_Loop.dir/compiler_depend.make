@@ -357,14 +357,12 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/bits/stl_vector.h \
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
+  ../src/Music.hpp \
   ../src/level.hpp \
-  ../src/sound.hpp \
-  ../src/Music.hpp
+  ../src/Keyboard_handler.hpp
 
 
 /usr/include/c++/11/bits/stl_uninitialized.h:
-
-../src/sound.hpp:
 
 /usr/include/c++/11/vector:
 
@@ -437,6 +435,8 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/lib/gcc/x86_64-linux-gnu/11/include/shaintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectvlintrin.h:
+
+../src/Keyboard_handler.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectintrin.h:
 

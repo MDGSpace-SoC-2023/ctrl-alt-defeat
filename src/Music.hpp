@@ -69,6 +69,46 @@ class Music{
 
 };
 
+class Sound{
 
+    public:
+
+    Mix_Chunk* sound = NULL;
+    int volume;
+
+    Sound(){
+        volume = 0;
+    }
+
+    ~Sound(){
+        Mix_FreeChunk( sound );
+    }
+    
+    void Load_Sound( string path , int vol ){
+
+         if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1)
+            {
+                        cout << "Error loading audio"<<endl;
+            }
+
+       sound = Mix_LoadWAV( path.c_str() );
+       volume = vol;
+       Mix_VolumeChunk( sound , volume );  
+          
+    }
+
+    void set_sound_volume( int vol){
+         volume = vol;
+         Mix_VolumeChunk( sound , volume );
+    }
+
+    void Play_sound( int loopcount ){
+   
+           Mix_PlayChannel(-1 , sound , loopcount );
+
+    }
+
+
+};
 
 #endif

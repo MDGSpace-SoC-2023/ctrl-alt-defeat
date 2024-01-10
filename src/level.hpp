@@ -587,8 +587,8 @@ vector <int> level_1_collider
 
 
                 }
-                int player_screenx = player.rectangle.x + CAMX;
-                int player_screeny = player.rectangle.y + CAMY;
+                int player_screenx = player.rectangle.x ;
+                int player_screeny = player.rectangle.y ;
 
                 //cout << index << endl;
 
@@ -609,8 +609,9 @@ vector <int> level_1_collider
 
                 case 0:
 
-                if( player_screenx <400 && player_screenx>377 && player_screeny == 354)
+                if( player_screenx <480 && player_screenx>460 && player_screeny == 384)
                 {
+                     eBullets.clear();
                      levels[1].fontstart = true;
                      cur = levels[1];
                      cur_col = colliders[1];

@@ -109,7 +109,7 @@ int main ( int argc , char* argv[] )
                                         if(bulletcounter >= 25 )
                                       {
                                           spawn_bullet(Bullets , player, 0);
-                                          player.gunshot_sound.playmusic(1);
+                                          player.gunshot_sound.Play_sound(0);
                                           bulletcounter = 0;
                                       }
                                     }

@@ -232,9 +232,9 @@ class Sigma:public texrect
       SDL_Texture* gameover_text1 =NULL;
       SDL_Texture* gameover_text2 =NULL;
 
-      Music gunshot_sound;
-      Music damage_taken_sound;
-      Music Game_over_sound;
+      Sound gunshot_sound;
+      Sound damage_taken_sound;
+      Sound Game_over_sound;
 
 
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
@@ -261,7 +261,7 @@ class Sigma:public texrect
        SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {255,255,51});
        gameover_text2 = SDL_CreateTextureFromSurface( renderer , temp2 );
 
-       gunshot_sound.Load_Music("Assets/Audio/Music/blaster.mp3" , 50);
+       gunshot_sound.Load_Sound("Assets/Audio/Music/blaster.wav" , 20);
 
       }     
 
@@ -307,63 +307,81 @@ class Sigma:public texrect
 
               switch(direction)
               {
+
                  case(DOWN):
                  src.x = frame * 32;
                  src.y = 0;
                  break;
+
                  case(RIGHT):
                  src.x = frame * 32;
                  src.y = 32;
                  break;
+
                  case(LEFT):
                  src.x = frame * 32;
                  src.y = 64;
                  break;
+
                  case(UP):
                  src.x = frame * 32;
                  src.y = 96;
                  break;
+
               }
 
             if(dashing)
             {
+
               switch(direction)
               {
                  case(DOWN):
+
                  rectangle.y += 2;
                  CAMY += 4;
-                 if(CAMY>960){
-                     int gap = CAMY-960;
-                     CAMY = 960;
-                     rectangle.y += gap;
-                 }
+
+                   if(CAMY>960)
+                   {
+                       int gap = CAMY-960;
+                       CAMY = 960;
+                       rectangle.y += gap;
+                   }
                  break;
+
                  case(RIGHT):
                  rectangle.x += 2;
                  CAMX += 4;
-                 if(CAMX>1024){
-                     int gap = CAMX-1024;
-                     CAMX = 1024;
-                     rectangle.x += gap;
-                 }
+
+                   if(CAMX>1024)
+                   {
+                       int gap = CAMX-1024;
+                       CAMX = 1024;
+                       rectangle.x += gap;
+                   }
                  break;
+
                  case(LEFT):
                  rectangle.x -= 2;
                  CAMX -= 4;
-                 if(CAMX<0){
-                     int gap = -CAMX;
-                     CAMX = 0;
-                     rectangle.x -= gap;
-                 }
+
+                   if(CAMX<0)
+                   {
+                       int gap = -CAMX;
+                       CAMX = 0;
+                       rectangle.x -= gap;
+                   }
                  break;
+
                  case(UP):
                  rectangle.y -= 2;
                  CAMY -= 4;
-                 if(CAMY<0){
-                     int gap = -CAMY;
-                     CAMY = 0;
-                     rectangle.y -= gap;
-                 }
+
+                   if(CAMY<0)
+                   {
+                       int gap = -CAMY;
+                       CAMY = 0;
+                       rectangle.y -= gap;
+                   }
                  break;
               } 
               
@@ -420,6 +438,10 @@ class Sigma:public texrect
                    }
 
              break;
+
+             case( KEY_I):
+                  
+                  cout << rectangle.x << " "<< rectangle.y<<endl;
 
            }
 
@@ -910,11 +932,12 @@ class powerup:public texrect{
                   powerup_started = true;
                   break;
 
-              //     case( SPEED_INCREASE ):
+                  case( SPEED_INCREASE ):
 
-              //     player.speed*=4;
-              //     powerup_started = true;
-              //     break;
+                  player.speedx*=4;
+                  player.speedy*=4;
+                  powerup_started = true;
+                  break;
 
                   case ( BULLET_DAMAGE_INCREASE):
 

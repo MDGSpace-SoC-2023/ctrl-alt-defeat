@@ -84,9 +84,7 @@ int main ( int argc , char* argv[] )
         int cur_level_index = 0;
         vector <Enemy> cur_enemies = enemies[0];
         vector <powerup> cur_powerup = powerups[0];
-
-        Music musictrack( "Assets/Audio/Music/around_the_world.mp3" , 60);
-        musictrack.playmusic(-1);
+        Music cur_track = cur_level.level_bgm;
 
       while(!quit) //gameloop
       {     
@@ -117,6 +115,11 @@ int main ( int argc , char* argv[] )
                         }
                   }
             }
+
+            if( !cur_track.isplaying() ){
+                    cur_track.playmusic(-1);
+            }
+
             player.process_input(player);
             process_cam_input( player );
 
@@ -131,7 +134,7 @@ int main ( int argc , char* argv[] )
             }  
 
             
-            level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup, renderer);
+            level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup, renderer , cur_track);
       
                  if( player.dashing)
                             {

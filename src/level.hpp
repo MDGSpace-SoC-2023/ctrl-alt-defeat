@@ -195,6 +195,7 @@ void load_main_menu( SDL_Renderer* renderer , level &main_menu )
      SDL_Surface* temp = TTF_RenderText_Solid( main_menu.levelfont , "Game Started" , {255,255,51});
      main_menu.font = SDL_CreateTextureFromSurface(renderer, temp);
 
+     main_menu.level_bgm.Load_Music( "Assets/Audio/Music/around_the_world_mp3" , 40 );
 
      main_menu.set_level_dimensions( 30 , 32 , 133 , 8 );
      
@@ -400,6 +401,8 @@ void load_level_1( SDL_Renderer* renderer , level &level_1 )
      
      level_1.set_tileset("Assets/Level_1_Mining_Cave/Level1_tileset.png" , renderer); 
 
+     level_1.level_bgm.Load_Music( "Assets/Audio/Music/bad_romance.mp3" , 40 );
+
      vector <int> layer_1_values;
      vector <int> layer_2_values;
      vector <int> layer_3_values;
@@ -571,22 +574,23 @@ vector <int> level_1_collider
 
 
 
-    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer)
+    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer , Music &cur_track)
      {
                 
-                if( player.health == 0)
-                {     
-                        levels[0].fontstart = true;
-                        cur = levels[0];
-                        cur_col = colliders[0];
-                        cur_enemy = enemies[0];
+               //  if( player.health == 0)
+               //  {     
+               //          levels[0].fontstart = true;
+               //          cur = levels[0];
+               //          cur_col = colliders[0];
+               //          cur_enemy = enemies[0];
+               //          cur_track = levels[0].level_bgm;
                       
-                        player.rectangle.x = 120;
-                        player.rectangle.y = 230;
-                        index = 0;
+               //          player.rectangle.x = 120;
+               //          player.rectangle.y = 230;
+               //          index = 0;
 
 
-                }
+               //  }
                 int player_screenx = player.rectangle.x ;
                 int player_screeny = player.rectangle.y ;
 
@@ -604,6 +608,7 @@ vector <int> level_1_collider
                 cur_col = colliders[0];
                 cur_enemy = enemies[0];
                 cur_powerup = powerups[0];
+                cur_track = levels[0].level_bgm;
 
                 break;
 
@@ -611,16 +616,18 @@ vector <int> level_1_collider
 
                 if( player_screenx <480 && player_screenx>460 && player_screeny == 384)
                 {
-                     eBullets.clear();
+                    
                      levels[1].fontstart = true;
                      cur = levels[1];
                      cur_col = colliders[1];
                      cur_enemy = enemies[1];
                      cur_powerup = powerups[1]; 
+                     cur_track = levels[1].level_bgm;
 
                      player.rectangle.x = 120 - CAMX;
                      player.rectangle.y = 230 - CAMY;
                      index = 1;
+                     eBullets.clear();
                      
                 }   
                 break;    
@@ -716,6 +723,9 @@ vector <int> level_1_collider
                   temp.spawn_powerup( 1592 , 690 , BULLET_DAMAGE_INCREASE);
                   level1.push_back( temp );
 
+                  temp.spawn_powerup( 600 , 1200 , CHIPI_CHIPI_CHAPA_CHAPA);
+                  level1.push_back( temp );
+
                   powerups.push_back(level1); 
 
      }
@@ -753,7 +763,7 @@ vector <int> level_1_collider
                
                      if(check_collision_for_level( cur_level , eBullets[i] , cur_collider , 1))
                      {
-                                 eBullets.erase(eBullets.begin() + i); 
+                              eBullets.erase(eBullets.begin() + i); 
                      }
                     
               }
@@ -840,10 +850,12 @@ vector <int> level_1_collider
 
                     if( gkey == KEY_ENTER )
                     {
+
                          cur_level_index = -1;
                          player.health = 10;
                          player.stamina = 10;
                          gameisover = false;
+
                     }
 
                }

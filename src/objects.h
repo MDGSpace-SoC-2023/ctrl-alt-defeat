@@ -173,9 +173,9 @@ class texrect {
        }
        
        void update() // updating to renderer
-        {      
-           srectangle.x = rectangle.x - CAMX;
-           srectangle.y = rectangle.y - CAMY;   
+       {      
+              srectangle.x = rectangle.x - CAMX;
+              srectangle.y = rectangle.y - CAMY;   
               SDL_RenderCopy(renderer , text , NULL , &srectangle );
        }
        
@@ -603,19 +603,19 @@ class projectile:public texrect
               switch( player.direction ){
                 
               case(UP):
-                     vely= -4;
+                     vely= -5;
                      velx=0;
                      break;
               case(DOWN):
-                     vely= 4;
+                     vely= 5;
                      velx=0;
                      break;
               case(LEFT):
-                     velx= -4;
+                     velx= -5;
                      vely=0;
                      break;
               case(RIGHT):
-                     velx= 4;
+                     velx= 5;
                      vely=0;
                      break;
               } 
@@ -853,6 +853,7 @@ enum Effect{
         HEALTH_INCREASE,
         SPEED_INCREASE,
         BULLET_DAMAGE_INCREASE,
+        CHIPI_CHIPI_CHAPA_CHAPA,
 
 };
 
@@ -861,12 +862,12 @@ int active_powerups=0;
 class powerup:public texrect{
 
        public:
-       Effect powerup_effect;
-       int powerup_counter ;
-       bool powerup_started ;   
+       Effect powerup_effect   ;
+       int powerup_counter     ;
+       bool powerup_started    ;   
        SDL_Texture* icon = NULL;
-       
 
+       Music chipi_chipi;
        powerup( SDL_Renderer* ren , SDL_Window* win){
                
                rectangle.x = 0;
@@ -916,6 +917,12 @@ class powerup:public texrect{
                loadicon( "Assets/bullet_icon.png");
                break;
 
+               case CHIPI_CHIPI_CHAPA_CHAPA:
+
+               powerup_effect = CHIPI_CHIPI_CHAPA_CHAPA;
+               chipi_chipi.Load_Music("Assets/Audio/Music/chipi_chipi.mp3" , 50);
+               loadtexture("Assets/cool.png");
+
               }
        }
 
@@ -944,6 +951,13 @@ class powerup:public texrect{
                   player.bullet_damage*=3;
                   powerup_started = true;
                   break;
+
+                  case ( CHIPI_CHIPI_CHAPA_CHAPA ):
+
+                  chipi_chipi.playmusic(0);
+                  powerup_started = true;
+                  break;
+
 
               }
 
@@ -1005,7 +1019,7 @@ class powerup:public texrect{
 
                                          current_powerup.powerup_counter++;
 
-                                         if( current_powerup.powerup_counter >= 300 ){
+                                         if( current_powerup.powerup_counter >= 360 ){
  
                                                  player.speedx = player.speedy = 1;
                                                  player.bullet_damage = 1;

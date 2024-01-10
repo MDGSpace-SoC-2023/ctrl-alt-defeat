@@ -44,8 +44,13 @@ class Music{
     }
  
     ~Music(){
-        Mix_FreeMusic( music );
+   //     Mix_FreeMusic( music );
     }   
+    
+    bool isplaying(){
+           if( Mix_PlayingMusic())return true;
+           else return false;
+    }
 
     void playmusic( int loopcount ){  //set loopcount to -1 to play music forever
   

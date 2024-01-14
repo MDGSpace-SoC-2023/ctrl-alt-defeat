@@ -3,7 +3,6 @@
 
 #include "objects.h"
 
-
     void handle_input( SDL_Event &e){
 
             keypress key;

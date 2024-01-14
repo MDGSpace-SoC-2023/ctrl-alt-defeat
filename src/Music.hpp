@@ -70,8 +70,6 @@ class Music{
 
     }
 
-
-
 };
 
 class Sound{

@@ -9,6 +9,7 @@
 #include <vector>
 #include "objects.h"
 #include "Music.hpp"
+#include "Particle_effects.hpp"
 
 using namespace std;
 
@@ -168,6 +169,8 @@ class level
                      tileset.push_back( temp_tile );
               }     
           }
+
+          SDL_FreeSurface( tile_surface );
      }
      
      
@@ -195,7 +198,7 @@ void load_main_menu( SDL_Renderer* renderer , level &main_menu )
      SDL_Surface* temp = TTF_RenderText_Solid( main_menu.levelfont , "Game Started" , {255,255,51});
      main_menu.font = SDL_CreateTextureFromSurface(renderer, temp);
 
-     main_menu.level_bgm.Load_Music( "Assets/Audio/Music/around_the_world_mp3" , 40 );
+     main_menu.level_bgm.Load_Music( "Assets/Audio/Music/around_the_world.mp3" , 40 );
 
      main_menu.set_level_dimensions( 30 , 32 , 133 , 8 );
      
@@ -562,14 +565,7 @@ vector <int> level_1_collider
             int rows = cy/64;
             ind = column + rows*cur_level.columns;            
 
-            if( collider[ind] != 0 )
-            {
-                return true;
-            } 
-            else 
-            {
-               return false;
-            }
+               return (bool)collider[ind];
  }    
 
 
@@ -622,6 +618,7 @@ vector <int> level_1_collider
                      cur_col = colliders[1];
                      cur_enemy = enemies[1];
                      cur_powerup = powerups[1]; 
+                     cur_track.stopmusic();
                      cur_track = levels[1].level_bgm;
 
                      player.rectangle.x = 120 - CAMX;
@@ -650,10 +647,10 @@ vector <int> level_1_collider
            level1.push_back( temp );
 
            temp.change( 953 , 460 , 1025 , 460 ,1 );
-             level1.push_back(temp);
+            level1.push_back(temp);
 
-             temp.change( 941 , 1080 , 1025 , 1080 ,2);
-             level1.push_back(temp);
+           temp.change( 941 , 1080 , 1025 , 1080 ,2);
+            level1.push_back(temp);
 
             temp.change( 1154 , 1141 , 1082 , 1141 ,1);
             level1.push_back(temp);
@@ -770,7 +767,7 @@ vector <int> level_1_collider
        }    
 
  
-       void trigger_font( level &cur_level , SDL_Renderer* renderer)
+       void trigger_font( level &cur_level , SDL_Renderer* renderer )
        {
              
               if(cur_level.fontstart && textcounter<300){
@@ -794,7 +791,7 @@ vector <int> level_1_collider
 
        }
 
-          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level ){
+          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player ){
 
               update_enemy_bullets( cur_level , cur_collider);
 
@@ -806,10 +803,13 @@ vector <int> level_1_collider
                      }
 
                      for ( int j = 0 ; j < cur_enemies.size() ; ++j){
-
+ 
                                  if( iscolliding( Bullets[i] , cur_enemies[j] )){
 
-                                        cur_enemies[j].ehealth--;
+                                        cur_enemies[j].ehealth-= player.bullet_damage;
+                                        if( !cur_enemies[j].ehealth ){
+                                               trigger_animation( enemy_dead_animation , cur_enemies[j].rectangle.x , cur_enemies[j].rectangle.y , 64 , 39 );  
+                                        }
                                         Bullets.erase( Bullets.begin() + i);
                                         break;
               
@@ -855,6 +855,7 @@ vector <int> level_1_collider
                          player.health = 10;
                          player.stamina = 10;
                          gameisover = false;
+                         eBullets.clear();
 
                     }
 

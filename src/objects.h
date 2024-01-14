@@ -227,6 +227,7 @@ class Sigma:public texrect
       int bullet_damage = 1;
       int stamina;
 
+
       SDL_Texture* heart=NULL;
       SDL_Texture* stamina_text = NULL;
       SDL_Texture* gameover_text1 =NULL;
@@ -757,14 +758,14 @@ void process_cam_input(Sigma &player){
            case(UP):
            if( keystate[KEY_W]){
 
-                    CAMY -=2;
+                    CAMY -= 2*player.speedy;
 
            }
            break;
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    CAMX -=2;
+                    CAMX -= 2*player.speedx;
 
 
            }
@@ -772,14 +773,14 @@ void process_cam_input(Sigma &player){
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    CAMY +=2;
+                    CAMY +=2*player.speedy;
 
            }
            break;
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    CAMX +=2;
+                    CAMX +=2*player.speedx;
 
            }
            break;
@@ -941,8 +942,9 @@ class powerup:public texrect{
 
                   case( SPEED_INCREASE ):
 
-                  player.speedx*=4;
-                  player.speedy*=4;
+                  player.speedx*=2;
+                  player.speedy*=2;
+                  
                   powerup_started = true;
                   break;
 

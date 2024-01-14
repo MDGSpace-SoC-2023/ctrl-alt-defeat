@@ -10,6 +10,7 @@
 #include "Music.hpp"
 #include "Keyboard_handler.hpp"
 
+
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
 SDL_Renderer* present = SDL_CreateRenderer( window , -1 , 0);
@@ -63,12 +64,14 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         
         load_enemies(enemies , renderer , window );
         load_powerups( powerups , renderer , window  );
+        load_animations( renderer);
 }
 
 
 int main ( int argc , char* argv[] )
 {
-      init();
+      
+        init();
         
         bool quit=false;
         SDL_Event e;
@@ -77,7 +80,7 @@ int main ( int argc , char* argv[] )
         Sigma player( renderer , window );
         
         load_levels( levels , colliders , enemies , powerups );
-
+        load_animations( renderer);
         
         level cur_level = levels[0];
         vector <int> cur_collider = colliders[0];
@@ -87,7 +90,7 @@ int main ( int argc , char* argv[] )
         Music cur_track = cur_level.level_bgm;
 
       while(!quit) //gameloop
-      {     
+      {      
 
             while( SDL_PollEvent(&e) )
             {
@@ -96,9 +99,9 @@ int main ( int argc , char* argv[] )
                   else{
 
                         handle_input(e);
+                        
 
                         if( e.type == SDL_KEYDOWN){
-                                keypress gkey;
                                 gkey = getinput(e);
                                 player.process_input_direction( gkey );
 
@@ -115,14 +118,16 @@ int main ( int argc , char* argv[] )
                         }
                   }
             }
-
+            
             if( !cur_track.isplaying() ){
                     cur_track.playmusic(-1);
             }
-
+            
+            if( !gameisover )
+            {
             player.process_input(player);
             process_cam_input( player );
-
+            }
 
             if(check_collision_for_level(cur_level , player , cur_collider, 0)){
                               player.reverse_input(gkey,player);
@@ -152,8 +157,9 @@ int main ( int argc , char* argv[] )
                       
 
              update_enemies( cur_enemies , player );
-             update_bullets( cur_enemies , cur_collider , cur_level);
+             update_bullets( cur_enemies , cur_collider , cur_level , player );
              update_powerup( renderer , cur_powerup , player );
+             update_animations( renderer);
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              //limit_cam(player);

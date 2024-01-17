@@ -58,15 +58,25 @@ class Music{
 
     }
 
+    void fadein_music ( int loopcount , int miliseconds ){
+         
+      Mix_FadeInMusic( music , loopcount , 2000);
+
+
+    }
+
     void pausemusic(){
 
         Mix_PauseMusic();
 
     }
     
-    void stopmusic(){
+    void fadeout_music(){
 
-
+            while(!Mix_FadeOutMusic(2000) && Mix_PlayingMusic()) {
+             // wait for any fades to complete
+            SDL_Delay(100);
+            }
 
     }
 

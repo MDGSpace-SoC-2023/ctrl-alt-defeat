@@ -59,8 +59,14 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         levels.push_back(temp2);
         temp2.destory_level();
 
+        level temp3;
+        load_level_2( renderer , temp3);
+        levels.push_back(temp3);
+        temp3.destory_level();
+
         colliders.push_back(main_menu_collider);
         colliders.push_back(level_1_collider);
+        colliders.push_back(level_2_collider);
         
         load_enemies(enemies , renderer , window );
         load_powerups( powerups , renderer , window  );
@@ -120,7 +126,7 @@ int main ( int argc , char* argv[] )
             }
             
             if( !cur_track.isplaying() ){
-                    cur_track.playmusic(-1);
+                    cur_track.fadein_music(-1 , 2000);
             }
             
             if( !gameisover )

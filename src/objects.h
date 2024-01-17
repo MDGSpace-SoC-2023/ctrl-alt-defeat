@@ -241,7 +241,9 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-        set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
+       //  set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
+               set_dimension( 512 , 800 , 64 , 64 , 1 , rend , wind );
+
         loadtexture("Assets/chibi_tileset.png");
 
         health = 10;
@@ -796,7 +798,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(UP):
            if( keystate[KEY_W]){
 
-                    CAMY +=2;
+                    CAMY +=2*player.speedy;
 
            }
            break;
@@ -804,7 +806,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    CAMX +=2;
+                    CAMX +=2*player.speedx;
 
            }
            break;
@@ -812,7 +814,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    CAMY -=2;
+                    CAMY -=2*player.speedy;
 
            }
            break;
@@ -820,7 +822,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    CAMX -=2;
+                    CAMX -=2*player.speedx;
 
            }
            break;

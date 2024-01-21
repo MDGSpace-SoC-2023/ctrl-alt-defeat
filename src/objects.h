@@ -442,9 +442,9 @@ class Sigma:public texrect
 
              break;
 
-             case( KEY_I):
+            // case( KEY_I):
                   
-                  cout << rectangle.x << " "<< rectangle.y<<endl;
+          //        cout << rectangle.x << " "<< rectangle.y<<endl;
 
            }
 

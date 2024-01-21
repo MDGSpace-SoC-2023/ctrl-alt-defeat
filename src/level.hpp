@@ -60,17 +60,23 @@ class tile
           tiletext = text;
     }
      
-    void rendertile ( SDL_Renderer* renderer )
+    void rendertile ( SDL_Renderer* renderer , int level_index )
     {
          screen_x = x - CAMX;
          screen_y = y - CAMY;
 
          SDL_Rect src;
          src.x=sx;
-         src.y=sy;
+         src.y=sy; 
+         if( level_index == 2){
+         src.w=16;
+         src.h=16;            
+         }
+         else {
          src.w=32;
          src.h=32;
-         
+         }
+
          SDL_Rect dest;
          dest.x=screen_x;
          dest.y=screen_y;
@@ -174,21 +180,28 @@ class level
      }
      
      
-    void draw_layer( SDL_Renderer* ren  , vector <tile> layer )
+    void draw_layer( SDL_Renderer* ren  , vector <tile> layer  , int level_index)
     {
     for ( auto& tile : layer ) 
     {
-        tile.rendertile(ren);
+        tile.rendertile(ren , level_index);
     }
     }
     
-    void draw_level( SDL_Renderer* ren)
+    void draw_level( SDL_Renderer* ren , int level_index)
     {
-        draw_layer( ren , tiles_layer1);
-        draw_layer( ren , tiles_layer2);
-        draw_layer( ren , tiles_layer3);
+        draw_layer( ren , tiles_layer1 ,level_index);
+        draw_layer( ren , tiles_layer2 ,level_index);
+        draw_layer( ren , tiles_layer3 ,level_index);
     }
     
+    void draw_tileset( SDL_Renderer* renderer ){
+      
+                               tile &temp = tileset[0];              
+                               SDL_RenderCopy( renderer , temp.tiletext  , NULL , NULL);        
+      
+       
+    }
 };
 
 
@@ -549,10 +562,9 @@ void load_level_2( SDL_Renderer* renderer , level &level_2 )
      level_2.levelfont = TTF_OpenFont( "Assets/8bit_font.ttf" , 32);
      SDL_Surface* temp = TTF_RenderText_Solid( level_2.levelfont , "Level 2" , {255,255,51});
      level_2.font = SDL_CreateTextureFromSurface(renderer, temp);
-     level_2.tile_height = 16;
-     level_2.tile_width = 16;
-     level_2.set_level_dimensions( 60 , 64 , 36 , 64 );
-     
+     level_2.tile_height = 16 ;
+     level_2.tile_width = 16 ;
+     level_2.set_level_dimensions( 60 , 64 , 40 , 64 ); 
      level_2.set_tileset("Assets/Level_2/tileset.png" , renderer); 
 
      level_2.level_bgm.Load_Music( "Assets/Audio/Music/bad_romance.mp3" , 40 );
@@ -685,8 +697,7 @@ void load_level_2( SDL_Renderer* renderer , level &level_2 )
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-};
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   layer_3_values = {
 1197,265,266,264,264,264,264,264,264,264,264,264,264,265,266,264,264,264,264,1190,1130,1197,264,264,264,265,266,267,264,264,264,264,264,264,264,264,264,264,264,264,264,264,1190,1130,1197,264,264,264,264,264,264,264,264,264,264,264,264,264,264,264,264,265,266,1190,
@@ -791,9 +802,8 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
         temp_tile.copytile( level_2.tileset[indx-1] );
         temp_tile.x = i%level_2.columns * temp_tile.width;
         temp_tile.y = i/(level_2.columns) * temp_tile.height;
-        temp_tile.isobstacle=true;
 
-        level_2.tiles_layer2.push_back( temp_tile );
+        level_2.tiles_layer3.push_back( temp_tile );
         }
 }
 }
@@ -859,8 +869,7 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
 1197,265,266,264,264,264,264,264,264,264,264,264,264,265,266,264,264,264,264,1190,1130,1197,264,264,264,265,266,267,264,264,264,264,264,264,264,264,264,264,264,264,264,264,1190,1130,1197,264,264,264,264,264,264,264,264,264,264,264,264,264,264,264,264,265,266,1190,
 1130,1196,266,264,264,264,264,264,264,264,264,264,264,265,266,264,264,264,1191,1130,1129,1130,1196,264,264,265,266,267,264,264,264,264,264,264,264,264,264,264,264,264,264,1191,1130,1129,1130,1196,264,264,264,264,264,264,264,264,264,264,264,264,264,264,264,265,1191,1130,
 1261,329,330,328,328,328,328,328,328,328,328,328,328,329,330,328,328,328,328,1254,1130,1261,328,328,328,329,330,331,328,328,328,328,328,328,328,328,328,328,328,328,328,328,1254,1130,1261,328,328,328,328,328,328,328,328,328,328,328,328,328,328,328,328,329,330,1254
-
- };
+};
 
  bool level_changing = false;
  bool check_collision_for_level( level cur_level , texrect entity , vector <int> collider , int code )          
@@ -876,7 +885,7 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
             }
             else{
 
-                   cx = entity.rectangle.x+(entity.rectangle.w/2)+CAMX;
+                   cx = entity.rectangle.x + (entity.rectangle.w/2)+CAMX;
                    cy = entity.rectangle.y + (entity.rectangle.h/2)+CAMY;
 
 
@@ -892,12 +901,13 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
 
                }
                else{
+                  //   cout << ind << " " <<collider[ind]<< endl;
                      return collider[ind];
                }
  }    
 
     void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer , Music &cur_track)
-     {
+    {
                 
 
                 switch( index )

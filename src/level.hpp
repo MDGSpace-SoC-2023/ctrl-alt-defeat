@@ -1066,6 +1066,7 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
               if( isplayercolliding(eBullets[i],player) ){
                      eBullets.erase(eBullets.begin()+i);
                      player.health--;
+                     player.damage_taken_sound.Play_sound(0);
               }
        }
 

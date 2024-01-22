@@ -242,7 +242,7 @@ class Sigma:public texrect
       { 
         direction=UP;  
        //  set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
-               set_dimension( 512 , 800 , 64 , 64 , 1 , rend , wind );
+               set_dimension( 512 , 480 , 64 , 64 , 0 , rend , wind );
 
         loadtexture("Assets/chibi_tileset.png");
 
@@ -264,7 +264,8 @@ class Sigma:public texrect
        SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {255,255,51});
        gameover_text2 = SDL_CreateTextureFromSurface( renderer , temp2 );
 
-       gunshot_sound.Load_Sound("Assets/Audio/Music/blaster.wav" , 20);
+       gunshot_sound.Load_Sound("/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/player_shoot.wav" , 40);
+       damage_taken_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/damage_taken.wav" , 100);
 
       }     
 
@@ -760,14 +761,14 @@ void process_cam_input(Sigma &player){
            case(UP):
            if( keystate[KEY_W]){
 
-                    CAMY -= 2*player.speedy;
+                    CAMY -= 4;
 
            }
            break;
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    CAMX -= 2*player.speedx;
+                    CAMX -= 4;
 
 
            }
@@ -775,14 +776,14 @@ void process_cam_input(Sigma &player){
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    CAMY +=2*player.speedy;
+                    CAMY +=4;
 
            }
            break;
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    CAMX +=2*player.speedx;
+                    CAMX +=4;
 
            }
            break;
@@ -798,7 +799,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(UP):
            if( keystate[KEY_W]){
 
-                    CAMY +=2*player.speedy;
+                    CAMY +=4;
 
            }
            break;
@@ -806,7 +807,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    CAMX +=2*player.speedx;
+                    CAMX +=4;
 
            }
            break;
@@ -814,7 +815,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    CAMY -=2*player.speedy;
+                    CAMY -=4;
 
            }
            break;
@@ -822,7 +823,7 @@ void reverse_cam_input(keypress key , Sigma &player){
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    CAMX -=2*player.speedx;
+                    CAMX -=4;
 
            }
            break;

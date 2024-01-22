@@ -119,6 +119,7 @@ int main ( int argc , char* argv[] )
                                           player.gunshot_sound.Play_sound(0);
                                           bulletcounter = 0;
                                       }
+
                                     }
 
                         }
@@ -159,23 +160,17 @@ int main ( int argc , char* argv[] )
             clear_display(); //clear screen to black or level texture
             
             cur_level.draw_level(renderer ,cur_level_index);
-            cout << cur_level_index << endl;
           //    cur_level.draw_layer(renderer , cur_level.tiles_layer3 , cur_level_index);
 
 
 
 
-      //     // temp code 
-      //     if( gkey == KEY_I){
-      //              int cx = player.rectangle.x + (player.rectangle.w/2)+CAMX;
-      //              int cy = player.rectangle.y + (player.rectangle.h/2)+CAMY;
-      //              int column = cx/64 ;
-      //              int rows = cy/64;
-      //              int ind = column + rows*cur_level.columns;           
+          // temp code 
+          if( gkey == KEY_I){
 
-      //              cout << ind << " " << cur_collider[ind] << endl; 
+                   cout << player.rectangle.x << " " << player.rectangle.y << endl; 
                 
-      //     }
+          }
 
                       
 

@@ -98,7 +98,7 @@ class texrect {
        SDL_Texture* text;
        SDL_Renderer* renderer;
        SDL_Window* window;
-       int speedx,speedy;
+       float speedx,speedy;
        playerdirn direction;
        bool collision=false;
        SDL_Rect srectangle;
@@ -241,9 +241,7 @@ class Sigma:public texrect
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
       { 
         direction=UP;  
-       //  set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
-               set_dimension( 512 , 480 , 64 , 64 , 0 , rend , wind );
-
+        set_dimension( 512 , 480 , 64 , 64 , 1 , rend , wind );
         loadtexture("Assets/chibi_tileset.png");
 
         health = 10;
@@ -755,7 +753,7 @@ void update_enemy(Sigma& player,Enemy& enmy){
 }
 
 void process_cam_input(Sigma &player){
-
+       
           switch( player.direction ){
 
            case(UP):
@@ -787,48 +785,48 @@ void process_cam_input(Sigma &player){
 
            }
            break;
-
           }
 
 }
 
 void reverse_cam_input(keypress key , Sigma &player){
-    
-    switch( player.direction ){
 
-           case(UP):
-           if( keystate[KEY_W]){
+       switch( player.direction ){
 
-                    CAMY +=4;
+              case(UP):
+              if( keystate[KEY_W]){
 
-           }
-           break;
+                     CAMY +=4;
 
-           case(LEFT):
-           if( keystate[KEY_A]){
+              }
+              break;
 
-                    CAMX +=4;
+              case(LEFT):
+              if( keystate[KEY_A]){
 
-           }
-           break;
+                     CAMX +=4;
 
-           case(DOWN):
-           if( keystate[KEY_S]){
+              }
+              break;
 
-                    CAMY -=4;
+              case(DOWN):
+              if( keystate[KEY_S]){
 
-           }
-           break;
-           
-           case(RIGHT):
-           if( keystate[KEY_D]){
+                     CAMY -=4;
 
-                    CAMX -=4;
+              }
+              break;
+              
+              case(RIGHT):
+              if( keystate[KEY_D]){
 
-           }
-           break;
+                     CAMX -=4;
 
-          }
+              }
+              break;
+
+       
+       }
 }
 
 void limit_cam(Sigma& player){

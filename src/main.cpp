@@ -10,7 +10,6 @@
 #include "Music.hpp"
 #include "Keyboard_handler.hpp"
 
-
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
 SDL_Renderer* present = SDL_CreateRenderer( window , -1 , 0);
@@ -20,6 +19,7 @@ vector <level> levels;
 vector < vector <int> > colliders;
 vector < vector <Enemy>> enemies; 
 vector < vector <powerup> > powerups;
+vector < miniboss > minibosses;
 
 
 void init()
@@ -71,6 +71,7 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         load_enemies(enemies , renderer , window );
         load_powerups( powerups , renderer , window  );
         load_animations( renderer);
+        load_minibosses( minibosses , renderer);
 }
 
 
@@ -127,7 +128,7 @@ int main ( int argc , char* argv[] )
             }
             
             if( !cur_track.isplaying() ){
-                    cur_track.fadein_music(-1 , 2000);
+                  //  cur_track.fadein_music(-1 , 2000);
             }
             
             if( !gameisover )
@@ -167,8 +168,13 @@ int main ( int argc , char* argv[] )
 
           // temp code 
           if( gkey == KEY_I){
+              
+                   int x1 =(player.rectangle.x + CAMX)/64;
+                   int y1 = (player.rectangle.y + CAMY)/64;
+                   int ind = x1 + y1*cur_level.columns;
 
-                   cout << player.rectangle.x << " " << player.rectangle.y << endl; 
+                   cout << player.rectangle.x + CAMX << " " << player.rectangle.y + CAMY << " "<< cur_collider[ind] << endl;
+                    
                 
           }
 
@@ -178,6 +184,7 @@ int main ( int argc , char* argv[] )
              update_bullets( cur_enemies , cur_collider , cur_level , player );
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
+             if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              //limit_cam(player);

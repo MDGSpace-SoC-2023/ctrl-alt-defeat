@@ -292,4 +292,5 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: \
  /home/jshishimaru/development/Sigma_Loop/src/Music.hpp \
  /home/jshishimaru/development/Sigma_Loop/src/level.hpp \
  /home/jshishimaru/development/Sigma_Loop/src/Particle_effects.hpp \
+ /home/jshishimaru/development/Sigma_Loop/src/miniboss.hpp \
  /home/jshishimaru/development/Sigma_Loop/src/Keyboard_handler.hpp

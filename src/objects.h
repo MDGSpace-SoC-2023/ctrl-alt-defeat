@@ -164,12 +164,15 @@ class texrect {
        
        void loadtexture( std::string path)//loading texture from a path
        {
-
               SDL_Surface* temp=IMG_Load( path.c_str() );
               text = SDL_CreateTextureFromSurface( renderer , temp );
               SDL_FreeSurface(temp);
               SDL_RenderCopy(renderer , text , NULL , &rectangle );
 
+       }
+
+       void copytexture ( SDL_Texture *texture){
+                text = texture;
        }
        
        void update() // updating to renderer
@@ -217,6 +220,7 @@ bool iscolliding( texrect &a , texrect &b )
 
 int staminacounter = 0;
 int bulletcounter = 0;
+SDL_Texture* player_bullet_texture = NULL;
 
 
 class Sigma:public texrect
@@ -263,6 +267,9 @@ class Sigma:public texrect
 
        SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {255,255,51});
        gameover_text2 = SDL_CreateTextureFromSurface( renderer , temp2 );
+
+       SDL_Surface* temp3 = IMG_Load( "Assets/gunshot.png");
+       player_bullet_texture = SDL_CreateTextureFromSurface( renderer , temp3);
 
        gunshot_sound.Load_Sound("/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/player_shoot.wav" , 40);
        damage_taken_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/damage_taken.wav" , 100);
@@ -341,51 +348,51 @@ class Sigma:public texrect
               {
                  case(DOWN):
 
-                 rectangle.y += 2;
-                 CAMY += 4;
+              //    rectangle.y += 2;
+                 CAMY += 7;     
 
-                   if(CAMY>960)
-                   {
-                       int gap = CAMY-960;
-                       CAMY = 960;
-                       rectangle.y += gap;
-                   }
+              //      if(CAMY>960)
+              //      {
+              //          int gap = CAMY-960;
+              //          CAMY = 960;
+              //          rectangle.y += gap;
+              //      }
                  break;
 
                  case(RIGHT):
-                 rectangle.x += 2;
-                 CAMX += 4;
+              //    rectangle.x += 2;
+                 CAMX += 7;
 
-                   if(CAMX>1024)
-                   {
-                       int gap = CAMX-1024;
-                       CAMX = 1024;
-                       rectangle.x += gap;
-                   }
+              //      if(CAMX>1024)
+              //      {
+              //          int gap = CAMX-1024;
+              //          CAMX = 1024;
+              //          rectangle.x += gap;
+              //      }
                  break;
 
                  case(LEFT):
-                 rectangle.x -= 2;
-                 CAMX -= 4;
+              //    rectangle.x -= 2;
+                 CAMX -= 7;
 
-                   if(CAMX<0)
-                   {
-                       int gap = -CAMX;
-                       CAMX = 0;
-                       rectangle.x -= gap;
-                   }
+              //      if(CAMX<0)
+              //      {
+              //          int gap = -CAMX;
+              //          CAMX = 0;
+              //          rectangle.x -= gap;
+              //      }
                  break;
 
                  case(UP):
-                 rectangle.y -= 2;
-                 CAMY -= 4;
+              //    rectangle.y -= 2;
+                 CAMY -= 7;
 
-                   if(CAMY<0)
-                   {
-                       int gap = -CAMY;
-                       CAMY = 0;
-                       rectangle.y -= gap;
-                   }
+              //      if(CAMY<0)
+              //      {
+              //          int gap = -CAMY;
+              //          CAMY = 0;
+              //          rectangle.y -= gap;
+              //      }
                  break;
               } 
               
@@ -507,20 +514,20 @@ class Sigma:public texrect
                switch(direction)
               {
                  case(DOWN):
-                 rectangle.y -= 2;
-                 CAMY -= 4;
+              //    rectangle.y -= 2;
+                 CAMY -= 7;
                  break;
                  case(RIGHT):
-                 rectangle.x -= 2;
-                 CAMX -= 4;
+              //    rectangle.x -= 2;
+                 CAMX -= 7;
                  break;
                  case(LEFT):
-                 rectangle.x += 2;
-                 CAMX += 4;
+              //    rectangle.x += 2;
+                 CAMX += 7;
                  break;
                  case(UP):
-                 rectangle.y += 2;
-                 CAMY += 4;
+              //    rectangle.y += 2;
+                 CAMY += 7;
                  break;
               }
        }
@@ -573,6 +580,7 @@ class Sigma:public texrect
  
 };
 
+
 class projectile:public texrect
 {
        public:
@@ -591,8 +599,10 @@ class projectile:public texrect
               rectangle.y=player.rectangle.y + player.rectangle.h/2 + CAMY;
               srectangle.x = rectangle.x - CAMX  ;
               srectangle.y = rectangle.y  - CAMY ;
+              copytexture(player_bullet_texture);
 
-              if(code == 1){
+
+              if(code == 1){  // for non player entities
                        
                      rectangle.x=player.rectangle.x + player.rectangle.w/2;
                      rectangle.y=player.rectangle.y + player.rectangle.h/2;
@@ -607,25 +617,64 @@ class projectile:public texrect
               switch( player.direction ){
                 
               case(UP):
-                     vely= -5;
+                     vely= -7;
                      velx=0;
                      break;
               case(DOWN):
-                     vely= 5;
+                     vely= 7;
                      velx=0;
                      break;
               case(LEFT):
-                     velx= -5;
+                     velx= -7;
                      vely=0;
                      break;
               case(RIGHT):
-                     velx= 5;
+                     velx= 7;
                      vely=0;
                      break;
               } 
-              loadtexture("Assets/gunshot.png");
        }
-     
+
+       projectile( int x , int y , int dirn , SDL_Renderer* renderer1 , SDL_Window* window1 , int size ,SDL_Texture *gunshot_text){
+
+       renderer = renderer1;
+       window = window1;
+
+
+              rectangle.w = size;
+              rectangle.h = size;
+              rectangle.x = x + 128;
+              rectangle.y = y + 128;
+
+              srectangle.w=size;
+              srectangle.h=size;
+              srectangle.x = x - CAMX ;
+              srectangle.y = y - CAMY ;
+
+              copytexture(gunshot_text);              
+              switch(dirn){
+
+              case(1):
+                     vely= -7;
+                     velx=0;
+                     break;
+              case(2):
+                     vely= 7;
+                     velx=0;
+                     break;
+              case(3):
+                     velx= -7;
+                     vely=0;
+                     break;
+              case(4):
+                     velx= 7;
+                     vely=0;
+                     break;
+
+              }
+
+       }
+       
 
        void update_projectile ()
        {
@@ -637,6 +686,7 @@ class projectile:public texrect
 
 vector <projectile> Bullets;
 vector <projectile> eBullets;
+vector <projectile> miniboss_bullets; 
 
 void spawn_bullet(vector <projectile> &Bullets , texrect enemy , int code )
 {       
@@ -731,10 +781,10 @@ void spawn_enemy_bullets(vector <projectile> &Bullets,Enemy enmy){
               case(2) :
                      if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=RIGHT;
                      else enmy.direction=UP;
-                     spawn_bullet(Bullets,enmy , 1);
+                     spawn_bullet(Bullets, enmy , 1);
                      break;
               case(1) : 
-                     spawn_bullet(Bullets,enmy , 1);
+                     spawn_bullet(Bullets, enmy , 1);
        }
 }
 

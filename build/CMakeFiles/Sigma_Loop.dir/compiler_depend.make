@@ -360,6 +360,7 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
   ../src/Music.hpp \
   ../src/level.hpp \
   ../src/Particle_effects.hpp \
+  ../src/miniboss.hpp \
   ../src/Keyboard_handler.hpp
 
 
@@ -764,6 +765,8 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+../src/miniboss.hpp:
 
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
 

@@ -21,6 +21,14 @@ vector < vector <Enemy>> enemies;
 vector < vector <powerup> > powerups;
 vector < miniboss > minibosses;
 
+// to do list
+// sounds : 
+// boss shooting sound
+// enemy dying sound 
+// enemy shooting sound
+// player shooting sound 
+// 
+
 
 void init()
 {       
@@ -67,7 +75,6 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         colliders.push_back(main_menu_collider);
         colliders.push_back(level_1_collider);
         colliders.push_back(level_2_collider);
-        
         load_enemies(enemies , renderer , window );
         load_powerups( powerups , renderer , window  );
         load_animations( renderer);
@@ -89,9 +96,9 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[2];
-        vector <int> cur_collider = colliders[2];
-        int cur_level_index = 2;
+        level cur_level = levels[0];
+        vector <int> cur_collider = colliders[0];
+        int cur_level_index = 0;
         vector <Enemy> cur_enemies = enemies[0];
         vector <powerup> cur_powerup = powerups[0];
         Music cur_track = cur_level.level_bgm;
@@ -112,11 +119,12 @@ int main ( int argc , char* argv[] )
                                 gkey = getinput(e);
                                 player.process_input_direction( gkey );
 
+
                                     if(gkey == KEY_SPACE){
 
                                         if(bulletcounter >= 25 )
                                       {
-                                          spawn_bullet(Bullets , player, 0);
+                                          spawn_bullet(Bullets , player, 0 , player_bullet_texture);
                                           player.gunshot_sound.Play_sound(0);
                                           bulletcounter = 0;
                                       }
@@ -128,7 +136,7 @@ int main ( int argc , char* argv[] )
             }
             
             if( !cur_track.isplaying() ){
-                  //  cur_track.fadein_music(-1 , 2000);
+                   cur_track.fadein_music(-1 , 2000);
             }
             
             if( !gameisover )

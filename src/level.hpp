@@ -125,6 +125,7 @@ class level
      bool fontstart = false;
 
      vector <powerup> powerups;
+     int enemy_count = 0;
      
      Music level_bgm;
 
@@ -529,7 +530,7 @@ vector <int> level_1_collider
 35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,56,56,56,56,57,4,58,59,
 69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,573,39,40,41,112,113,114,115,93,
 103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,607,73,74,75,146,147,148,149,190,
-137,0,0,0,0,142,143,144,145,146,147,148,149,150,151,0,153,154,155,156,157,158,159,641,107,108,109,180,181,182,183,224,
+137,0,0,0,0,142,143,144,145,146,147,148,149,150,151,0,153,154,155,156,157,-1,-1,641,107,108,109,180,181,182,183,224,
 171,0,0,0,0,0,0,0,179,180,181,182,183,184,185,0,0,188,189,190,191,0,0,0,0,142,143,0,0,0,0,258,
 205,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,224,225,0,0,0,0,0,0,0,0,0,0,394,
 239,0,0,174,0,0,0,0,0,0,0,0,0,0,0,0,0,256,257,258,259,0,193,262,0,0,0,0,283,286,0,394,
@@ -568,7 +569,7 @@ void load_level_2( SDL_Renderer* renderer , level &level_2 )
      level_2.set_level_dimensions( 60 , 64 , 40 , 64 ); 
      level_2.set_tileset("Assets/Level_2/tileset.png" , renderer); 
 
-     level_2.level_bgm.Load_Music( "Assets/Audio/Music/bad_romance.mp3" , 40 );
+     level_2.level_bgm.Load_Music( "Assets/Audio/Music/poker_face.mp3" , 40 );
 
      vector <int> layer_1_values;
      vector <int> layer_2_values;
@@ -901,12 +902,12 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
                       return 0;
 
                }
+
                else{
                   //   cout << ind << " " <<collider[ind]<< endl;
                      return collider[ind];
                }
  }    
-
     void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer , Music &cur_track)
     {
                 
@@ -924,12 +925,13 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
                 cur_enemy = enemies[0];
                 cur_powerup = powerups[0];
                 cur_track = levels[0].level_bgm;
+                enemy_dead_counter = 0;
 
                 break;
 
                 case 0:
 
-                if( level_changing )
+                if( level_changing && enemy_dead_counter >= cur.enemy_count)
                 {
                     
                      levels[1].fontstart = true;
@@ -945,9 +947,34 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
                      index = 1;
                      eBullets.clear();
                      level_changing = false;
+                     enemy_dead_counter = 0;
                      
                 }   
-                break;    
+                break;  
+
+                case 1:
+
+                if( level_changing && enemy_dead_counter >= cur.enemy_count){
+
+                     levels[2].fontstart = true;
+                     cur = levels[2];
+                     cur_col = colliders[2];
+                     cur_enemy = enemies[2];
+                     cur_powerup = powerups[2]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[2].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 512;
+                     player.rectangle.y = 480;
+                     index = 2;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+
+                }  
               
 
                 }
@@ -1005,7 +1032,82 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
             temp.change( 953 , 270  ,  940 , 270 ,3);
             level1.push_back(temp);
 
-           enemies.push_back(level1);       
+           enemies.push_back(level1); 
+
+           vector <Enemy> level2;
+
+           temp.change( 1536 , 1020 , 1536 , 836 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1536 , 484 , 1536 , 264 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1056 , 2932 , 816 , 2932 , 1);
+           level2.push_back(temp);
+
+           temp.change( 460 , 2932 , 180 , 2932 , 1);
+           level2.push_back(temp);
+
+           temp.change( 2556 , 244 , 2168 , 244 , 1);
+           level2.push_back(temp);
+
+           temp.change( 2556 , 300 , 2168 , 300 , 1);
+           level2.push_back(temp);
+
+           temp.change( 2236 , 1080 , 2548 , 1080 , 1);
+           level2.push_back(temp);
+
+           temp.change( 2444 , 504 , 2564 , 504 , 3);
+           level2.push_back(temp);
+
+           temp.change( 2564 , 872 , 2376 , 872 , 2);
+           level2.push_back(temp);
+
+           temp.change( 1471 , 2906 , 1471 , 2678 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1471 , 3246 , 1471 , 3502 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1535 , 3246 , 1535 , 3502 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1535 , 2906 , 1535 , 2678 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1599 , 3246 , 1599 , 3502 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1599 , 2906 , 1599 , 2678 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1663 , 3246 , 1663 , 3502 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1663 , 2906 , 1663 , 2678 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1727 , 3246 , 1727 , 3502 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1727 , 2906 , 1727 , 2678 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1791 , 3246 , 1791 , 3502 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1791 , 2906 , 1791 , 2678 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1855 , 3246 , 1855 , 3502 , 1);
+           level2.push_back(temp);
+           
+           temp.change( 1855 , 2906 , 1855 , 2678 , 1);
+           level2.push_back(temp);
+
+
+
+           enemies.push_back(level2);      
             
 
 
@@ -1045,6 +1147,10 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
 
                   powerups.push_back(level1); 
 
+                  vector <powerup> level2;
+
+                  powerups.push_back(level2);
+
      }
 
 
@@ -1055,6 +1161,7 @@ for( int i=0 ; i< layer_3_values.size() ; ++i){
                       if( enemies[i].ehealth <= 0){
                    
                                  enemies.erase(enemies.begin() + i);
+                                 enemy_dead_counter++;
 
                       }
                       update_enemy( player , enemies[i] );

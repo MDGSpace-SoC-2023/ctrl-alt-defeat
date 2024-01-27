@@ -13,6 +13,7 @@ using namespace std;
 
 int CAMX = 0;
 int CAMY = 0;
+int cam_speed = 4;
 
 int WIDTH  =1024;
 int HEIGHT =960;
@@ -21,8 +22,9 @@ int ECOUNTER = 0;
 int framecount = 0;
 int dashcounter = 0;
 
-bool keystate[10];
+int enemy_dead_counter = 0;
 
+bool keystate[10];
 
 enum keypress
 {
@@ -467,7 +469,7 @@ class Sigma:public texrect
            case(UP):
            if( keystate[KEY_W]){
 
-                    rectangle.y -=speedy;
+               //     rectangle.y -=speedy;
                     pressed++;
                     
            }
@@ -476,7 +478,7 @@ class Sigma:public texrect
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    rectangle.x -=speedx;
+                 //   rectangle.x -=speedx;
                     pressed++;
                     
            }
@@ -485,7 +487,7 @@ class Sigma:public texrect
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    rectangle.y +=speedy;
+                   // rectangle.y +=speedy;
                     pressed++;
                     
 
@@ -495,7 +497,7 @@ class Sigma:public texrect
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    rectangle.x +=speedx;
+                   // rectangle.x +=speedx;
                     pressed++;                    
 
            }
@@ -539,7 +541,7 @@ class Sigma:public texrect
            case(UP):
            if( keystate[KEY_W]){
 
-                    rectangle.y +=speedy;
+                    //rectangle.y +=speedy;
            //         keystate[KEY_W]=false;
                     
            }
@@ -548,7 +550,7 @@ class Sigma:public texrect
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    rectangle.x +=speedx;
+                    //rectangle.x +=speedx;
           //          keystate[KEY_A]=false;
                     
                     
@@ -558,7 +560,7 @@ class Sigma:public texrect
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    rectangle.y -=speedy;
+                    //rectangle.y -=speedy;
           //          keystate[KEY_S]=false;
                     
               
@@ -568,7 +570,7 @@ class Sigma:public texrect
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    rectangle.x -=speedx;
+                    //rectangle.x -=speedx;
            //         keystate[KEY_D]=false;
                                         
 
@@ -601,6 +603,53 @@ projectile:public texrect
               srectangle.x = rectangle.x - CAMX  ;
               srectangle.y = rectangle.y  - CAMY ;
               copytexture(player_bullet_texture);
+
+
+              if(code == 1){  // for non player entities
+                       
+                     rectangle.x=player.rectangle.x + player.rectangle.w/2;
+                     rectangle.y=player.rectangle.y + player.rectangle.h/2;
+                     srectangle.x = rectangle.x - CAMX ;
+                     srectangle.y = rectangle.y - CAMY ;
+                       
+              }
+               
+              renderer = player.renderer;
+              window = player.window;
+       
+              switch( player.direction ){
+                
+              case(UP):
+                     vely= -7;
+                     velx=0;
+                     break;
+              case(DOWN):
+                     vely= 7;
+                     velx=0;
+                     break;
+              case(LEFT):
+                     velx= -7;
+                     vely=0;
+                     break;
+              case(RIGHT):
+                     velx= 7;
+                     vely=0;
+                     break;
+              } 
+       }
+        projectile( texrect player , int code , SDL_Texture* gun_texture)
+       {
+              velx=0;
+              vely=0;
+              rectangle.w = 20;
+              rectangle.h = 20;
+              srectangle.w=20;
+              srectangle.h=20;
+              rectangle.x=player.rectangle.x + player.rectangle.w/2 + CAMX;
+              rectangle.y=player.rectangle.y + player.rectangle.h/2 + CAMY;
+              srectangle.x = rectangle.x - CAMX  ;
+              srectangle.y = rectangle.y  - CAMY ;
+              copytexture(gun_texture);
 
 
               if(code == 1){  // for non player entities
@@ -689,9 +738,9 @@ vector <projectile> Bullets;
 vector <projectile> eBullets;
 vector <projectile> miniboss_bullets; 
 
-void spawn_bullet(vector <projectile> &Bullets , texrect enemy , int code )
+void spawn_bullet(vector <projectile> &Bullets , texrect enemy , int code  ,SDL_Texture* gun_texture)
 {       
-       projectile bullet( enemy ,code);
+       projectile bullet( enemy ,code , gun_texture);
        Bullets.push_back( bullet );
 }
 
@@ -707,6 +756,9 @@ class Enemy:public texrect{
               int ehealth=3;
               int speed;
               int mode = 1;
+              int counter = 0;
+              
+              SDL_Texture * enemy_gunshot = NULL;
               //1-same direction
               //2-up down enmy shoots right, right left enmy shoots up
               //3-opposite
@@ -732,7 +784,9 @@ class Enemy:public texrect{
                      rectangle.y = (y1+y2)/2;
                      srectangle.x = rectangle.x - CAMX;
                      srectangle.y = rectangle.y - CAMY;
-                     loadtexture("Assets/enemy.png");
+                     loadtexture("Assets/enemy_spritesheet.png");
+                     SDL_Surface* temp = IMG_Load("Assets/enemy_gunshot.png");
+                     enemy_gunshot = SDL_CreateTextureFromSurface(renderer , temp);
               }
 
               void change( int x , int y , int xi , int yi,int MODE) //this is to make it easier to set enemies on the map
@@ -777,19 +831,19 @@ void spawn_enemy_bullets(vector <projectile> &Bullets,Enemy enmy){
               case(3) : 
                      if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=LEFT;
                      else enmy.direction=DOWN;
-                     spawn_bullet(Bullets,enmy, 1);
+                     spawn_bullet(Bullets,enmy, 1 , enmy.enemy_gunshot);
                      break;
               case(2) :
                      if(enmy.direction==UP || enmy.direction==DOWN) enmy.direction=RIGHT;
                      else enmy.direction=UP;
-                     spawn_bullet(Bullets, enmy , 1);
+                     spawn_bullet(Bullets, enmy , 1 ,enmy.enemy_gunshot );
                      break;
               case(1) : 
-                     spawn_bullet(Bullets, enmy , 1);
+                     spawn_bullet(Bullets, enmy , 1 , enmy.enemy_gunshot);
        }
 }
 
-void update_enemy(Sigma& player,Enemy& enmy){
+void update_enemy(Sigma& player,Enemy& enmy ){
        
        
        if(ECOUNTER==110){
@@ -801,7 +855,18 @@ void update_enemy(Sigma& player,Enemy& enmy){
        } 
        enmy.update_enemy_position();
 
-       enmy.update();
+              enmy.counter++;
+              enmy.counter%=80;
+              
+              SDL_Rect src;
+              src.w = 286;
+              src.h = 286;
+              src.x = 286*(enmy.counter/8);
+              src.y = 0; 
+              enmy.srectangle.x = enmy.rectangle.x - CAMX;
+              enmy.srectangle.y = enmy.rectangle.y - CAMY;
+
+              SDL_RenderCopy(player.renderer , enmy.text , &src , &enmy.srectangle );
 
 }
 
@@ -812,29 +877,27 @@ void process_cam_input(Sigma &player){
            case(UP):
            if( keystate[KEY_W]){
 
-                    CAMY -= 4;
-
+                    CAMY -= cam_speed;
            }
            break;
            case(LEFT):
            if( keystate[KEY_A]){
 
-                    CAMX -= 4;
-
+                    CAMX -= cam_speed;
 
            }
            break;
            case(DOWN):
            if( keystate[KEY_S]){
 
-                    CAMY +=4;
+                    CAMY +=cam_speed;
 
            }
            break;
            case(RIGHT):
            if( keystate[KEY_D]){
 
-                    CAMX +=4;
+                    CAMX +=cam_speed;
 
            }
            break;
@@ -849,7 +912,7 @@ void reverse_cam_input(keypress key , Sigma &player){
               case(UP):
               if( keystate[KEY_W]){
 
-                    CAMY +=4;
+                    CAMY +=cam_speed;
 
               }
               break;
@@ -857,7 +920,7 @@ void reverse_cam_input(keypress key , Sigma &player){
               case(LEFT):
               if( keystate[KEY_A]){
 
-                    CAMX +=4;
+                    CAMX +=cam_speed;
 
               }
               break;
@@ -865,7 +928,7 @@ void reverse_cam_input(keypress key , Sigma &player){
               case(DOWN):
               if( keystate[KEY_S]){
 
-                    CAMY -=4;
+                    CAMY -=cam_speed;
 
               }
               break;
@@ -873,7 +936,7 @@ void reverse_cam_input(keypress key , Sigma &player){
               case(RIGHT):
               if( keystate[KEY_D]){
 
-                    CAMX -=4;
+                    CAMX -=cam_speed;
 
               }
               break;
@@ -996,8 +1059,9 @@ class powerup:public texrect{
 
                   case( SPEED_INCREASE ):
 
-                  player.speedx*=2;
-                  player.speedy*=2;
+              //     player.speedx*=2;
+              //     player.speedy*=2;
+                     cam_speed=6;
                   
                   powerup_started = true;
                   break;
@@ -1079,6 +1143,7 @@ class powerup:public texrect{
  
                                                  player.speedx = player.speedy = 1;
                                                  player.bullet_damage = 1;
+                                                 cam_speed = 4;
                                                  cur_powerup.erase( cur_powerup.begin() + i );
                                                  active_powerups--;
        

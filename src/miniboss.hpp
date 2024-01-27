@@ -7,6 +7,7 @@
 #include <string>
 #include "objects.h"
 #include "Particle_effects.hpp"
+#include "Music.hpp"
 using namespace std;
 
 
@@ -26,6 +27,7 @@ class miniboss{
       SDL_Texture* gunshot_texture = NULL;
       SDL_Rect dest;
       int health = 50;
+      Music miniboss_music;
 
       miniboss( int code , SDL_Renderer* renderer , int xn , int yn){
 
@@ -41,6 +43,7 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/blue_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
+                miniboss_music.Load_Music( "Assets/Audio/Music/bad_guy.mp3" , 50);
                 wall_x1 = 2944;
                 wall_x2 = 3840;
                 wall_y1 = 512;
@@ -52,6 +55,7 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/red_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
+                miniboss_music.Load_Music( "Assets/Audio/Music/another_one.mp3" , 50);
                 wall_x1 = 2752;
                 wall_x2 = 3904;
                 wall_y1 = 2752;
@@ -64,6 +68,7 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/purple_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
+                miniboss_music.Load_Music( "Assets/Audio/Music/in_the_end.mp3" , 50);
                 wall_x1 = 1536;
                 wall_x2 = 2560;
                 wall_y1 = 1408;

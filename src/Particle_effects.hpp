@@ -8,7 +8,7 @@
 using namespace std;
 #include "objects.h"
 
-//create vector in main with all the active particle effects
+//create vector with all the active particle effects
 //wnv an effect is to start create an object of particle_effect and store in vector...when ends delete it
 //load tileset for each animation (bullets etc) in the begining and store it in main
 
@@ -87,7 +87,7 @@ vector <Animation_Tile> load_particle_textures( string path , int tile_size , in
             SDL_Surface* tile_surface = IMG_Load( path.c_str() );
             SDL_Texture* tileset_texture = SDL_CreateTextureFromSurface( ren ,  tile_surface );
 
-            tilesize = 140;
+            tilesize = tile_size;
 		int tileset_rows = (tile_surface->h)/tilesize;
 		int tileset_columns = (tile_surface->w)/tilesize;
 
@@ -105,11 +105,14 @@ vector <Animation_Tile> load_particle_textures( string path , int tile_size , in
 
       }
 
+
    vector <Animation_Tile> enemy_dead_animation;
+   vector <Animation_Tile> miniboss_teleport_animation;
   
       void load_animations( SDL_Renderer* renderer){
 
                 enemy_dead_animation = load_particle_textures( "Assets/selectionswirl.png" , 140 , 1 , 39 , renderer);
+				miniboss_teleport_animation = load_particle_textures("Assets/teleporting.png",256,2,7,renderer);
 
       }
 

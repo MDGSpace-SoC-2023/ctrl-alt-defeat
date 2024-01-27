@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "objects.h"
+#include "Particle_effects.hpp"
 using namespace std;
 
 
@@ -14,6 +15,7 @@ class miniboss{
       public:
       int miniboss_counter = 0;
       int miniboss_counter2 = 0;
+      int ring_counter = 0;
       int wall_x1 , wall_x2;
       int wall_y1 , wall_y2;
       int x,y;
@@ -75,27 +77,29 @@ class miniboss{
       }
 
       void display_miniboss( SDL_Renderer* renderer ){
-
+          ring_counter++;
+          if(ring_counter >= 90){
           miniboss_counter++;
-          miniboss_counter %= 280;
+          miniboss_counter %= 70;
         
           SDL_Rect src;
           src.w = 32;
           src.h = 64;
-          src.x = (64*(miniboss_counter%70/5)) + 14;
+          src.x = (64*(miniboss_counter/5)) + 14;
           src.y =  0;
 
           dest.x = x -CAMX;
           dest.y = y -CAMY;
      
-          SDL_RenderCopy(renderer , miniboss_texture , &src , &dest);      
+          SDL_RenderCopy(renderer , miniboss_texture , &src , &dest);   
+          }  
 
       }     
 
       };
 
       void teleport_miniboss( int playerx, int playery , int wallx1 , int wallx2 , int wally1 , int wally2 , miniboss &miniboss){
-
+                    
                      int first = rand()%2;
                      int second = rand()%2;
 
@@ -158,6 +162,8 @@ class miniboss{
                     miniboss.bossfight = false;
 
                 }
+                miniboss.ring_counter = 0;
+                trigger_animation(miniboss_teleport_animation,miniboss.x+32,miniboss.y+96,128,120);
 
        }
 
@@ -206,29 +212,29 @@ class miniboss{
                    if(cur_boss.bossfight)cur_boss.miniboss_counter2++;
                     
 
-                     if( cur_boss.miniboss_counter2 == 300 && cur_boss.bossfight ){
-      
+                     if( cur_boss.miniboss_counter2 == 420 && cur_boss.bossfight ){
+                        
                         teleport_miniboss( player.rectangle.x + CAMX, player.rectangle.y + CAMY , cur_boss.wall_x1 , cur_boss.wall_x2 , cur_boss.wall_y1 , cur_boss.wall_y2 , cur_boss);
                         cur_boss.miniboss_counter2 = 0;
 
                      }
 
                      if(cur_boss.bosscode == 1){
-                         if( (cur_boss.miniboss_counter2 == 20 || cur_boss.miniboss_counter2 == 40 || cur_boss.miniboss_counter2 == 100 || cur_boss.miniboss_counter2 == 120) && cur_boss.bossfight ){
+                         if( (cur_boss.miniboss_counter2 == 20+120 || cur_boss.miniboss_counter2 == 40+120 || cur_boss.miniboss_counter2 == 100+120 || cur_boss.miniboss_counter2 == 120+90) && cur_boss.bossfight ){
                               
                               spawn_miniboss_bullets(cur_boss , player.renderer , player.window,40);
 
                          }
                      }
                      else if(cur_boss.bosscode == 2){
-                         if( (cur_boss.miniboss_counter2 == 5 || cur_boss.miniboss_counter2 == 10 || cur_boss.miniboss_counter2 == 15 || cur_boss.miniboss_counter2 == 105 || cur_boss.miniboss_counter2 == 110 || cur_boss.miniboss_counter2 == 115 || cur_boss.miniboss_counter2 == 205 || cur_boss.miniboss_counter2 == 210 || cur_boss.miniboss_counter2 == 215) && cur_boss.bossfight ){
+                         if( (cur_boss.miniboss_counter2 == 5+120 || cur_boss.miniboss_counter2 == 10 + 120|| cur_boss.miniboss_counter2 == 15+120 || cur_boss.miniboss_counter2 == 105 +120|| cur_boss.miniboss_counter2 == 110+120 || cur_boss.miniboss_counter2 == 115+120 || cur_boss.miniboss_counter2 == 205+120 || cur_boss.miniboss_counter2 == 210+120 || cur_boss.miniboss_counter2 == 215+120) && cur_boss.bossfight ){
                               
                               spawn_miniboss_bullets(cur_boss , player.renderer , player.window,20);
 
                          }
                      }
                      else if(cur_boss.bosscode == 3){
-                         if( (cur_boss.miniboss_counter2 == 50 || cur_boss.miniboss_counter2 == 150 || cur_boss.miniboss_counter2 == 250) && cur_boss.bossfight ){
+                         if( (cur_boss.miniboss_counter2 == 50+120 || cur_boss.miniboss_counter2 == 150+120 || cur_boss.miniboss_counter2 == 250+120) && cur_boss.bossfight ){
                               
                               spawn_miniboss_bullets(cur_boss , player.renderer , player.window,30);
 

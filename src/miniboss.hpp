@@ -10,6 +10,10 @@
 #include "Music.hpp"
 using namespace std;
 
+int active_boss_fight = 0;
+Music miniboss_music1;
+Music miniboss_music2;
+Music miniboss_music3;
 
 class miniboss{
 
@@ -27,7 +31,6 @@ class miniboss{
       SDL_Texture* gunshot_texture = NULL;
       SDL_Rect dest;
       int health = 50;
-      Music miniboss_music;
 
       miniboss( int code , SDL_Renderer* renderer , int xn , int yn){
 
@@ -43,7 +46,7 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/blue_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
-                miniboss_music.Load_Music( "Assets/Audio/Music/bad_guy.mp3" , 50);
+                miniboss_music1.Load_Music( "Assets/Audio/Music/bad_guy.mp3" , 50);
                 wall_x1 = 2944;
                 wall_x2 = 3840;
                 wall_y1 = 512;
@@ -55,7 +58,7 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/red_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
-                miniboss_music.Load_Music( "Assets/Audio/Music/another_one.mp3" , 50);
+                miniboss_music2.Load_Music( "Assets/Audio/Music/another_one.mp3" , 50);
                 wall_x1 = 2752;
                 wall_x2 = 3904;
                 wall_y1 = 2752;
@@ -68,7 +71,7 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/purple_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
-                miniboss_music.Load_Music( "Assets/Audio/Music/in_the_end.mp3" , 50);
+                miniboss_music3.Load_Music( "Assets/Audio/Music/in_the_end.mp3" , 50);
                 wall_x1 = 1536;
                 wall_x2 = 2560;
                 wall_y1 = 1408;
@@ -211,10 +214,19 @@ class miniboss{
 
                    miniboss &cur_boss = minibosses[i];
                    if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1))
-                    cur_boss.bossfight = true;
-                    else cur_boss.bossfight = false;
+                    {
+                        cur_boss.bossfight = true;
+                    }
+                    else
+                     {
+                        cur_boss.bossfight = false;
+                        active_boss_fight = 0;
+                     }
 
-                   if(cur_boss.bossfight)cur_boss.miniboss_counter2++;
+                   if(cur_boss.bossfight)
+                   {
+                    cur_boss.miniboss_counter2++;
+                   }
                     
 
                      if( cur_boss.miniboss_counter2 == 420 && cur_boss.bossfight ){
@@ -248,6 +260,11 @@ class miniboss{
                      }
 
                    cur_boss.display_miniboss( renderer );
+                if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1)){
+                       active_boss_fight = cur_boss.bosscode;
+                       break;
+                }
+
             }
 
 

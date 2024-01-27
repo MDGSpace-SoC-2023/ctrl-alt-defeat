@@ -119,8 +119,7 @@ class Sound{
            Mix_PlayChannel(-1 , sound , loopcount );
 
     }
-
-
+    
 };
 
 #endif

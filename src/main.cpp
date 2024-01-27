@@ -135,10 +135,7 @@ int main ( int argc , char* argv[] )
                   }
             }
             
-            if( !cur_track.isplaying() ){
-                   cur_track.fadein_music(-1 , 2000);
-            }
-            
+            manage_music(cur_track);            
             if( !gameisover )
             {
             player.process_input(player);
@@ -196,6 +193,9 @@ int main ( int argc , char* argv[] )
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              //limit_cam(player);
+             if( cur_level.tiles_layer4.size()){
+                cur_level.draw_layer(renderer , cur_level.tiles_layer4 , cur_level_index);
+             }
              trigger_font(cur_level, renderer); // trigger font on level change
              check_game_over(player , cur_level_index , gkey , renderer );
 

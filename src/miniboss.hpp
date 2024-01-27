@@ -8,7 +8,6 @@
 #include "objects.h"
 using namespace std;
 
-bool boss_fight = false;
 
 class miniboss{
 
@@ -18,19 +17,22 @@ class miniboss{
       int wall_x1 , wall_x2;
       int wall_y1 , wall_y2;
       int x,y;
+      int bullet_damage;
+      int bosscode;
+      bool bossfight;
       SDL_Texture* miniboss_texture = NULL;
       SDL_Texture* gunshot_texture = NULL;
       SDL_Rect dest;
       int health = 50;
 
-      miniboss( int bosscode , SDL_Renderer* renderer , int xn , int yn){
+      miniboss( int code , SDL_Renderer* renderer , int xn , int yn){
 
           SDL_Surface* temp = NULL;
-
           x = xn;
           y = yn;
           dest.w = 128;
           dest.h = 256;
+          bosscode = code;
         
           if(bosscode == 1){
                 temp = IMG_Load( "Assets/Miniboss/blue.png");
@@ -41,12 +43,18 @@ class miniboss{
                 wall_x2 = 3840;
                 wall_y1 = 512;
                 wall_y2 = 1024;
+                bullet_damage = 3;
           }
           if(bosscode == 2){
                 temp = IMG_Load( "Assets/Miniboss/red.png");
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/red_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
+                wall_x1 = 2752;
+                wall_x2 = 3904;
+                wall_y1 = 2752;
+                wall_y2 = 3520;
+                bullet_damage = 1;
           
           }
           if(bosscode == 3){
@@ -54,6 +62,11 @@ class miniboss{
                 miniboss_texture = SDL_CreateTextureFromSurface( renderer , temp );
                 temp = IMG_Load( "Assets/purple_gunshot.png");
                 gunshot_texture = SDL_CreateTextureFromSurface( renderer , temp);
+                wall_x1 = 1536;
+                wall_x2 = 2560;
+                wall_y1 = 1408;
+                wall_y2 = 2304;
+                bullet_damage = 2;
 
           }
 
@@ -94,7 +107,7 @@ class miniboss{
 
                      if( (playerx < wallx2 && playerx > wallx1) && (playery < wally2 && playery > wally1))
 
-                    {                     
+                    {         
                          if(first){ // code first == 1 means it teleports to the same y coordinate as the player
  
                          if( second && ((x1 - wallx1) > 128) ){ // code second == 1 means it teleports to segment no.1 
@@ -142,42 +155,84 @@ class miniboss{
        
                 else{
               
-                    boss_fight = false;
+                    miniboss.bossfight = false;
 
                 }
 
        }
 
-      void spawn_miniboss_bullets(miniboss &miniboss , SDL_Renderer* renderer , SDL_Window* window ){
-
-              projectile bullet1( miniboss.x - 64 , miniboss.y - 32  , 1 , renderer , window , 40 , miniboss.gunshot_texture);                     
-              projectile bullet2( miniboss.x - 64 , miniboss.y - 32  , 2 , renderer , window , 40 , miniboss.gunshot_texture);                     
-              projectile bullet3( miniboss.x - 64 , miniboss.y - 32  , 3 , renderer , window , 40 , miniboss.gunshot_texture);                     
-              projectile bullet4( miniboss.x - 64 , miniboss.y - 32  , 4 , renderer , window , 40 , miniboss.gunshot_texture);                     
+      void spawn_miniboss_bullets(miniboss &miniboss , SDL_Renderer* renderer , SDL_Window* window , int size ){
+          if(miniboss.bosscode ==1 || miniboss.bosscode == 2){
+              projectile bullet1( miniboss.x  , miniboss.y , 1 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet2( miniboss.x  , miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet3( miniboss.x  , miniboss.y  , 3 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet4( miniboss.x , miniboss.y  , 4 , renderer , window , size , miniboss.gunshot_texture);                     
               miniboss_bullets.push_back(bullet1);
               miniboss_bullets.push_back(bullet2);
               miniboss_bullets.push_back(bullet3);
               miniboss_bullets.push_back(bullet4);
+          }
+          else{
+              projectile bullet1( miniboss.x -32 , miniboss.y , 1 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet2( miniboss.x -32 , miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet3( miniboss.x  , miniboss.y -32 , 3 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet4( miniboss.x , miniboss.y-32 , 4 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet5( miniboss.x +32  , miniboss.y , 1 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet6( miniboss.x +32, miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet7( miniboss.x  , miniboss.y +32 , 3 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet8( miniboss.x , miniboss.y +32 , 4 , renderer , window , size , miniboss.gunshot_texture);  
+              miniboss_bullets.push_back(bullet1);
+              miniboss_bullets.push_back(bullet2);
+              miniboss_bullets.push_back(bullet3);
+              miniboss_bullets.push_back(bullet4);                   
+              miniboss_bullets.push_back(bullet5);
+              miniboss_bullets.push_back(bullet6);
+              miniboss_bullets.push_back(bullet7);
+              miniboss_bullets.push_back(bullet8);
+          }
 
       }  
 
 
       void update_minibosses( vector <miniboss> &minibosses , SDL_Renderer* renderer , Sigma &player){
 
-            for( int i=0 ; i<1 ; ++i){
+            for( int i=0 ; i<3 ; ++i){
 
                    miniboss &cur_boss = minibosses[i];
-                   if(boss_fight)cur_boss.miniboss_counter2++;
+                   if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1))
+                    cur_boss.bossfight = true;
+                    else cur_boss.bossfight = false;
 
-                     if( cur_boss.miniboss_counter2 == 300 && boss_fight ){
+                   if(cur_boss.bossfight)cur_boss.miniboss_counter2++;
+                    
+
+                     if( cur_boss.miniboss_counter2 == 300 && cur_boss.bossfight ){
       
                         teleport_miniboss( player.rectangle.x + CAMX, player.rectangle.y + CAMY , cur_boss.wall_x1 , cur_boss.wall_x2 , cur_boss.wall_y1 , cur_boss.wall_y2 , cur_boss);
                         cur_boss.miniboss_counter2 = 0;
 
                      }
-                     if( (cur_boss.miniboss_counter2 == 80 || cur_boss.miniboss_counter2 == 100) && boss_fight ){
-                             
-                             spawn_miniboss_bullets(cur_boss , player.renderer , player.window);
+
+                     if(cur_boss.bosscode == 1){
+                         if( (cur_boss.miniboss_counter2 == 20 || cur_boss.miniboss_counter2 == 40 || cur_boss.miniboss_counter2 == 100 || cur_boss.miniboss_counter2 == 120) && cur_boss.bossfight ){
+                              
+                              spawn_miniboss_bullets(cur_boss , player.renderer , player.window,40);
+
+                         }
+                     }
+                     else if(cur_boss.bosscode == 2){
+                         if( (cur_boss.miniboss_counter2 == 5 || cur_boss.miniboss_counter2 == 10 || cur_boss.miniboss_counter2 == 15 || cur_boss.miniboss_counter2 == 105 || cur_boss.miniboss_counter2 == 110 || cur_boss.miniboss_counter2 == 115 || cur_boss.miniboss_counter2 == 205 || cur_boss.miniboss_counter2 == 210 || cur_boss.miniboss_counter2 == 215) && cur_boss.bossfight ){
+                              
+                              spawn_miniboss_bullets(cur_boss , player.renderer , player.window,20);
+
+                         }
+                     }
+                     else if(cur_boss.bosscode == 3){
+                         if( (cur_boss.miniboss_counter2 == 50 || cur_boss.miniboss_counter2 == 150 || cur_boss.miniboss_counter2 == 250) && cur_boss.bossfight ){
+                              
+                              spawn_miniboss_bullets(cur_boss , player.renderer , player.window,30);
+
+                         }
 
                      }
 

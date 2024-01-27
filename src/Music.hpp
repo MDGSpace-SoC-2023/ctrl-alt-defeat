@@ -105,8 +105,7 @@ class Sound{
             }
 
        sound = Mix_LoadWAV( path.c_str() );
-       volume = vol;
-       Mix_VolumeChunk( sound , volume );  
+       volume = vol;  
           
     }
 

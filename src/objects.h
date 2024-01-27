@@ -581,7 +581,8 @@ class Sigma:public texrect
 };
 
 
-class projectile:public texrect
+class 
+projectile:public texrect
 {
        public:
        int velx;
@@ -643,8 +644,8 @@ class projectile:public texrect
 
               rectangle.w = size;
               rectangle.h = size;
-              rectangle.x = x + 128;
-              rectangle.y = y + 128;
+              rectangle.x = x + 64;
+              rectangle.y = y + 96;
 
               srectangle.w=size;
               srectangle.h=size;

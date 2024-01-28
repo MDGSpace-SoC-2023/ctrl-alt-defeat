@@ -1188,7 +1188,62 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
            temp.change( 1855 , 2906 , 1855 , 2678 , 1);
            level2.push_back(temp);
 
+           temp.change( 288 , 1796 , 288 , 1896 , 2);
+           level2.push_back(temp);
 
+           temp.change( 408 , 1920 , 408 , 2020 , 2);
+           level2.push_back(temp);
+
+           temp.change( 288 , 2044 , 288 , 2144 , 2);
+           level2.push_back(temp);
+
+           temp.change( 560 , 2236 , 356 , 2236 , 2);
+           level2.push_back(temp);
+
+           temp.change( 808 , 1896 , 808 , 1796 , 3);
+           level2.push_back(temp);
+
+           temp.change( 952 , 1920 , 952 , 2020 , 3);
+           level2.push_back(temp);
+
+           temp.change( 808 , 2044 , 808 , 2144 , 3);
+           level2.push_back(temp);
+
+           temp.change( 624 , 2236 , 828 , 2236 , 2);
+           level2.push_back(temp);
+
+           temp.change( 119 , 2236 , 287 , 2236 , 2);
+           level2.push_back(temp);
+
+           temp.change( 935 , 2236 , 1103 , 2236 , 2);
+           level2.push_back(temp);
+
+           temp.change( 496 , 3040 , 724 , 3040 , 1);
+           level2.push_back(temp); 
+
+           temp.change( 496 , 3152 , 724 , 3152 , 1);
+           level2.push_back(temp);
+
+           temp.change( 496 , 3260 , 724 , 3260 , 1);
+           level2.push_back(temp);
+
+           temp.change( 1056 , 3436 , 816 , 3436 , 1);
+           level2.push_back(temp);
+
+           temp.change( 460 , 3436 , 180 , 3436 , 1);
+           level2.push_back(temp);
+
+           temp.change( 2048 , 2992 , 2048 , 3208 , 3);
+           level2.push_back(temp);
+
+           temp.change( 2148 , 2992 , 2148 , 3208 , 3);
+           level2.push_back(temp);
+
+           temp.change( 2248 , 2992 , 2248 , 3208 , 3);
+           level2.push_back(temp);
+
+           temp.change( 2348 , 2992 , 2348 , 3208 , 3);
+           level2.push_back(temp);
 
            enemies.push_back(level2);      
             
@@ -1231,6 +1286,15 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                   powerups.push_back(level1); 
 
                   vector <powerup> level2;
+
+                  temp.spawn_powerup( 620 , 3436 , BULLET_DAMAGE_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 2734 , 3088 , HEALTH_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 2850 , 3088 , HEALTH_INCREASE);
+                  level2.push_back( temp );
 
                   powerups.push_back(level2);
 

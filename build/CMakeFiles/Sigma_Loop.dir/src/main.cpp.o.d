@@ -1,6 +1,6 @@
 CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: \
- /home/jshishimaru/development/Sigma_Loop/src/main.cpp \
- /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
+ /home/anmol/Sigma_Loop/src/main.cpp /usr/include/stdc-predef.h \
+ /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -284,13 +284,12 @@ CMakeFiles/Sigma_Loop.dir/src/main.cpp.o: \
  /usr/include/SDL2/SDL_locale.h /usr/include/SDL2/SDL_misc.h \
  /usr/include/SDL2/SDL_ttf.h /usr/include/SDL2/SDL.h \
  /usr/include/SDL2/SDL_image.h /usr/include/SDL2/SDL_mixer.h \
- /home/jshishimaru/development/Sigma_Loop/src/objects.h \
- /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
+ /home/anmol/Sigma_Loop/src/objects.h /usr/include/c++/11/vector \
+ /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
- /usr/include/c++/11/bits/vector.tcc \
- /home/jshishimaru/development/Sigma_Loop/src/Music.hpp \
- /home/jshishimaru/development/Sigma_Loop/src/level.hpp \
- /home/jshishimaru/development/Sigma_Loop/src/Particle_effects.hpp \
- /home/jshishimaru/development/Sigma_Loop/src/miniboss.hpp \
- /home/jshishimaru/development/Sigma_Loop/src/Keyboard_handler.hpp
+ /usr/include/c++/11/bits/vector.tcc /home/anmol/Sigma_Loop/src/Music.hpp \
+ /home/anmol/Sigma_Loop/src/level.hpp \
+ /home/anmol/Sigma_Loop/src/Particle_effects.hpp \
+ /home/anmol/Sigma_Loop/src/miniboss.hpp \
+ /home/anmol/Sigma_Loop/src/Keyboard_handler.hpp

@@ -28,8 +28,6 @@ vector < miniboss > minibosses;
 // enemy shooting sound
 // player shooting sound 
 // minibossdying effect
-// fix powerups
-// add level saving
 
 
 void init()
@@ -147,7 +145,7 @@ int main ( int argc , char* argv[] )
             process_cam_input( player );
             }
 
-            if(check_collision_for_level(cur_level , player , cur_collider, 0)){
+            if(check_collision_for_level(cur_level , player , cur_collider, 0, cur_level_index)){
                               player.reverse_input(gkey,player);
                               reverse_cam_input(gkey , player);
                               if( player.dashing){
@@ -161,7 +159,7 @@ int main ( int argc , char* argv[] )
       
                  if( player.dashing)
                             {
-                               if(check_collision_for_level( cur_level , player , cur_collider, 0))
+                               if(check_collision_for_level( cur_level , player , cur_collider, 0 , cur_level_index))
                                {
                                      player.dashing = false;
                                      player.reverse_dash();
@@ -191,7 +189,7 @@ int main ( int argc , char* argv[] )
                       
 
              update_enemies( cur_enemies , player );
-             update_bullets( cur_enemies , cur_collider , cur_level , player , minibosses );
+             update_bullets( cur_enemies , cur_collider , cur_level , player , minibosses , cur_level_index);
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);

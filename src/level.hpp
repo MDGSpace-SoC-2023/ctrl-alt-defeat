@@ -16,7 +16,8 @@ using namespace std;
 
 int textcounter = 0;
 int musicplayed = -1;
-
+bool level_1_completed = false;
+bool level_2_completed = false;
 
 class tile 
 {
@@ -398,7 +399,7 @@ vector <int> main_menu_collider=
 1,113,114,115,143,23,24,0,0,0,0,0,0,917,0,0,0,0,0,917,0,0,0,0,0,0,17,18,0,0,156,1,
 1,129,130,131,151,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,229,0,0,0,0,0,0,0,0,0,164,1,
 1,137,138,139,44,0,0,194,0,0,0,0,0,0,0,0,0,0,0,230,179,185,185,185,185,185,185,185,185,185,181,1,
-1,145,146,147,1030,0,0,193,0,0,0,0,0,0,0,0,0,0,0,238,186,156,0,0,0,0,0,0,0,0,0,1,
+1,145,-3,-3,1030,0,0,193,0,0,0,0,0,0,0,0,0,0,0,238,186,156,0,0,0,0,0,0,0,0,0,1,
 1,44,0,0,0,0,195,204,0,0,0,0,0,0,0,0,0,0,0,0,0,164,0,0,0,0,881,882,319,320,0,1,
 1,0,68,0,0,195,204,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,889,890,327,328,0,1,
 1,0,0,0,195,204,0,0,0,0,0,0,0,0,0,0,0,0,0,868,178,0,0,0,0,0,897,898,0,887,888,1,
@@ -958,7 +959,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
 };
 
  bool level_changing = false;
- bool check_collision_for_level( level cur_level , texrect entity , vector <int> collider , int code )          
+ bool check_collision_for_level( level &cur_level , texrect &entity , vector <int> &collider , int code , int& cur_level_index )          
  {
         
             int ind,cx,cy;
@@ -985,6 +986,11 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                       level_changing = true;
                       return 0;
 
+               }
+               else if( collider[ind] == -3 && level_1_completed){
+                        cur_level_index = 1;
+                        level_changing = true;
+                        return 0;
                }
 
                else{
@@ -1059,6 +1065,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                      enemy_dead_counter = 0;
                      player.health = 10;
                      musicplayed = -1;
+                     level_1_completed = true;
 
                 }  
               
@@ -1331,12 +1338,12 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
        ECOUNTER++;
 
      }
-       void update_enemy_bullets( level &cur_level , vector <int> &cur_collider )
+       void update_enemy_bullets( level &cur_level , vector <int> &cur_collider , int &cur_level_index)
   {
                 
            for(int i=0 ; i<eBullets.size() ; ++i){
                
-                     if(check_collision_for_level( cur_level , eBullets[i] , cur_collider , 1))
+                     if(check_collision_for_level( cur_level , eBullets[i] , cur_collider , 1 , cur_level_index ))
                      {
                               eBullets.erase(eBullets.begin() + i); 
                      }
@@ -1344,7 +1351,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
               }
        }    
 
-       void update_miniboss_bullets( level &cur_level , vector <int> &cur_collider , Sigma &player){
+       void update_miniboss_bullets( level &cur_level , vector <int> &cur_collider , Sigma &player , int&cur_level_index){
 
          for(int i=0 ; i<miniboss_bullets.size() ; ++i){
               miniboss_bullets[i].update_projectile();
@@ -1355,7 +1362,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                      player.health--;
                      player.damage_taken_sound.Play_sound(0);
               }
-              if(check_collision_for_level( cur_level , miniboss_bullets[i] , cur_collider , 1))
+              if(check_collision_for_level( cur_level , miniboss_bullets[i] , cur_collider , 1 ,cur_level_index))
                      {
                               miniboss_bullets.erase(miniboss_bullets.begin() + i); 
                      }
@@ -1386,13 +1393,13 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
 
        }
 
-          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player , vector <miniboss>& minibosses){
+          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player , vector <miniboss>& minibosses , int&cur_level_index){
 
-              update_enemy_bullets( cur_level , cur_collider);
+              update_enemy_bullets( cur_level , cur_collider , cur_level_index);
 
               for( int i=0 ; i<Bullets.size() ; ++i ){ //bullets loop
                    
-                   if(check_collision_for_level(cur_level , Bullets[i] , cur_collider, 1))
+                   if(check_collision_for_level(cur_level , Bullets[i] , cur_collider, 1 , cur_level_index))
                      {
                             Bullets.erase(Bullets.begin() + i);
                      }
@@ -1424,7 +1431,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
              
               }
 
-              update_miniboss_bullets(cur_level , cur_collider , player);
+              update_miniboss_bullets(cur_level , cur_collider , player , cur_level_index);
 
       }
 

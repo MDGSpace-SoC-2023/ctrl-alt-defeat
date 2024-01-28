@@ -1067,7 +1067,7 @@ class powerup:public texrect{
 
                   case ( BULLET_DAMAGE_INCREASE):
 
-                  player.bullet_damage*=3;
+                  player.bullet_damage=3;
                   powerup_started = true;
                   break;
 
@@ -1131,6 +1131,14 @@ class powerup:public texrect{
                              }
 
                              if( !current_powerup.powerup_started){
+                                   switch(current_powerup.powerup_effect)
+                                   {case(SPEED_INCREASE):
+                                   cam_speed = 6;
+                                   break;
+                                   case(BULLET_DAMAGE_INCREASE):
+                                   player.bullet_damage = 3;   
+                                   break;}
+
                                         current_powerup.update();
                              }
 
@@ -1140,9 +1148,16 @@ class powerup:public texrect{
 
                                          if( current_powerup.powerup_counter >= 360 ){
  
-                                                 player.speedx = player.speedy = 1;
-                                                 player.bullet_damage = 1;
-                                                 cam_speed = 4;
+                                                 switch(current_powerup.powerup_effect){
+
+                                                        case(SPEED_INCREASE):
+                                                        cam_speed = 4;
+                                                        break;
+                                                        case(BULLET_DAMAGE_INCREASE):
+                                                        player.bullet_damage = 1;   
+                                                        break;
+
+                                                 }
                                                  cur_powerup.erase( cur_powerup.begin() + i );
                                                  active_powerups--;
        

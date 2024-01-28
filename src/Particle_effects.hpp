@@ -88,8 +88,8 @@ vector <Animation_Tile> load_particle_textures( string path , int tile_size , in
             SDL_Texture* tileset_texture = SDL_CreateTextureFromSurface( ren ,  tile_surface );
 
             tilesize = tile_size;
-		int tileset_rows = (tile_surface->h)/tilesize;
-		int tileset_columns = (tile_surface->w)/tilesize;
+		    int tileset_rows = (tile_surface->h)/tilesize;
+		    int tileset_columns = (tile_surface->w)/tilesize;
 
             SDL_FreeSurface(tile_surface);
 		
@@ -108,11 +108,13 @@ vector <Animation_Tile> load_particle_textures( string path , int tile_size , in
 
    vector <Animation_Tile> enemy_dead_animation;
    vector <Animation_Tile> miniboss_teleport_animation;
+   //vector <Animation_Tile> miniboss_dead;
   
       void load_animations( SDL_Renderer* renderer){
 
                 enemy_dead_animation = load_particle_textures( "Assets/selectionswirl.png" , 140 , 1 , 39 , renderer);
 				miniboss_teleport_animation = load_particle_textures("Assets/teleporting.png",256,2,7,renderer);
+				//miniboss_dead = load_particle_textures("Assets/Explosion.png",96,1,12,renderer);
 
       }
 

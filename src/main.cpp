@@ -23,9 +23,6 @@ vector < miniboss > minibosses;
 
 // to do list
 // sounds : 
-// boss shooting sound
-// enemy dying sound 
-// enemy shooting sound
 // player shooting sound 
 // minibossdying effect
 
@@ -99,11 +96,11 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[0];
-        vector <int> cur_collider = colliders[0];
-        int cur_level_index = 0;
-        vector <Enemy> cur_enemies = enemies[0];
-        vector <powerup> cur_powerup = powerups[0];
+        level cur_level = levels[2];
+        vector <int> cur_collider = colliders[2];
+        int cur_level_index = 2;
+        vector <Enemy> cur_enemies = enemies[2];
+        vector <powerup> cur_powerup = powerups[2];
         Music cur_track = cur_level.level_bgm;
 
       while(!quit) //gameloop

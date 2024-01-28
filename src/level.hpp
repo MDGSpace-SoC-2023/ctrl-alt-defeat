@@ -15,7 +15,6 @@
 using namespace std;
 
 int textcounter = 0;
-int musicplayed = -1;
 bool level_1_completed = false;
 bool level_2_completed = false;
 
@@ -1318,6 +1317,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                       if( enemies[i].ehealth <= 0){
                    
                                  enemies.erase(enemies.begin() + i);
+                                 player.enemy_dead_sound.Play_sound(0);
                                  enemy_dead_counter++;
 
                       }

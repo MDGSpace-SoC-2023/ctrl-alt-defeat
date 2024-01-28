@@ -23,6 +23,7 @@ int framecount = 0;
 int dashcounter = 0;
 
 int enemy_dead_counter = 0;
+int musicplayed = -1;
 
 bool keystate[10];
 
@@ -223,7 +224,7 @@ int staminacounter = 0;
 int bulletcounter = 0;
 SDL_Texture* player_bullet_texture = NULL;
 
-
+Sound miniboss_shooting;
 class Sigma:public texrect
 {
       public:
@@ -241,6 +242,7 @@ class Sigma:public texrect
       Sound gunshot_sound;
       Sound damage_taken_sound;
       Sound Game_over_sound;
+      Sound enemy_dead_sound;
 
 
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
@@ -274,6 +276,8 @@ class Sigma:public texrect
 
        gunshot_sound.Load_Sound("/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/player_shoot.wav" , 40);
        damage_taken_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/damage_taken.wav" , 100);
+       enemy_dead_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/enemy_death.wav" , 50);
+       miniboss_shooting.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/miniboss_shooting.wav" , 50);
 
       }     
 
@@ -1077,7 +1081,6 @@ class powerup:public texrect{
                   powerup_started = true;
                   break;
 
-
               }
 
        }
@@ -1114,7 +1117,7 @@ class powerup:public texrect{
        }
 
        void update_powerup( SDL_Renderer* renderer , vector <powerup> &cur_powerup  ,Sigma &player ){
-
+                
                    
 
                    for( int i=0 ; i<cur_powerup.size() ; ++i){
@@ -1131,18 +1134,21 @@ class powerup:public texrect{
                              }
 
                              if( !current_powerup.powerup_started){
-                                   switch(current_powerup.powerup_effect)
-                                   {case(SPEED_INCREASE):
-                                   cam_speed = 6;
-                                   break;
-                                   case(BULLET_DAMAGE_INCREASE):
-                                   player.bullet_damage = 3;   
-                                   break;}
-
                                         current_powerup.update();
                              }
 
                              else{
+
+                            switch(current_powerup.powerup_effect)
+                            {
+                                   case(SPEED_INCREASE):
+                                   cam_speed = 6;
+                                   break;
+                                   case(BULLET_DAMAGE_INCREASE):
+                                   player.bullet_damage = 3;   
+                                   break;
+                            }
+
 
                                          current_powerup.powerup_counter++;
 
@@ -1155,6 +1161,9 @@ class powerup:public texrect{
                                                         break;
                                                         case(BULLET_DAMAGE_INCREASE):
                                                         player.bullet_damage = 1;   
+                                                        break;
+                                                        case(CHIPI_CHIPI_CHAPA_CHAPA):
+                                                        musicplayed = -1;
                                                         break;
 
                                                  }

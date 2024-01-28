@@ -33,6 +33,7 @@ class miniboss{
       SDL_Texture* health_segment = NULL;
       SDL_Rect dest;
       SDL_Rect collision_box;
+      Sound miniboss_shooting;
       int health = 62;
 
       miniboss( int code , SDL_Renderer* renderer , int xn , int yn){
@@ -87,7 +88,7 @@ class miniboss{
                empty_health = SDL_CreateTextureFromSurface(renderer , temp);
                temp = IMG_Load("Assets/health_segment.png");
                health_segment = SDL_CreateTextureFromSurface(renderer , temp);
-          
+                    
           collision_box = dest;
           collision_box.h = 170;
           SDL_FreeSurface(temp);
@@ -189,6 +190,7 @@ class miniboss{
 
       void spawn_miniboss_bullets(miniboss &miniboss , SDL_Renderer* renderer , SDL_Window* window , int size ){
           if(miniboss.bosscode ==1 || miniboss.bosscode == 2){
+          miniboss_shooting.Play_sound(0);
               projectile bullet1( miniboss.x  , miniboss.y , 1 , renderer , window , size , miniboss.gunshot_texture);                     
               projectile bullet2( miniboss.x  , miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
               projectile bullet3( miniboss.x  , miniboss.y  , 3 , renderer , window , size , miniboss.gunshot_texture);                     
@@ -199,6 +201,8 @@ class miniboss{
               miniboss_bullets.push_back(bullet4);
           }
           else{
+        miniboss_shooting.Play_sound(0);
+
               projectile bullet1( miniboss.x -32 , miniboss.y , 1 , renderer , window , size , miniboss.gunshot_texture);                     
               projectile bullet2( miniboss.x -32 , miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
               projectile bullet3( miniboss.x  , miniboss.y -32 , 3 , renderer , window , size , miniboss.gunshot_texture);                     

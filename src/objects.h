@@ -213,9 +213,8 @@ bool iscolliding( texrect &a , texrect &b )
 {          
           SDL_Rect &rect_a = a.rectangle;
           SDL_Rect &rect_b = b.rectangle;
-        
-          if( SDL_HasIntersection ( &rect_a , &rect_b ) ) return true ;
-          else return false;
+
+          return SDL_HasIntersection( &rect_a , &rect_b );        
 }
 
 

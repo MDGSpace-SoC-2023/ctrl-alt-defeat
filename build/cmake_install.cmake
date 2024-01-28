@@ -1,4 +1,4 @@
-# Install script for directory: /home/anmol/Sigma_Loop
+# Install script for directory: /home/jshishimaru/development/Sigma_Loop
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/anmol/Sigma_Loop/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jshishimaru/development/Sigma_Loop/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

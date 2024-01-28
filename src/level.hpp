@@ -15,6 +15,7 @@
 using namespace std;
 
 int textcounter = 0;
+int musicplayed = -1;
 
 
 class tile 
@@ -979,7 +980,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
             int rows = cy/64;
             ind = column + rows*cur_level.columns;            
 
-               if( collider[ind] == -1 ){
+               if( collider[ind] == -1 && enemy_dead_counter >= cur_level.enemy_count ){
                      
                       level_changing = true;
                       return 0;
@@ -1009,6 +1010,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                 cur_powerup = powerups[0];
                 cur_track = levels[0].level_bgm;
                 enemy_dead_counter = 0;
+                musicplayed = -1;
 
                 break;
 
@@ -1031,7 +1033,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                      eBullets.clear();
                      level_changing = false;
                      enemy_dead_counter = 0;
-                     
+                     musicplayed = -1;
                 }   
                 break;  
 
@@ -1056,6 +1058,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
                      level_changing = false;
                      enemy_dead_counter = 0;
                      player.health = 10;
+                     musicplayed = -1;
 
                 }  
               
@@ -1383,7 +1386,7 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
 
        }
 
-          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player ){
+          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player , vector <miniboss>& minibosses){
 
               update_enemy_bullets( cur_level , cur_collider);
 
@@ -1407,6 +1410,13 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
               
                                  }
 
+                     }
+                     if( active_boss_fight ){
+
+                                    if(SDL_HasIntersection( &(Bullets[i].srectangle) , &(minibosses[active_boss_fight-1].collision_box) )){
+                                              minibosses[active_boss_fight-1].health -= player.bullet_damage;
+                                              Bullets.erase( Bullets.begin() + i);
+                                    }
                      }
                      
                      Bullets[i].update_projectile();
@@ -1468,22 +1478,43 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
              minibosses.push_back(boss3);
 
       }
-
       void manage_music ( Music& cur_level_track ){
             
                    switch(active_boss_fight){
                   
                     case 0:
-                    if( !cur_level_track.isplaying())cur_level_track.fadein_music(-1,300);
+                    if( musicplayed != 0 )
+                    {
+                       cur_level_track.playmusic(-1);
+                       musicplayed = 0;       
+                    }
                     break;
  
                     case 1:
-                    if( cur_level_track.isplaying() )cur_level_track.fadeout_music();
-                    else if( !miniboss_music1.isplaying())
+                    if( musicplayed != 1)
                     {
                          miniboss_music1.playmusic(-1);
+                         musicplayed = 1;
                     }
                     break;
+
+                    case 2:
+
+                    if( musicplayed != 2)
+                    {
+                         miniboss_music2.playmusic(-1);
+                         musicplayed = 2;
+                    }
+                    break;
+ 
+                    case 3:
+                    if( musicplayed != 3)
+                    {
+                         miniboss_music3.playmusic(-1);
+                         musicplayed = 3;
+                    }
+                    break;
+
 
             }
 

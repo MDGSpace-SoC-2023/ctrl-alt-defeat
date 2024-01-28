@@ -27,7 +27,9 @@ vector < miniboss > minibosses;
 // enemy dying sound 
 // enemy shooting sound
 // player shooting sound 
-// 
+// minibossdying effect
+// fix powerups
+// add level saving
 
 
 void init()
@@ -79,6 +81,9 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         load_powerups( powerups , renderer , window  );
         load_animations( renderer);
         load_minibosses( minibosses , renderer);
+        levels[0].enemy_count = enemies[0].size();
+        levels[1].enemy_count = enemies[1].size();
+        levels[2].enemy_count = enemies[2].size();
 }
 
 
@@ -96,11 +101,11 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[2];
-        vector <int> cur_collider = colliders[2];
-        int cur_level_index = 2;
-        vector <Enemy> cur_enemies = enemies[2];
-        vector <powerup> cur_powerup = powerups[2];
+        level cur_level = levels[0];
+        vector <int> cur_collider = colliders[0];
+        int cur_level_index = 0;
+        vector <Enemy> cur_enemies = enemies[0];
+        vector <powerup> cur_powerup = powerups[0];
         Music cur_track = cur_level.level_bgm;
 
       while(!quit) //gameloop
@@ -186,7 +191,7 @@ int main ( int argc , char* argv[] )
                       
 
              update_enemies( cur_enemies , player );
-             update_bullets( cur_enemies , cur_collider , cur_level , player );
+             update_bullets( cur_enemies , cur_collider , cur_level , player , minibosses );
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);

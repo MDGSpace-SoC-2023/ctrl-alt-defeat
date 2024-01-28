@@ -29,8 +29,11 @@ class miniboss{
       bool bossfight;
       SDL_Texture* miniboss_texture = NULL;
       SDL_Texture* gunshot_texture = NULL;
+      SDL_Texture* empty_health = NULL;
+      SDL_Texture* health_segment = NULL;
       SDL_Rect dest;
-      int health = 50;
+      SDL_Rect collision_box;
+      int health = 62;
 
       miniboss( int code , SDL_Renderer* renderer , int xn , int yn){
 
@@ -80,6 +83,13 @@ class miniboss{
 
           }
 
+               temp = IMG_Load("Assets/empty_health.png");
+               empty_health = SDL_CreateTextureFromSurface(renderer , temp);
+               temp = IMG_Load("Assets/health_segment.png");
+               health_segment = SDL_CreateTextureFromSurface(renderer , temp);
+          
+          collision_box = dest;
+          collision_box.h = 170;
           SDL_FreeSurface(temp);
 
       }
@@ -98,6 +108,8 @@ class miniboss{
 
           dest.x = x -CAMX;
           dest.y = y -CAMY;
+          collision_box.x = dest.x;
+          collision_box.y = dest.y;
      
           SDL_RenderCopy(renderer , miniboss_texture , &src , &dest);   
           }  
@@ -227,7 +239,6 @@ class miniboss{
                    {
                     cur_boss.miniboss_counter2++;
                    }
-                    
 
                      if( cur_boss.miniboss_counter2 == 420 && cur_boss.bossfight ){
                         
@@ -260,6 +271,22 @@ class miniboss{
                      }
 
                    cur_boss.display_miniboss( renderer );
+                   
+                if(cur_boss.bossfight){
+                    SDL_Rect dest;
+                    dest.w = 800;
+                    dest.h = 50;
+                    dest.x = 112;
+                    dest.y = 40;
+                    SDL_RenderCopy(renderer , cur_boss.empty_health , NULL , &dest);
+
+                    dest.w = 10*cur_boss.health;
+                    dest.x += 90;
+                    dest.h = 35;
+                    dest.y += 10;
+                    SDL_RenderCopy(renderer , cur_boss.health_segment , NULL , &dest);
+
+                }   
                 if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1)){
                        active_boss_fight = cur_boss.bosscode;
                        break;

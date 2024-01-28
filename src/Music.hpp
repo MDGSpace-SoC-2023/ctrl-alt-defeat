@@ -65,9 +65,18 @@ class Music{
 
     }
 
+    void stopmusic(){
+        Mix_HaltMusic();
+    }
+
     void pausemusic(){
 
         Mix_PauseMusic();
+
+    }
+    void resumemusic(){
+ 
+        Mix_ResumeMusic();
 
     }
     

@@ -89,6 +89,7 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         load_powerups( powerups , renderer , window  );
         load_animations( renderer);
         load_minibosses( minibosses , renderer);
+        
         levels[0].enemy_count = enemies[0].size();
         levels[1].enemy_count = enemies[1].size();
         levels[2].enemy_count = 0;
@@ -111,12 +112,14 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[0];
-        vector <int> cur_collider = colliders[0];
-        int cur_level_index = 0;
-        vector <Enemy> cur_enemies = enemies[0];
-        vector <powerup> cur_powerup = powerups[0];
+        level cur_level = levels[4];
+        vector <int> cur_collider = colliders[4];
+        int cur_level_index = 4;
+        vector <Enemy> cur_enemies = enemies[4];
+        vector <powerup> cur_powerup = powerups[4];
         Music cur_track = cur_level.level_bgm;
+        machinegun machine_gun(renderer,window);
+        machine_gun.spawn_machinegun(960,1084);
 
       while(!quit) //gameloop
       {      
@@ -137,7 +140,7 @@ int main ( int argc , char* argv[] )
 
                                     if(gkey == KEY_SPACE){
 
-                                        if(bulletcounter >= 20 )
+                                        if(bulletcounter >= guncounter )
                                       {
                                           spawn_bullet(Bullets , player, 0 , player_bullet_texture);
                                           player.gunshot_sound.Play_sound(0);
@@ -205,7 +208,7 @@ int main ( int argc , char* argv[] )
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
-
+             else if(cur_level_index == 4) machine_gun.update(renderer,player);
              player.update_sigma(); // update sigma pos and render sigma to screen
              //limit_cam(player);
              if( cur_level.tiles_layer4.size()){

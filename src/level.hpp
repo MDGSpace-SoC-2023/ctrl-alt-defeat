@@ -11,6 +11,7 @@
 #include "Music.hpp"
 #include "Particle_effects.hpp"
 #include "miniboss.hpp"
+#include "machinegun.hpp"
 
 using namespace std;
 
@@ -1671,6 +1672,8 @@ vector <int> level_3_B_collider=
                   vector <powerup> level3B;
 
                   powerups.push_back(level3B);
+
+                  
 
 
      }

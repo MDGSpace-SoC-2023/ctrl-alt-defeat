@@ -13,6 +13,7 @@
 #include "miniboss.hpp"
 #include "boss.hpp"
 
+#include "machinegun.hpp"
 
 using namespace std;
 
@@ -1673,6 +1674,8 @@ vector <int> level_3_B_collider=
                   vector <powerup> level3B;
 
                   powerups.push_back(level3B);
+
+                  
 
 
      }

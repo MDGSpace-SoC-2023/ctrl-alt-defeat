@@ -740,6 +740,7 @@ projectile:public texrect
 vector <projectile> Bullets;
 vector <projectile> eBullets;
 vector <projectile> miniboss_bullets; 
+vector <projectile> mainboss_bullets;
 
 void spawn_bullet(vector <projectile> &Bullets , texrect enemy , int code  ,SDL_Texture* gun_texture)
 {       

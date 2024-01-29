@@ -1127,8 +1127,8 @@ void load_level_3_B( SDL_Renderer* renderer , level &level_3_B )
      SDL_Surface* temp = TTF_RenderText_Solid( level_3_B.levelfont , "I COMING FOR YOU" , {255,255,51});
      level_3_B.font = SDL_CreateTextureFromSurface(renderer, temp);
 
-     level_3_B.tile_height =32;
-     level_3_B.tile_width  =32;
+     level_3_B.tile_height = 32;
+     level_3_B.tile_width  = 32;
 
      level_3_B.level_bgm.Load_Music( "Assets/Audio/Music/around_the_world.mp3" , 40 );
 
@@ -1278,6 +1278,7 @@ vector <int> level_3_B_collider=
 0,0,0,203,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,204,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
+
 
  bool level_changing = false;
  bool check_collision_for_level( level &cur_level , texrect &entity , vector <int> &collider , int code , int& cur_level_index )          

@@ -193,9 +193,9 @@ class miniboss{
       void spawn_miniboss_bullets(miniboss &miniboss , SDL_Renderer* renderer , SDL_Window* window , int size ){
           if(miniboss.bosscode ==1 || miniboss.bosscode == 2){
           miniboss_shooting.Play_sound(0);
-              projectile bullet1( miniboss.x  , miniboss.y , 1 , renderer , window , size , miniboss.gunshot_texture);                     
-              projectile bullet2( miniboss.x  , miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
-              projectile bullet3( miniboss.x  , miniboss.y  , 3 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet1( miniboss.x , miniboss.y  , 1 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet2( miniboss.x , miniboss.y  , 2 , renderer , window , size , miniboss.gunshot_texture);                     
+              projectile bullet3( miniboss.x , miniboss.y  , 3 , renderer , window , size , miniboss.gunshot_texture);                     
               projectile bullet4( miniboss.x , miniboss.y  , 4 , renderer , window , size , miniboss.gunshot_texture);                     
               miniboss_bullets.push_back(bullet1);
               miniboss_bullets.push_back(bullet2);

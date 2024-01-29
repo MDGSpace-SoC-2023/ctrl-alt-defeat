@@ -11,6 +11,7 @@
 #include "Keyboard_handler.hpp"
 
 
+
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
 SDL_Renderer* present = SDL_CreateRenderer( window , -1 , 0);
@@ -114,11 +115,11 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[4];
-        vector <int> cur_collider = colliders[4];
-        int cur_level_index = 4;
-        vector <Enemy> cur_enemies = enemies[4];
-        vector <powerup> cur_powerup = powerups[4];
+        level cur_level = levels[3];
+        vector <int> cur_collider = colliders[3];
+        int cur_level_index = 3;
+        vector <Enemy> cur_enemies = enemies[3];
+        vector <powerup> cur_powerup = powerups[3];
         Music cur_track = cur_level.level_bgm;
         machinegun machine_gun(renderer,window);
         machine_gun.spawn_machinegun(960,1084);
@@ -210,7 +211,38 @@ int main ( int argc , char* argv[] )
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
-             if( cur_level_index == 3)main_boss[0].update_boss(renderer);
+             if( cur_level_index == 3){
+                  main_boss[0].update_boss(renderer);
+                  if(bombcounter>300){
+                        bomb temp(renderer);
+                        active_bombs.push_back(temp);
+
+                        bomb temp1(renderer);
+                        active_bombs.push_back(temp1);
+
+                        bomb temp2(renderer);
+                        active_bombs.push_back(temp2);
+
+                        bomb temp3(renderer);
+                        active_bombs.push_back(temp3);
+
+                        bomb temp4(renderer);
+                        active_bombs.push_back(temp4);
+
+                        bombcounter = 0;
+                        
+                  }
+                  int done = 0;
+                  for(int i = 0 ; i<active_bombs.size(); i++){
+                        done = 0;
+                        active_bombs[i].update(renderer,player,done);
+                        if(done) {
+                              active_bombs.erase(active_bombs.begin()+i);
+                              i--;
+                        }
+                  }
+                  bombcounter++;
+             }
 
              else if(cur_level_index == 4) machine_gun.update(renderer,player);
              player.update_sigma(); // update sigma pos and render sigma to screen

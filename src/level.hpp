@@ -12,7 +12,7 @@
 #include "Particle_effects.hpp"
 #include "miniboss.hpp"
 #include "boss.hpp"
-
+#include "bomb.hpp"
 #include "machinegun.hpp"
 
 using namespace std;
@@ -20,6 +20,8 @@ using namespace std;
 int textcounter = 0;
 bool level_1_completed = false;
 bool level_2_completed = false;
+vector <bomb> active_bombs;
+int bombcounter = 0;
 
 class tile 
 {

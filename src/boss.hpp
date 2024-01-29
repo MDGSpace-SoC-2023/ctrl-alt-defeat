@@ -25,7 +25,7 @@ class Boss{
       int columns ;
       int cur_index=0;
       int x,y;
-      SDL_Rect  collider , dest;
+      SDL_Rect src, collider , dest;
       
 
       SDL_Texture* Boss_tileset = NULL;
@@ -45,10 +45,10 @@ class Boss{
             cur_boss_animation = standing;
             columns = 7;
             cur_index = 0;
-            speed = 10;
+            speed = 8;
 
-            // src.w = 192;
-            // src.h = 192;
+            src.w = 192;
+            src.h = 192;
             dest.w = size;
             dest.h = size;
             collider.h = 96;
@@ -60,11 +60,8 @@ class Boss{
 
       void update_boss(SDL_Renderer* renderer){
 
-            SDL_Rect src;
-            src.w = tilesize;
-            src.h = tilesize;
-            src.x = ((cur_index+1)/columns)*tilesize;
-            src.y = ((cur_index+1)%columns)*tilesize;
+            src.x = ((cur_index)%columns)*tilesize;
+            src.y = ((cur_index)/columns)*tilesize;
 
             dest.x = x - CAMX;
             dest.y = y - CAMY;

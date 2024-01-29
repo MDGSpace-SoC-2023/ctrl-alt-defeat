@@ -10,6 +10,7 @@
 #include "Music.hpp"
 #include "Keyboard_handler.hpp"
 
+
 SDL_Window* window = NULL;
 SDL_Renderer* renderer= NULL;
 SDL_Renderer* present = SDL_CreateRenderer( window , -1 , 0);
@@ -20,6 +21,7 @@ vector < vector <int> > colliders;
 vector < vector <Enemy>> enemies; 
 vector < vector <powerup> > powerups;
 vector < miniboss > minibosses;
+vector < Boss > main_boss;
 
 // to do list
 // sounds : 
@@ -89,6 +91,7 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         load_powerups( powerups , renderer , window  );
         load_animations( renderer);
         load_minibosses( minibosses , renderer);
+        load_main_boss(renderer , main_boss);
         levels[0].enemy_count = enemies[0].size();
         levels[1].enemy_count = enemies[1].size();
         levels[2].enemy_count = 0;
@@ -111,11 +114,11 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[0];
-        vector <int> cur_collider = colliders[0];
-        int cur_level_index = 0;
-        vector <Enemy> cur_enemies = enemies[0];
-        vector <powerup> cur_powerup = powerups[0];
+        level cur_level = levels[3];
+        vector <int> cur_collider = colliders[3];
+        int cur_level_index = 3;
+        vector <Enemy> cur_enemies = enemies[3];
+        vector <powerup> cur_powerup = powerups[3];
         Music cur_track = cur_level.level_bgm;
 
       while(!quit) //gameloop
@@ -205,6 +208,7 @@ int main ( int argc , char* argv[] )
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
+             if( cur_level_index == 3)main_boss[0].update_boss(renderer);
 
              player.update_sigma(); // update sigma pos and render sigma to screen
              //limit_cam(player);

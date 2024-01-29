@@ -11,6 +11,8 @@
 #include "Music.hpp"
 #include "Particle_effects.hpp"
 #include "miniboss.hpp"
+#include "boss.hpp"
+
 
 using namespace std;
 

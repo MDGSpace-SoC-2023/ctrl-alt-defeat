@@ -251,7 +251,7 @@ class Sigma:public texrect
        //  set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
                set_dimension( 512 , 480 , 64 , 64 , 0 , rend , wind );
 
-        loadtexture("Assets/chibi_tileset.png");
+        loadtexture("Assets/george.png");
 
         health = 10;
         stamina = 10;
@@ -318,30 +318,30 @@ class Sigma:public texrect
        {      
               int frame = (framecount/6) % 3;
               SDL_Rect src;
-              src.w = 32;
-              src.h = 32;
+              src.w = 48;
+              src.h = 48;
 
               switch(direction)
               {
 
                  case(DOWN):
-                 src.x = frame * 32;
-                 src.y = 0;
+                 src.x = 0;
+                 src.y = frame*48;
                  break;
 
                  case(RIGHT):
-                 src.x = frame * 32;
-                 src.y = 32;
+                 src.x = 48;
+                 src.y = frame*48;
                  break;
 
                  case(LEFT):
-                 src.x = frame * 32;
-                 src.y = 64;
+                 src.x = 96;
+                 src.y = frame*48;
                  break;
 
                  case(UP):
-                 src.x = frame * 32;
-                 src.y = 96;
+                 src.x = 144;
+                 src.y = frame*48;
                  break;
 
               }

@@ -73,19 +73,27 @@ void load_levels( vector <level> &levels , vector < vector <int> > &colliders , 
         load_level_3_A(renderer , temp4);
         levels.push_back(temp4);
         temp4.destory_level();
+        
+        level temp5;
+        load_level_3_B(renderer , temp5);
+        levels.push_back(temp5);
+        temp5.destory_level();
+        
 
         colliders.push_back(main_menu_collider);
         colliders.push_back(level_1_collider);
         colliders.push_back(level_2_collider);
         colliders.push_back(level_3_A_collider);
+        colliders.push_back(level_3_B_collider);
         load_enemies(enemies , renderer , window );
         load_powerups( powerups , renderer , window  );
         load_animations( renderer);
         load_minibosses( minibosses , renderer);
         levels[0].enemy_count = enemies[0].size();
         levels[1].enemy_count = enemies[1].size();
-        levels[2].enemy_count = enemies[2].size();
+        levels[2].enemy_count = 0;
         levels[3].enemy_count = enemies[3].size();
+        levels[4].enemy_count = enemies[4].size();
 }
 
 
@@ -103,14 +111,12 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[3];
-        vector <int> cur_collider = colliders[3];
-        int cur_level_index = 3;
-        vector <Enemy> cur_enemies = enemies[3];
-        vector <powerup> cur_powerup = powerups[3];
+        level cur_level = levels[0];
+        vector <int> cur_collider = colliders[0];
+        int cur_level_index = 0;
+        vector <Enemy> cur_enemies = enemies[0];
+        vector <powerup> cur_powerup = powerups[0];
         Music cur_track = cur_level.level_bgm;
-        CAMX = 512;
-        CAMY = 480;
 
       while(!quit) //gameloop
       {      
@@ -131,7 +137,7 @@ int main ( int argc , char* argv[] )
 
                                     if(gkey == KEY_SPACE){
 
-                                        if(bulletcounter >= 25 )
+                                        if(bulletcounter >= 20 )
                                       {
                                           spawn_bullet(Bullets , player, 0 , player_bullet_texture);
                                           player.gunshot_sound.Play_sound(0);

@@ -251,7 +251,7 @@ class Sigma:public texrect
        //  set_dimension( 512 , 400 , 64 , 64 , 1 , rend , wind );
                set_dimension( 512 , 480 , 64 , 64 , 0 , rend , wind );
 
-        loadtexture("Assets/george.png");
+        loadtexture("Assets/Sigma.png");
 
         health = 10;
         stamina = 10;
@@ -316,7 +316,7 @@ class Sigma:public texrect
       
          void update_sigma() // updating to renderer
        {      
-              int frame = (framecount/6) % 3;
+              int frame = (framecount/6) % 6;
               SDL_Rect src;
               src.w = 48;
               src.h = 48;
@@ -325,23 +325,23 @@ class Sigma:public texrect
               {
 
                  case(DOWN):
-                 src.x = 0;
-                 src.y = frame*48;
+                 src.y = 144;
+                 src.x = frame*48;
                  break;
 
                  case(RIGHT):
-                 src.x = 48;
-                 src.y = frame*48;
+                 src.y = 48;
+                 src.x = frame*48;
                  break;
 
                  case(LEFT):
-                 src.x = 96;
-                 src.y = frame*48;
+                 src.y = 96;
+                 src.x = frame*48;
                  break;
 
                  case(UP):
-                 src.x = 144;
-                 src.y = frame*48;
+                 src.y = 0;
+                 src.x = frame*48;
                  break;
 
               }

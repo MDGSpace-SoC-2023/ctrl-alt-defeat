@@ -14,6 +14,7 @@ int active_boss_fight = 0;
 Music miniboss_music1;
 Music miniboss_music2;
 Music miniboss_music3;
+int dead_boss = 0;
 
 class miniboss{
 
@@ -300,6 +301,7 @@ class miniboss{
                     }
                 }
                 else{
+                    dead_boss++;
                     cur_boss.deadcount++;
                     if(cur_boss.deadcount==1){
                         trigger_animation(enemy_dead_animation,cur_boss.x,cur_boss.y,96,78);

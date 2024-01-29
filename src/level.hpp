@@ -1462,10 +1462,34 @@ vector <int> level_3_A_collider=
                   temp.spawn_powerup( 620 , 3436 , BULLET_DAMAGE_INCREASE);
                   level2.push_back( temp );
 
+                  temp.spawn_powerup( 2716 , 676 , BULLET_DAMAGE_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 2816 , 676 , SPEED_INCREASE);
+                  level2.push_back( temp );
+
                   temp.spawn_powerup( 2734 , 3088 , HEALTH_INCREASE);
                   level2.push_back( temp );
 
                   temp.spawn_powerup( 2850 , 3088 , HEALTH_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 3384 , 2758 , HEALTH_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 3484 , 2758 , BULLET_DAMAGE_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 3424 , 2138 , SPEED_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 2752 , 1878 , BULLET_DAMAGE_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 1284 , 1878 , HEALTH_INCREASE);
+                  level2.push_back( temp );
+
+                  temp.spawn_powerup( 3416 , 1280 , HEALTH_INCREASE);
                   level2.push_back( temp );
 
                   powerups.push_back(level2);

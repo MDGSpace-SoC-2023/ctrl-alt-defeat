@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/jshishimaru/development/Sigma_Loop/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/Sigma_Loop.dir/src/main.cpp.o -c /home/jshishimaru/development/Sigma_Loop/src/main.cpp",
-  "file": "/home/jshishimaru/development/Sigma_Loop/src/main.cpp"
-}
-]

@@ -21,6 +21,7 @@ class miniboss{
       int miniboss_counter = 0;
       int miniboss_counter2 = 0;
       int ring_counter = 0;
+      int deadcount = 0;
       int wall_x1 , wall_x2;
       int wall_y1 , wall_y2;
       int x,y;
@@ -97,7 +98,7 @@ class miniboss{
 
       void display_miniboss( SDL_Renderer* renderer ){
           ring_counter++;
-          if(ring_counter >= 90){
+          if(ring_counter >= 120){
           miniboss_counter++;
           miniboss_counter %= 70;
         
@@ -226,76 +227,91 @@ class miniboss{
 
       void update_minibosses( vector <miniboss> &minibosses , SDL_Renderer* renderer , Sigma &player){
 
-            for( int i=0 ; i<3 ; ++i){
+            for( int i=0 ; i<minibosses.size() ; ++i){
 
-                   miniboss &cur_boss = minibosses[i];
-                   if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1))
+                miniboss &cur_boss = minibosses[i];
+                if(cur_boss.health>0){
+                    if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1))
+                        {
+                            cur_boss.bossfight = true;
+                        }
+                        else
+                        {
+                            cur_boss.bossfight = false;
+                            active_boss_fight = 0;
+                        }
+
+                    if(cur_boss.bossfight)
                     {
-                        cur_boss.bossfight = true;
+                        cur_boss.miniboss_counter2++;
                     }
-                    else
-                     {
-                        cur_boss.bossfight = false;
-                        active_boss_fight = 0;
-                     }
 
-                   if(cur_boss.bossfight)
-                   {
-                    cur_boss.miniboss_counter2++;
-                   }
+                        if( cur_boss.miniboss_counter2 == 420 && cur_boss.bossfight ){
+                            
+                            teleport_miniboss( player.rectangle.x + CAMX, player.rectangle.y + CAMY , cur_boss.wall_x1 , cur_boss.wall_x2 , cur_boss.wall_y1 , cur_boss.wall_y2 , cur_boss);
+                            cur_boss.miniboss_counter2 = 0;
 
-                     if( cur_boss.miniboss_counter2 == 420 && cur_boss.bossfight ){
-                        
-                        teleport_miniboss( player.rectangle.x + CAMX, player.rectangle.y + CAMY , cur_boss.wall_x1 , cur_boss.wall_x2 , cur_boss.wall_y1 , cur_boss.wall_y2 , cur_boss);
-                        cur_boss.miniboss_counter2 = 0;
+                        }
 
-                     }
+                        if(cur_boss.bosscode == 1){
+                            if( (cur_boss.miniboss_counter2 == 20+120 || cur_boss.miniboss_counter2 == 40+120 || cur_boss.miniboss_counter2 == 100+120 || cur_boss.miniboss_counter2 == 120+90) && cur_boss.bossfight ){
+                                
+                                spawn_miniboss_bullets(cur_boss , player.renderer , player.window,40);
 
-                     if(cur_boss.bosscode == 1){
-                         if( (cur_boss.miniboss_counter2 == 20+120 || cur_boss.miniboss_counter2 == 40+120 || cur_boss.miniboss_counter2 == 100+120 || cur_boss.miniboss_counter2 == 120+90) && cur_boss.bossfight ){
-                              
-                              spawn_miniboss_bullets(cur_boss , player.renderer , player.window,40);
+                            }
+                        }
+                        else if(cur_boss.bosscode == 2){
+                            if( (cur_boss.miniboss_counter2 == 5+120 || cur_boss.miniboss_counter2 == 10 + 120|| cur_boss.miniboss_counter2 == 15+120 || cur_boss.miniboss_counter2 == 105 +120|| cur_boss.miniboss_counter2 == 110+120 || cur_boss.miniboss_counter2 == 115+120 || cur_boss.miniboss_counter2 == 205+120 || cur_boss.miniboss_counter2 == 210+120 || cur_boss.miniboss_counter2 == 215+120) && cur_boss.bossfight ){
+                                
+                                spawn_miniboss_bullets(cur_boss , player.renderer , player.window,20);
 
-                         }
-                     }
-                     else if(cur_boss.bosscode == 2){
-                         if( (cur_boss.miniboss_counter2 == 5+120 || cur_boss.miniboss_counter2 == 10 + 120|| cur_boss.miniboss_counter2 == 15+120 || cur_boss.miniboss_counter2 == 105 +120|| cur_boss.miniboss_counter2 == 110+120 || cur_boss.miniboss_counter2 == 115+120 || cur_boss.miniboss_counter2 == 205+120 || cur_boss.miniboss_counter2 == 210+120 || cur_boss.miniboss_counter2 == 215+120) && cur_boss.bossfight ){
-                              
-                              spawn_miniboss_bullets(cur_boss , player.renderer , player.window,20);
+                            }
+                        }
+                        else if(cur_boss.bosscode == 3){
+                            if( (cur_boss.miniboss_counter2 == 50+120 || cur_boss.miniboss_counter2 == 150+120 || cur_boss.miniboss_counter2 == 250+120) && cur_boss.bossfight ){
+                                
+                                spawn_miniboss_bullets(cur_boss , player.renderer , player.window,30);
 
-                         }
-                     }
-                     else if(cur_boss.bosscode == 3){
-                         if( (cur_boss.miniboss_counter2 == 50+120 || cur_boss.miniboss_counter2 == 150+120 || cur_boss.miniboss_counter2 == 250+120) && cur_boss.bossfight ){
-                              
-                              spawn_miniboss_bullets(cur_boss , player.renderer , player.window,30);
+                            }
 
-                         }
+                        }
 
-                     }
+                    cur_boss.display_miniboss( renderer );
+                    
+                    if(cur_boss.bossfight){
+                        SDL_Rect dest;
+                        dest.w = 800;
+                        dest.h = 50;
+                        dest.x = 112;
+                        dest.y = 40;
+                        SDL_RenderCopy(renderer , cur_boss.empty_health , NULL , &dest);
 
-                   cur_boss.display_miniboss( renderer );
-                   
-                if(cur_boss.bossfight){
-                    SDL_Rect dest;
-                    dest.w = 800;
-                    dest.h = 50;
-                    dest.x = 112;
-                    dest.y = 40;
-                    SDL_RenderCopy(renderer , cur_boss.empty_health , NULL , &dest);
+                        dest.w = 10*cur_boss.health;
+                        dest.x += 90;
+                        dest.h = 35;
+                        dest.y += 10;
+                        SDL_RenderCopy(renderer , cur_boss.health_segment , NULL , &dest);
 
-                    dest.w = 10*cur_boss.health;
-                    dest.x += 90;
-                    dest.h = 35;
-                    dest.y += 10;
-                    SDL_RenderCopy(renderer , cur_boss.health_segment , NULL , &dest);
+                    }   
 
-                }   
-                if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1)){
-                       active_boss_fight = cur_boss.bosscode;
-                       break;
+                    if( (player.rectangle.x + CAMX < cur_boss.wall_x2 && player.rectangle.x + CAMX > cur_boss.wall_x1) && (player.rectangle.y + CAMY < cur_boss.wall_y2 && player.rectangle.y + CAMY > cur_boss.wall_y1)){
+                        active_boss_fight = cur_boss.bosscode;
+                        break;
+                    }
                 }
-
+                else{
+                    cur_boss.deadcount++;
+                    if(cur_boss.deadcount==1){
+                        trigger_animation(enemy_dead_animation,cur_boss.x,cur_boss.y,96,78);
+                    }
+                    else if(cur_boss.deadcount ==30){
+                        trigger_animation(enemy_dead_animation,cur_boss.x+64,cur_boss.y+96,96,78);
+                    }
+                    else if(cur_boss.deadcount == 60){
+                        trigger_animation(enemy_dead_animation,cur_boss.x,cur_boss.y+192,96,78);
+                    }
+                    
+                }
             }
 
 

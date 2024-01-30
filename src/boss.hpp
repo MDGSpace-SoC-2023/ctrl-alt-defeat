@@ -26,11 +26,14 @@ class Boss{
       int columns ;
       int cur_index=0;
       int x,y;
+      int health = 620;
       SDL_Rect src, collider , dest;
       SDL_Texture* bullet_up = NULL;
       SDL_Texture* bullet_down = NULL;
       SDL_Texture* bullet_right = NULL;
       SDL_Texture* bullet_left = NULL;
+      SDL_Texture* empty_health = NULL;
+      SDL_Texture* health_segment = NULL;
       
 
       SDL_Texture* Boss_tileset = NULL;
@@ -48,6 +51,10 @@ class Boss{
             bullet_right = SDL_CreateTextureFromSurface( renderer , temp);
             temp = IMG_Load( "Assets/boss_bullets/bullet_left.png");;
             bullet_left = SDL_CreateTextureFromSurface( renderer , temp);
+            temp = IMG_Load("Assets/empty_health.png");
+            empty_health = SDL_CreateTextureFromSurface(renderer , temp);
+            temp = IMG_Load("Assets/health_segment.png");
+            health_segment = SDL_CreateTextureFromSurface(renderer , temp);            
             SDL_FreeSurface( temp);
 
             tilesize =  192;
@@ -64,8 +71,8 @@ class Boss{
             src.h = 192;
             dest.w = size;
             dest.h = size;
-            collider.h = 96;
-            collider.w = 96;
+            collider.h = 250;
+            collider.w = 250;
             x = xn;
             y = yn;
 
@@ -81,8 +88,8 @@ class Boss{
 
             src.x = ((cur_index)%columns)*tilesize;
             src.y = ((cur_index)/columns)*tilesize;
-            collider.x = x + 96;
-            collider.y = y + 96;
+            collider.x = x + 500 - CAMX;
+            collider.y = y + 500 - CAMY;
 
             dest.x = x - CAMX;
             dest.y = y - CAMY;
@@ -100,16 +107,32 @@ class Boss{
                     bosscounter2 = 0;
             }
             if( bosscounter2 == 20 || bosscounter2 == 80){
-              projectile bullet1( x , y  , 1 , renderer , player.window , size , bullet_down);                     
-              projectile bullet2( x , y  , 2 , renderer , player.window , size , bullet_up);                     
-              projectile bullet3( x , y  , 3 , renderer , player.window , size , bullet_right);                     
-              projectile bullet4( x , y  , 4 , renderer , player.window , size , bullet_left);                     
+              projectile bullet1( collider.x + CAMX , collider.y  + CAMY   , 2 , renderer , player.window , 78 , 132, bullet_down);                     
+              projectile bullet2( collider.x + CAMX  , collider.y + CAMY    , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
+              projectile bullet3( collider.x + CAMX  , collider.y + CAMY    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
+              projectile bullet4( collider.x + CAMX  , collider.y + CAMY - 80   , 3 , renderer , player.window , 78 , 132 , bullet_left);                     
+              projectile bullet5( collider.x + CAMX  , collider.y + CAMY + 80  , 3 , renderer , player.window  , 78 , 132 , bullet_left);                     
               mainboss_bullets.push_back(bullet1);
               mainboss_bullets.push_back(bullet2);
               mainboss_bullets.push_back(bullet3);
               mainboss_bullets.push_back(bullet4);
+              mainboss_bullets.push_back(bullet5);
             }
-            if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;           
+
+            if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;   
+
+                        SDL_Rect dest2;
+                        dest2.w = 800;
+                        dest2.h = 50;
+                        dest2.x = 112;
+                        dest2.y = 40;
+                        SDL_RenderCopy(renderer , empty_health , NULL , &dest2);
+
+                        dest2.w = 1*health;
+                        dest2.x += 90;
+                        dest2.h = 35;
+                        dest2.y += 10;
+                        SDL_RenderCopy(renderer , health_segment , NULL , &dest2);  
 
       }
 
@@ -121,12 +144,8 @@ class Boss{
 
 void load_main_boss( SDL_Renderer* renderer , vector <Boss>& main_bosses){
 
-         Boss main_boss( renderer , 500 , 150 , 700);
+         Boss main_boss( renderer , 500 , 150 , 800);
          main_bosses.push_back(main_boss);
-         main_boss.dest.w = 500;
-         main_boss.dest.h = 500;
-         main_bosses.push_back(main_boss);
-
 }
 
 

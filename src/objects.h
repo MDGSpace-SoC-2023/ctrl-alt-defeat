@@ -726,6 +726,55 @@ projectile:public texrect
 
               }
 
+       }       
+       projectile( int x , int y , int dirn , SDL_Renderer* renderer1 , SDL_Window* window1 , int width , int height ,SDL_Texture *gunshot_text){
+
+       renderer = renderer1;
+       window = window1;
+
+
+             if(dirn == 1 || dirn == 2) 
+              {
+              rectangle.w = width;
+              rectangle.h = height;
+              srectangle.w=width;
+              srectangle.h=height;
+              }  
+              else{
+              rectangle.h = width;
+              rectangle.w = height;
+              srectangle.h=width;
+              srectangle.w=height;
+
+              }            
+              rectangle.x = x + 64;
+              rectangle.y = y + 96;
+
+              srectangle.x = x - CAMX ;
+              srectangle.y = y - CAMY ;
+
+              copytexture(gunshot_text);              
+              switch(dirn){
+
+              case(1):
+                     vely= -7;
+                     velx=0;
+                     break;
+              case(2):
+                     vely= 7;
+                     velx=0;
+                     break;
+              case(3):
+                     velx= -7;
+                     vely=0;
+                     break;
+              case(4):
+                     velx= 7;
+                     vely=0;
+                     break;
+
+              }
+
        }
        
 

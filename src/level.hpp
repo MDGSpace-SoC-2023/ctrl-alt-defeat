@@ -1742,7 +1742,23 @@ vector <int> level_3_B_collider=
                      }
        }
        }
- 
+        void update_mainboss_bullets( level &cur_level , vector <int> &cur_collider , Sigma &player , int&cur_level_index){
+
+         for(int i=0 ; i<mainboss_bullets.size() ; ++i){
+              mainboss_bullets[i].update_projectile();
+              mainboss_bullets[i].update();
+              
+              if( isplayercolliding(mainboss_bullets[i],player) ){
+                     mainboss_bullets.erase(mainboss_bullets.begin()+i);
+                     player.health--;
+                     player.damage_taken_sound.Play_sound(0);
+              }
+              if(check_collision_for_level( cur_level , mainboss_bullets[i] , cur_collider , 1 ,cur_level_index))
+                     {
+                              mainboss_bullets.erase(mainboss_bullets.begin() + i); 
+                     }
+       }
+       }
        void trigger_font( level &cur_level , SDL_Renderer* renderer )
        {
              
@@ -1767,7 +1783,7 @@ vector <int> level_3_B_collider=
 
        }
 
-          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player , vector <miniboss>& minibosses , int&cur_level_index){
+          void update_bullets( vector <Enemy> &cur_enemies , vector <int> &cur_collider , level &cur_level , Sigma &player , vector <miniboss>& minibosses , int&cur_level_index , Boss &main_boss){
 
               update_enemy_bullets( cur_level , cur_collider , cur_level_index);
 
@@ -1799,6 +1815,14 @@ vector <int> level_3_B_collider=
                                               Bullets.erase( Bullets.begin() + i);
                                     }
                      }
+                     if(cur_level_index==3){
+                               
+                                    if(SDL_HasIntersection( &(Bullets[i].srectangle) , &(main_boss.collider) )){
+                                             main_boss.health -= player.bullet_damage;
+                                              Bullets.erase( Bullets.begin() + i);
+                                    }
+
+                     }
                      
                      Bullets[i].update_projectile();
                      Bullets[i].update();
@@ -1806,6 +1830,7 @@ vector <int> level_3_B_collider=
               }
 
               update_miniboss_bullets(cur_level , cur_collider , player , cur_level_index);
+              update_mainboss_bullets(cur_level , cur_collider , player , cur_level_index);
 
       }
 

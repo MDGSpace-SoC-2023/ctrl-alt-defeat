@@ -207,12 +207,13 @@ int main ( int argc , char* argv[] )
                       
 
              update_enemies( cur_enemies , player );
-             update_bullets( cur_enemies , cur_collider , cur_level , player , minibosses , cur_level_index);
+             update_bullets( cur_enemies , cur_collider , cur_level , player , minibosses , cur_level_index , main_boss[0]);
              update_powerup( renderer , cur_powerup , player );
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
              if( cur_level_index == 3){
-                  main_boss[0].update_boss(renderer);
+                  player.rectangle.x = 100;
+                  main_boss[0].update_boss(renderer, player);
                   if(bombcounter>300){
                         bomb temp(renderer);
                         active_bombs.push_back(temp);

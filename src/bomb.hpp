@@ -37,7 +37,7 @@ class bomb{
                 dest.x = x-CAMX-zoom/2;
                 dest.y = y-CAMY-zoom/2; 
 
-                if(index >= 36) zoom+=5;
+                if(index >= 36) zoom+=6;
 
                 SDL_RenderCopy(ren,text,&src,&dest);
 
@@ -46,7 +46,7 @@ class bomb{
                     framecounter = 0;    
                 }
                 framecounter++;
-                if(index==39 && framecounter==2 && (player.rectangle.x>=(dest.x - 64) && player.rectangle.x<=(dest.x + 128) && player.rectangle.y>=(dest.y - 64) && player.rectangle.y<=(dest.x + 128))){
+                if(index==39 && framecounter==2 && (player.rectangle.x+64>=(x-CAMX - 64) && player.rectangle.x<=(x-CAMX + 128) && player.rectangle.y+64>=(y-CAMY - 64) && player.rectangle.y+64<=(y-CAMY + 128))){
                     player.health -= 3;
                 }
             }

@@ -146,7 +146,6 @@ class Boss{
                   if(cur_index >= cur_boss_animation.first+cur_boss_animation.second-1 && bosscounter == speed -1){
                         player.health -= 2;
                         cur_boss_animation = standing;
-                        cout<<player.health<<" ";
                   }
    
             }

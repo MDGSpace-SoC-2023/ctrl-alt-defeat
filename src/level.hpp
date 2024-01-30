@@ -1808,7 +1808,7 @@ vector <int> level_3_B_collider=
              minibosses.push_back(boss3);
 
       }
-      void manage_music ( Music& cur_level_track ){
+      void manage_music ( Music& cur_level_track , Sigma &player ){
             
                    switch(active_boss_fight){
                   
@@ -1845,6 +1845,12 @@ vector <int> level_3_B_collider=
                     }
                     break;
 
+                    case 4:
+                    if( musicplayed != 4)
+                    {
+                         player.final_sound.playmusic(-1);
+                         musicplayed = 4;
+                    }
 
             }
 
@@ -2013,6 +2019,42 @@ vector <int> level_3_B_collider=
                 
 
      }
+     void display_final_text( SDL_Renderer * renderer,Sigma &player )
+{
+              if( active_boss_fight == 4){
+   
+         SDL_Rect dest;
+         dest.w = 800;
+         dest.h = 200;
+         dest.x = 112;
+         dest.y = 200;
+         SDL_RenderCopy(renderer , player.final_text , NULL , &dest );
+         dest.w = 600;
+         dest.h = 170;
+         dest.x = 212;
+         dest.y = 350;
+         SDL_RenderCopy(renderer , player.final_text2 , NULL , &dest );
+         dest.w = 300;
+         dest.h = 150;
+         dest.x = 350;
+         dest.y = 500;
+         SDL_RenderCopy(renderer , player.final_text3 , NULL , &dest );
+         dest.w = 450;
+         dest.h = 150;
+         dest.x = 300;
+         dest.y = 600;
+         SDL_RenderCopy(renderer , player.final_text4 , NULL , &dest );
+         dest.w = 450;
+         dest.h = 150;
+         dest.x = 300;
+         dest.y = 700;
+         SDL_RenderCopy(renderer , player.final_text5 , NULL , &dest );
+  
+         
+
+
+       }
+}
 
 
       

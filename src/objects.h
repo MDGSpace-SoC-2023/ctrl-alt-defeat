@@ -238,11 +238,17 @@ class Sigma:public texrect
       SDL_Texture* stamina_text = NULL;
       SDL_Texture* gameover_text1 =NULL;
       SDL_Texture* gameover_text2 =NULL;
+      SDL_Texture* final_text = NULL;
+      SDL_Texture* final_text2 = NULL;
+      SDL_Texture* final_text3 = NULL;
+      SDL_Texture* final_text4 = NULL;
+      SDL_Texture* final_text5 = NULL;
 
       Sound gunshot_sound;
       Sound damage_taken_sound;
       Sound Game_over_sound;
       Sound enemy_dead_sound;
+      Music final_sound;
 
 
       Sigma( SDL_Renderer* rend , SDL_Window* wind)
@@ -265,11 +271,23 @@ class Sigma:public texrect
             
        TTF_Font* gameover_font = TTF_OpenFont( "Assets/8bit_font.ttf" , 32);
 
-       SDL_Surface* temp1 = TTF_RenderText_Solid( gameover_font , "Game Over!" , {255,255,51});
+
+       SDL_Surface* temp1 = TTF_RenderText_Solid( gameover_font , "Game Over!" , {32,32,32});
        gameover_text1 = SDL_CreateTextureFromSurface( renderer , temp1 );
 
-       SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {255,255,51});
+       SDL_Surface* temp2 = TTF_RenderText_Solid( gameover_font , "Press [Enter] To Restart" , {32,32,32});
        gameover_text2 = SDL_CreateTextureFromSurface( renderer , temp2 );
+        
+       temp2 =TTF_RenderText_Solid( gameover_font , "SIGMA LOOP" , {32,32,32});  
+       final_text = SDL_CreateTextureFromSurface( renderer , temp2);
+       temp2 =TTF_RenderText_Solid( gameover_font , "CREATED BY" , {32,32,32});  
+       final_text2 = SDL_CreateTextureFromSurface( renderer , temp2);
+       temp2 =TTF_RenderText_Solid( gameover_font , "JAI" , {32,32,32});  
+       final_text3 = SDL_CreateTextureFromSurface( renderer , temp2);
+       temp2 =TTF_RenderText_Solid( gameover_font , "ANMOL" , {32,32,32});  
+       final_text4 = SDL_CreateTextureFromSurface( renderer , temp2);
+       temp2 =TTF_RenderText_Solid( gameover_font , "NITIN" , {32,32,32});  
+       final_text5 = SDL_CreateTextureFromSurface( renderer , temp2);
 
        SDL_Surface* temp3 = IMG_Load( "Assets/gunshot.png");
        player_bullet_texture = SDL_CreateTextureFromSurface( renderer , temp3);
@@ -278,6 +296,7 @@ class Sigma:public texrect
        damage_taken_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/damage_taken.wav" , 100);
        enemy_dead_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/enemy_death.wav" , 50);
        miniboss_shooting.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/miniboss_shooting.wav" , 50);
+       final_sound.Load_Music( "Assets/Audio/Music/veridis.mp3" , 100);
 
       }     
 

@@ -13,6 +13,7 @@ int bosscounter = 0;
 int bosscounter2 = 0;
 
 int changeboss = 0;
+bool bossdead = false;
 class Boss{
 
       public:
@@ -36,6 +37,7 @@ class Boss{
       SDL_Texture* bullet_left = NULL;
       SDL_Texture* empty_health = NULL;
       SDL_Texture* health_segment = NULL;
+
       
 
       SDL_Texture* Boss_tileset = NULL;

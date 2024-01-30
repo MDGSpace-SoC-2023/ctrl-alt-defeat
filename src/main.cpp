@@ -115,16 +115,17 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[2];
-        vector <int> cur_collider = colliders[2];
-        int cur_level_index = 2;
-        vector <Enemy> cur_enemies = enemies[2];
-        vector <powerup> cur_powerup = powerups[2];
+        level cur_level = levels[0];
+        vector <int> cur_collider = colliders[0];
+        int cur_level_index = 0;
+        vector <Enemy> cur_enemies = enemies[0];
+        vector <powerup> cur_powerup = powerups[0];
         Music cur_track = cur_level.level_bgm;
         machinegun machine_gun(renderer,window);
         machine_gun.spawn_machinegun(960,1084);
       //   player.rectangle.x = 100;
         player.bullet_damage = 100;
+        active_boss_fight = 4;
 
       while(!quit) //gameloop
       {      
@@ -158,7 +159,7 @@ int main ( int argc , char* argv[] )
                   }
             }
             
-            manage_music(cur_track);            
+            manage_music(cur_track , player );            
             if( !gameisover )
             {
             player.process_input(player);
@@ -282,6 +283,7 @@ int main ( int argc , char* argv[] )
              }
              trigger_font(cur_level, renderer); // trigger font on level change
              check_game_over(player , cur_level_index , gkey , renderer );
+             display_final_text(renderer , player);
 
              show_display();  //present renderer
              SDL_Delay(16.66);

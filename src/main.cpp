@@ -124,8 +124,7 @@ int main ( int argc , char* argv[] )
         machinegun machine_gun(renderer,window);
         machine_gun.spawn_machinegun(960,1084);
       //   player.rectangle.x = 100;
-        player.bullet_damage = 100;
-        active_boss_fight = 4;
+      //   player.bullet_damage = 20;
 
       while(!quit) //gameloop
       {      
@@ -189,7 +188,6 @@ int main ( int argc , char* argv[] )
                                }
                             }
 
-                            cout << level_changing << endl;
 
             clear_display(); //clear screen to black or level texture
             

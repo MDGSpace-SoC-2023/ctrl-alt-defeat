@@ -68,7 +68,7 @@ class miniboss{
                 wall_x1 = 2752;
                 wall_x2 = 3904;
                 wall_y1 = 2752;
-                wall_y2 = 3520;
+                wall_y2 = 3400;
                 bullet_damage = 1;
           
           }
@@ -81,7 +81,7 @@ class miniboss{
                 wall_x1 = 1536;
                 wall_x2 = 2560;
                 wall_y1 = 1408;
-                wall_y2 = 2304;
+                wall_y2 = 2200;
                 bullet_damage = 2;
 
           }
@@ -311,6 +311,7 @@ class miniboss{
                     }
                     else if(cur_boss.deadcount == 60){
                         trigger_animation(enemy_dead_animation,cur_boss.x,cur_boss.y+192,96,78);
+                        if( dead_boss >=3 )active_boss_fight = 0;
                     }
                     
                 }

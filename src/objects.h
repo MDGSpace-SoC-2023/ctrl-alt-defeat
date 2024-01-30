@@ -292,7 +292,7 @@ class Sigma:public texrect
        SDL_Surface* temp3 = IMG_Load( "Assets/gunshot.png");
        player_bullet_texture = SDL_CreateTextureFromSurface( renderer , temp3);
 
-       gunshot_sound.Load_Sound("/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/player_shoot.wav" , 40);
+       gunshot_sound.Load_Sound("/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/player_shoot.wav" , 20);
        damage_taken_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/damage_taken.wav" , 100);
        enemy_dead_sound.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/enemy_death.wav" , 50);
        miniboss_shooting.Load_Sound( "/home/jshishimaru/development/Sigma_Loop/src/Assets/Audio/Sound_Effects/miniboss_shooting.wav" , 50);

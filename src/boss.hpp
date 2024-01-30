@@ -11,6 +11,8 @@ using namespace std;
 
 int bosscounter = 0;
 int bosscounter2 = 0;
+
+int changeboss = 0;
 class Boss{
 
       public:
@@ -103,13 +105,16 @@ class Boss{
                   bosscounter=0;
             }
             if( bosscounter2 > 420 ){
-                    teleport_miniboss( player.rectangle.x + CAMX , player.rectangle.y + CAMY , 1540);
+                  //   teleport_miniboss( player.rectangle.x + CAMX , player.rectangle.y + CAMY , 1540);
                     bosscounter2 = 0;
             }
-            if( bosscounter2 == 20 || bosscounter2 == 80){
-              projectile bullet1( collider.x + CAMX , collider.y  + CAMY   , 2 , renderer , player.window , 78 , 132, bullet_down);                     
-              projectile bullet2( collider.x + CAMX  , collider.y + CAMY    , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
-              projectile bullet3( collider.x + CAMX  , collider.y + CAMY    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
+            if( bosscounter2 == 20 || bosscounter2 == 80 || bosscounter2 == 160 || bosscounter2 == 220 ){
+              projectile bullet1( collider.x + CAMX - 80 , collider.y  + CAMY   , 2 , renderer , player.window , 78 , 132, bullet_down);                     
+              projectile bullet6( collider.x + CAMX + 80 , collider.y  + CAMY  , 2 , renderer , player.window , 78 , 132, bullet_down);                     
+              projectile bullet2( collider.x + CAMX - 80 , collider.y + CAMY     , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
+              projectile bullet7( collider.x + CAMX + 80 , collider.y + CAMY     , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
+              projectile bullet3( collider.x + CAMX  , collider.y + CAMY - 80    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
+              projectile bullet8( collider.x + CAMX  , collider.y + CAMY + 80    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
               projectile bullet4( collider.x + CAMX  , collider.y + CAMY - 80   , 3 , renderer , player.window , 78 , 132 , bullet_left);                     
               projectile bullet5( collider.x + CAMX  , collider.y + CAMY + 80  , 3 , renderer , player.window  , 78 , 132 , bullet_left);                     
               mainboss_bullets.push_back(bullet1);
@@ -117,6 +122,9 @@ class Boss{
               mainboss_bullets.push_back(bullet3);
               mainboss_bullets.push_back(bullet4);
               mainboss_bullets.push_back(bullet5);
+              mainboss_bullets.push_back(bullet6);
+              mainboss_bullets.push_back(bullet7);
+              mainboss_bullets.push_back(bullet8);
             }
 
             if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;   
@@ -145,7 +153,14 @@ class Boss{
             else cur_boss_animation = standing;
             if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;           
 
+                        SDL_RenderCopy(renderer , health_segment , NULL , &dest2); 
+                        
+                                 if(health == 400){
+                                       changeboss++;
+                                 }
+ 
       }
+
 
 
 };
@@ -155,7 +170,7 @@ class Boss{
 
 void load_main_boss( SDL_Renderer* renderer , vector <Boss>& main_bosses){
 
-         Boss main_boss( renderer , 500 , 150 , 800);
+         Boss main_boss( renderer , 600 , 150 + 256 , 800);
          main_bosses.push_back(main_boss);
 }
 

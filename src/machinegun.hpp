@@ -7,12 +7,12 @@
 #include "objects.h"
 
 int guncounter = 20;
-
+bool machinegun_started;
 class machinegun{
 
        public:
        SDL_Rect rectangle , srectangle;
-       bool machinegun_started;
+ 
        SDL_Renderer* renderer;
        SDL_Window* window; 
        SDL_Texture* text; 
@@ -76,7 +76,7 @@ class machinegun{
 
             }
 
-            if(machinegun_started==0){
+            if(!machinegun_started){
                 srectangle.x = rectangle.x - CAMX;
                 srectangle.y = rectangle.y - CAMY;   
                 SDL_RenderCopy(renderer , text , NULL , &srectangle );

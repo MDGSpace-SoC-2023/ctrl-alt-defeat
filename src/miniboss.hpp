@@ -280,7 +280,18 @@ class miniboss{
                     cur_boss.display_miniboss( renderer );
                     
                     if(cur_boss.bossfight){
+                        SDL_Rect dest;
+                        dest.w = 800;
+                        dest.h = 50;
+                        dest.x = 112;
+                        dest.y = 40;
+                        SDL_RenderCopy(renderer , cur_boss.empty_health , NULL , &dest);
 
+                        dest.w = 10*cur_boss.health;
+                        dest.x += 90;
+                        dest.h = 35;
+                        dest.y += 10;
+                        SDL_RenderCopy(renderer , cur_boss.health_segment , NULL , &dest);
 
                     }   
 

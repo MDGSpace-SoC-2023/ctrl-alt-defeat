@@ -970,7 +970,7 @@ void load_level_3_A( SDL_Renderer* renderer , level &level_3_A )
      level_3_A.tile_height =32;
      level_3_A.tile_width  =32;
 
-     level_3_A.level_bgm.Load_Music( "Assets/Audio/Music/around_the_world.mp3" , 40 );
+     level_3_A.level_bgm.Load_Music( "Assets/Audio/Music/boss_theme.mp3" , 40 );
 
      level_3_A.set_level_dimensions( 32 , 32 , 133 , 8 );
      
@@ -1124,13 +1124,13 @@ vector <int> level_3_A_collider=
 void load_level_3_B( SDL_Renderer* renderer , level &level_3_B )
 {
      level_3_B.levelfont = TTF_OpenFont( "Assets/8bit_font.ttf" , 32);
-     SDL_Surface* temp = TTF_RenderText_Solid( level_3_B.levelfont , "I COMING FOR YOU" , {255,255,51});
+     SDL_Surface* temp = TTF_RenderText_Solid( level_3_B.levelfont , "I'M COMING FOR YOU" , {255,255,51});
      level_3_B.font = SDL_CreateTextureFromSurface(renderer, temp);
 
      level_3_B.tile_height = 32;
      level_3_B.tile_width  = 32;
 
-     level_3_B.level_bgm.Load_Music( "Assets/Audio/Music/around_the_world.mp3" , 40 );
+     level_3_B.level_bgm.Load_Music( "Assets/Audio/Music/till_i_collapse.mp3" , 40 );
 
      level_3_B.set_level_dimensions( 32 , 32 , 133 , 8 );
      
@@ -1340,6 +1340,8 @@ vector <int> level_3_B_collider=
                 index = 0;
                 load_level_1(renderer , levels[1]);
                 load_level_2(renderer , levels[2]);
+                load_level_3_A(renderer , levels[3]);
+                load_level_3_B(renderer , levels[4]);
                 cur = levels[0];
                 cur_col = colliders[0];
                 cur_enemy = enemies[0];
@@ -1396,8 +1398,85 @@ vector <int> level_3_B_collider=
                      player.health = 10;
                      musicplayed = -1;
                      level_1_completed = true;
+                     powerups[1].clear();
 
                 }  
+                case 2:
+
+                if( level_changing && dead_boss >= 3){
+
+                     levels[3].fontstart = true;
+                     cur = levels[3];
+                     cur_col = colliders[3];
+                     cur_enemy = enemies[3];
+                     cur_powerup = powerups[3]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[3].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 100;
+                     player.rectangle.y = 480;
+                     index = 3;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+                     level_2_completed = true;
+
+                }  
+
+                case 3:
+
+                if(changeboss == 1){
+
+                        changeboss++;
+                     levels[4].fontstart = true;
+                     cur = levels[4];
+                     cur_col = colliders[4];
+                     cur_enemy = enemies[4];
+                     cur_powerup = powerups[4]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[4].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 512;
+                     player.rectangle.y = 480;
+                     index = 4;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+
+                }  
+
+                case 4:
+
+                if(level_changing && machinegun_started){
+                        changeboss++;
+                     cur = levels[3];
+                     cur_col = colliders[3];
+                     cur_enemy = enemies[3];
+                     cur_powerup = powerups[3]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[3].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 512;
+                     player.rectangle.y = 480;
+                     index = 3;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+
+
+                }              
               
 
                 }

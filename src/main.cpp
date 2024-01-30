@@ -123,6 +123,7 @@ int main ( int argc , char* argv[] )
         Music cur_track = cur_level.level_bgm;
         machinegun machine_gun(renderer,window);
         machine_gun.spawn_machinegun(960,1084);
+        player.rectangle.x = 100;
 
       while(!quit) //gameloop
       {      
@@ -212,7 +213,6 @@ int main ( int argc , char* argv[] )
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
              if( cur_level_index == 3){
-                  player.rectangle.x = 100;
                   main_boss[0].update_boss(renderer, player);
                   if(bombcounter>300){
                         bomb temp(renderer);

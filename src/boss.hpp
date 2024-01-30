@@ -11,6 +11,7 @@ using namespace std;
 
 int bosscounter = 0;
 int bosscounter2 = 0;
+bool bossdead = false;
 
 int changeboss = 0;
 class Boss{
@@ -87,77 +88,85 @@ class Boss{
       }
 
       void update_boss(SDL_Renderer* renderer , Sigma&player){
-
-            src.x = ((cur_index)%columns)*tilesize;
-            src.y = ((cur_index)/columns)*tilesize;
-            collider.x = x + 500 - CAMX;
-            collider.y = y + 500 - CAMY;
-
-            dest.x = x - CAMX;
-            dest.y = y - CAMY;
-
-            SDL_RenderCopy(renderer,Boss_tileset,&src,&dest);
-            bosscounter++;
-            bosscounter2++;
-
-            if(bosscounter>speed){
-                  cur_index++;
-                  bosscounter=0;
-            }
-            if( bosscounter2 > 420 ){
-                  //   teleport_miniboss( player.rectangle.x + CAMX , player.rectangle.y + CAMY , 1540);
-                    bosscounter2 = 0;
-            }
-            if( bosscounter2 == 20 || bosscounter2 == 80 || bosscounter2 == 160 || bosscounter2 == 220 ){
-              projectile bullet1( collider.x + CAMX - 80 , collider.y  + CAMY   , 2 , renderer , player.window , 78 , 132, bullet_down);                     
-              projectile bullet6( collider.x + CAMX + 80 , collider.y  + CAMY  , 2 , renderer , player.window , 78 , 132, bullet_down);                     
-              projectile bullet2( collider.x + CAMX - 80 , collider.y + CAMY     , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
-              projectile bullet7( collider.x + CAMX + 80 , collider.y + CAMY     , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
-              projectile bullet3( collider.x + CAMX  , collider.y + CAMY - 80    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
-              projectile bullet8( collider.x + CAMX  , collider.y + CAMY + 80    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
-              projectile bullet4( collider.x + CAMX  , collider.y + CAMY - 80   , 3 , renderer , player.window , 78 , 132 , bullet_left);                     
-              projectile bullet5( collider.x + CAMX  , collider.y + CAMY + 80  , 3 , renderer , player.window  , 78 , 132 , bullet_left);                     
-              mainboss_bullets.push_back(bullet1);
-              mainboss_bullets.push_back(bullet2);
-              mainboss_bullets.push_back(bullet3);
-              mainboss_bullets.push_back(bullet4);
-              mainboss_bullets.push_back(bullet5);
-              mainboss_bullets.push_back(bullet6);
-              mainboss_bullets.push_back(bullet7);
-              mainboss_bullets.push_back(bullet8);
-            }
-
-            if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;   
-
-                        SDL_Rect dest2;
-                        dest2.w = 800;
-                        dest2.h = 50;
-                        dest2.x = 112;
-                        dest2.y = 40;
-                        SDL_RenderCopy(renderer , empty_health , NULL , &dest2);
-
-                        dest2.w = 1*health;
-                        dest2.x += 90;
-                        dest2.h = 35;
-                        dest2.y += 10;
-                        SDL_RenderCopy(renderer , health_segment , NULL , &dest2);  
-            if(player.rectangle.x+CAMX>=x && player.rectangle.x+CAMX<= (x+800) && player.rectangle.y+CAMY>=(y+400) && player.rectangle.y+CAMY<= (y+800)){
-                  cur_boss_animation = attack;
-                  if(cur_index >= cur_boss_animation.first+cur_boss_animation.second-1 && bosscounter == speed -1){
-                        player.health -= 2;
-                        cur_boss_animation = standing;
+            if(active_boss_fight!=4){
+                  if(health<=0){
+                        cur_boss_animation = dying;
+                        if(cur_index < cur_boss_animation.first) cur_index = cur_boss_animation.first;
                   }
-   
-            }
-            else cur_boss_animation = standing;
-            if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;           
 
-                        SDL_RenderCopy(renderer , health_segment , NULL , &dest2); 
-                        
-                                 if(health == 400){
-                                       changeboss++;
-                                 }
- 
+                  src.x = ((cur_index)%columns)*tilesize;
+                  src.y = ((cur_index)/columns)*tilesize;
+                  collider.x = x + 500 - CAMX;
+                  collider.y = y + 500 - CAMY;
+
+                  dest.x = x - CAMX;
+                  dest.y = y - CAMY;
+
+                  SDL_RenderCopy(renderer,Boss_tileset,&src,&dest);
+                  bosscounter++;
+                  bosscounter2++;
+
+                  if(bosscounter>speed){
+                        cur_index++;
+                        bosscounter=0;
+                  }
+                  if( bosscounter2 > 420 ){
+                        //   teleport_miniboss( player.rectangle.x + CAMX , player.rectangle.y + CAMY , 1540);
+                        bosscounter2 = 0;
+                  }
+                  if( (bosscounter2 == 20 || bosscounter2 == 80 || bosscounter2 == 160 || bosscounter2 == 220) && cur_boss_animation !=dying ){
+                  projectile bullet1( collider.x + CAMX - 80 , collider.y  + CAMY   , 2 , renderer , player.window , 78 , 132, bullet_down);                     
+                  projectile bullet6( collider.x + CAMX + 80 , collider.y  + CAMY  , 2 , renderer , player.window , 78 , 132, bullet_down);                     
+                  projectile bullet2( collider.x + CAMX - 80 , collider.y + CAMY     , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
+                  projectile bullet7( collider.x + CAMX + 80 , collider.y + CAMY     , 1 , renderer , player.window , 78 , 132 , bullet_up);                     
+                  projectile bullet3( collider.x + CAMX  , collider.y + CAMY - 80    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
+                  projectile bullet8( collider.x + CAMX  , collider.y + CAMY + 80    , 4 , renderer , player.window , 78 , 132 , bullet_right);                     
+                  projectile bullet4( collider.x + CAMX  , collider.y + CAMY - 80   , 3 , renderer , player.window , 78 , 132 , bullet_left);                     
+                  projectile bullet5( collider.x + CAMX  , collider.y + CAMY + 80  , 3 , renderer , player.window  , 78 , 132 , bullet_left);                     
+                  mainboss_bullets.push_back(bullet1);
+                  mainboss_bullets.push_back(bullet2);
+                  mainboss_bullets.push_back(bullet3);
+                  mainboss_bullets.push_back(bullet4);
+                  mainboss_bullets.push_back(bullet5);
+                  mainboss_bullets.push_back(bullet6);
+                  mainboss_bullets.push_back(bullet7);
+                  mainboss_bullets.push_back(bullet8);
+                  }
+
+                  //if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;   
+
+                              SDL_Rect dest2;
+                              dest2.w = 800;
+                              dest2.h = 50;
+                              dest2.x = 112;
+                              dest2.y = 40;
+                              SDL_RenderCopy(renderer , empty_health , NULL , &dest2);
+
+                              dest2.w = 1*health;
+                              dest2.x += 90;
+                              dest2.h = 35;
+                              dest2.y += 10;
+                              SDL_RenderCopy(renderer , health_segment , NULL , &dest2);  
+                  if((player.rectangle.x+CAMX>=x && player.rectangle.x+CAMX<= (x+800) && player.rectangle.y+CAMY>=(y+400) && player.rectangle.y+CAMY<= (y+800)) && cur_boss_animation != dying){
+                        cur_boss_animation = attack;
+                        if(cur_index >= cur_boss_animation.first+cur_boss_animation.second-1 && bosscounter == speed -1){
+                              player.health -= 2;
+                              cur_boss_animation = standing;
+                        }
+      
+                  }
+                  else if(cur_boss_animation != dying) cur_boss_animation = standing;
+                  if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1 && (cur_boss_animation!=dying)) cur_index = cur_boss_animation.first;      
+                  if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1 && cur_boss_animation == dying){
+                        active_boss_fight = 4;
+                  }     
+
+                              SDL_RenderCopy(renderer , health_segment , NULL , &dest2); 
+                              
+                                    if(health == 400){
+                                          changeboss++;
+                                    }
+            }
       }
 
 

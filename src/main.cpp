@@ -115,11 +115,11 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[2];
-        vector <int> cur_collider = colliders[2];
-        int cur_level_index = 2;
-        vector <Enemy> cur_enemies = enemies[2];
-        vector <powerup> cur_powerup = powerups[2];
+        level cur_level = levels[3];
+        vector <int> cur_collider = colliders[3];
+        int cur_level_index = 3;
+        vector <Enemy> cur_enemies = enemies[3];
+        vector <powerup> cur_powerup = powerups[3];
         Music cur_track = cur_level.level_bgm;
         machinegun machine_gun(renderer,window);
         machine_gun.spawn_machinegun(960,1084);

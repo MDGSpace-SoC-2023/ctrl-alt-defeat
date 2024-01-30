@@ -133,6 +133,17 @@ class Boss{
                         dest2.h = 35;
                         dest2.y += 10;
                         SDL_RenderCopy(renderer , health_segment , NULL , &dest2);  
+            if(player.rectangle.x+CAMX>=x && player.rectangle.x+CAMX<= (x+800) && player.rectangle.y+CAMY>=(y+400) && player.rectangle.y+CAMY<= (y+800)){
+                  cur_boss_animation = attack;
+                  if(cur_index >= cur_boss_animation.first+cur_boss_animation.second-1 && bosscounter == speed -1){
+                        player.health -= 2;
+                        cur_boss_animation = standing;
+                        cout<<player.health<<" ";
+                  }
+   
+            }
+            else cur_boss_animation = standing;
+            if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;           
 
       }
 

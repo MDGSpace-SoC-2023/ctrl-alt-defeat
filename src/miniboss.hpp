@@ -301,10 +301,10 @@ class miniboss{
                     }
                 }
                 else{
-                    dead_boss++;
                     cur_boss.deadcount++;
                     if(cur_boss.deadcount==1){
                         trigger_animation(enemy_dead_animation,cur_boss.x,cur_boss.y,96,78);
+                        dead_boss++;
                     }
                     else if(cur_boss.deadcount ==30){
                         trigger_animation(enemy_dead_animation,cur_boss.x+64,cur_boss.y+96,96,78);

@@ -911,10 +911,10 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
 264,272,0,0,0,0,683,0,0,685,686,0,0,683,0,0,0,0,1347,454,455,456,80,0,0,0,1256,1257,1258,1259,0,0,0,0,1256,1257,1258,1259,0,0,0,1347,454,455,456,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
 264,272,0,0,0,0,747,0,0,749,750,0,0,747,0,0,0,0,0,0,0,0,0,0,0,0,1320,1321,1322,1323,0,0,0,0,1320,1321,1322,1323,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
 264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1128,1129,1130,1131,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
-264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1192,1193,1194,1195,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
-264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1128,1129,1129,1256,1257,1258,1259,1129,1128,1129,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,325,264,
-264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,197,205,205,206,208,0,0,0,0,1192,1193,1193,1320,1321,1322,1323,1193,1192,1193,0,0,0,0,197,205,205,206,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,389,264,
-264,336,0,0,0,0,619,0,0,0,0,0,0,619,0,0,0,0,216,264,264,264,336,0,0,0,0,1256,1257,1257,1320,1321,1322,1323,1257,1256,1257,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
+264,272,238,239,240,241,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1192,1193,1194,1195,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
+264,336,302,303,304,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1128,1129,1129,1256,1257,1258,1259,1129,1128,1129,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,325,264,
+264,272,366,367,368,0,0,0,0,0,0,0,0,0,0,0,0,0,197,205,205,206,208,0,0,0,0,1192,1193,1193,1320,1321,1322,1323,1193,1192,1193,0,0,0,0,197,205,205,206,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,389,264,
+264,336,430,431,432,433,619,0,0,0,0,0,0,619,0,0,0,0,216,264,264,264,336,0,0,0,0,1256,1257,1257,1320,1321,1322,1323,1257,1256,1257,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
 264,272,0,0,0,0,683,0,0,0,0,0,0,683,0,0,0,0,216,264,264,264,272,0,0,0,0,1320,1321,0,0,0,0,0,0,1320,1321,0,0,0,0,216,264,264,264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
 264,336,0,0,0,0,747,0,0,0,0,0,0,747,0,0,0,0,216,264,264,264,336,0,0,0,0,1320,1321,0,0,0,0,0,0,1320,1321,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
 328,400,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,280,264,264,264,400,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,280,264,264,264,400,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,280,264,
@@ -929,10 +929,10 @@ for( int i=0 ; i< layer_4_values.size() ; ++i){
 264,272,645,355,666,666,355,660,0,0,0,0,664,353,354,666,355,356,389,328,328,328,272,709,710,711,720,0,0,0,0,0,0,0,0,0,0,709,710,711,720,389,328,328,328,272,352,353,354,355,356,357,0,0,0,0,352,353,354,355,356,357,389,264,
 264,272,709,419,730,730,417,724,0,0,0,0,728,417,418,730,419,420,1347,454,455,456,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1347,454,455,456,80,416,417,418,419,420,421,0,0,0,0,416,417,418,419,420,421,261,264,
 264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
-264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
-264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,261,264,
-264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,325,264,
-264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,197,205,205,206,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,197,205,205,206,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,389,264,
+264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,242,243,244,245,261,264,
+264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,308,309,261,264,
+264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,372,373,325,264,
+264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,197,205,205,206,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,197,205,205,206,208,0,0,0,0,0,0,0,0,0,0,0,0,434,435,436,437,389,264,
 264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
 264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,264,264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,264,264,272,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
 264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,264,264,336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,264,
@@ -1142,8 +1142,8 @@ void load_level_3_B( SDL_Renderer* renderer , level &level_3_B )
      layer_1_values = {
 468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,468,
 468,468,468,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,463,468,468,468,
-468,468,463,463,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,324,463,463,468,468,
-468,463,463,324,324,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,324,324,463,463,468,
+468,468,463,463,324,324,324,324,324,324,324,324,324,324,340,341,341,342,324,324,324,324,324,324,324,324,324,324,463,463,468,468,
+468,463,463,324,324,299,299,299,299,299,299,299,299,299,348,349,349,350,299,299,299,299,299,299,299,299,299,324,324,463,463,468,
 468,463,324,324,299,299,310,310,310,310,310,310,310,310,310,310,310,310,310,310,310,310,310,310,310,310,299,299,324,324,463,468,
 468,463,324,299,299,310,310,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,299,310,310,299,299,324,463,468,
 468,463,324,299,310,310,299,299,324,299,299,299,463,463,463,463,463,463,463,463,299,299,299,324,299,299,310,310,299,324,463,468,
@@ -1176,8 +1176,8 @@ void load_level_3_B( SDL_Renderer* renderer , level &level_3_B )
 
 
      layer_2_values = {
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,195,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,196,0,0,0,
+ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,643,644,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,195,201,201,201,201,201,201,201,201,201,201,201,651,652,201,201,201,201,201,201,201,201,201,201,201,196,0,0,0,
 0,0,195,204,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,203,196,0,0,
 0,195,204,0,909,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,909,0,203,196,0,
 0,193,0,0,917,0,71,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,71,0,917,0,0,193,0,
@@ -1207,7 +1207,9 @@ void load_level_3_B( SDL_Renderer* renderer , level &level_3_B )
 0,203,196,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,195,204,0,
 0,0,203,196,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,195,204,0,0,
 0,0,0,203,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,204,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+};
 
 
 for( int i=0 ; i< layer_1_values.size() ; ++i){
@@ -1245,8 +1247,8 @@ for( int i=0 ; i< layer_2_values.size() ; ++i){
 
 vector <int> level_3_B_collider=
  {
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,195,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,201,196,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,643,644,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,195,201,201,201,201,201,201,201,201,201,201,201,-1,-1,201,201,201,201,201,201,201,201,201,201,201,196,0,0,0,
 0,0,195,204,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,203,196,0,0,
 0,195,204,0,909,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,909,0,203,196,0,
 0,193,0,0,917,0,71,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,71,0,917,0,0,193,0,
@@ -1327,163 +1329,6 @@ vector <int> level_3_B_collider=
                      return collider[ind];
                }
  }    
-    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer , Music &cur_track)
-    {
-                
-
-                switch( index )
-                {
-                case -1:
-                CAMX = CAMY = 0;
-                player.rectangle.x = 512;
-                player.rectangle.y = 400;
-                index = 0;
-                load_level_1(renderer , levels[1]);
-                load_level_2(renderer , levels[2]);
-                load_level_3_A(renderer , levels[3]);
-                load_level_3_B(renderer , levels[4]);
-                cur = levels[0];
-                cur_col = colliders[0];
-                cur_enemy = enemies[0];
-                cur_powerup = powerups[0];
-                cur_track = levels[0].level_bgm;
-                enemy_dead_counter = 0;
-                musicplayed = -1;
-
-                break;
-
-                case 0:
-
-                if( level_changing && enemy_dead_counter >= cur.enemy_count)
-                {
-                    
-                     levels[1].fontstart = true;
-                     cur = levels[1];
-                     cur_col = colliders[1];
-                     cur_enemy = enemies[1];
-                     cur_powerup = powerups[1]; 
-                     cur_track.fadeout_music();
-                     cur_track = levels[1].level_bgm;
-
-                     player.rectangle.x = 120 - CAMX;
-                     player.rectangle.y = 230 - CAMY;
-                     index = 1;
-                     eBullets.clear();
-                     level_changing = false;
-                     enemy_dead_counter = 0;
-                     musicplayed = -1;
-                }   
-                break;  
-
-                case 1:
-
-                if( level_changing && enemy_dead_counter >= cur.enemy_count){
-
-                     levels[2].fontstart = true;
-                     cur = levels[2];
-                     cur_col = colliders[2];
-                     cur_enemy = enemies[2];
-                     cur_powerup = powerups[2]; 
-                     cur_track.fadeout_music();
-                     cur_track = levels[2].level_bgm;
-
-                     CAMX = 320 - 512;
-                     CAMY = 304;
-                     player.rectangle.x = 512;
-                     player.rectangle.y = 480;
-                     index = 2;
-                     eBullets.clear();
-                     level_changing = false;
-                     enemy_dead_counter = 0;
-                     player.health = 10;
-                     musicplayed = -1;
-                     level_1_completed = true;
-                     powerups[1].clear();
-
-                }  
-                case 2:
-
-                if( level_changing && dead_boss >= 3){
-
-                     levels[3].fontstart = true;
-                     cur = levels[3];
-                     cur_col = colliders[3];
-                     cur_enemy = enemies[3];
-                     cur_powerup = powerups[3]; 
-                     cur_track.fadeout_music();
-                     cur_track = levels[3].level_bgm;
-
-                     CAMX = 320 - 512;
-                     CAMY = 304;
-                     player.rectangle.x = 100;
-                     player.rectangle.y = 480;
-                     index = 3;
-                     eBullets.clear();
-                     level_changing = false;
-                     enemy_dead_counter = 0;
-                     player.health = 10;
-                     musicplayed = -1;
-                     level_2_completed = true;
-
-                }  
-
-                case 3:
-
-                if(changeboss == 1){
-
-                        changeboss++;
-                     levels[4].fontstart = true;
-                     cur = levels[4];
-                     cur_col = colliders[4];
-                     cur_enemy = enemies[4];
-                     cur_powerup = powerups[4]; 
-                     cur_track.fadeout_music();
-                     cur_track = levels[4].level_bgm;
-
-                     CAMX = 320 - 512;
-                     CAMY = 304;
-                     player.rectangle.x = 512;
-                     player.rectangle.y = 480;
-                     index = 4;
-                     eBullets.clear();
-                     level_changing = false;
-                     enemy_dead_counter = 0;
-                     player.health = 10;
-                     musicplayed = -1;
-
-                }  
-
-                case 4:
-
-                if(level_changing && machinegun_started){
-                        changeboss++;
-                     cur = levels[3];
-                     cur_col = colliders[3];
-                     cur_enemy = enemies[3];
-                     cur_powerup = powerups[3]; 
-                     cur_track.fadeout_music();
-                     cur_track = levels[3].level_bgm;
-
-                     CAMX = 320 - 512;
-                     CAMY = 304;
-                     player.rectangle.x = 512;
-                     player.rectangle.y = 480;
-                     index = 3;
-                     eBullets.clear();
-                     level_changing = false;
-                     enemy_dead_counter = 0;
-                     player.health = 10;
-                     musicplayed = -1;
-
-
-                }              
-              
-
-                }
-                
-
-     }
-
      void load_enemies( vector <vector <Enemy>> &enemies , SDL_Renderer* renderer , SDL_Window* window)
      {       
             vector <Enemy> level0;
@@ -2005,6 +1850,170 @@ vector <int> level_3_B_collider=
 
 
       }
+    void level_transition( vector <level> &levels , vector < vector<int> > &colliders ,vector<vector <Enemy>> &enemies , int &index , level &cur , vector <int> &cur_col , vector <Enemy> &cur_enemy , Sigma &player , vector <vector <powerup>> &powerups , vector <powerup> &cur_powerup, SDL_Renderer* renderer , Music &cur_track, vector <miniboss> &minibosses)
+    {
+                
+
+                switch( index )
+                {
+                case -1:
+                CAMX = CAMY = 0;
+                player.rectangle.x = 512;
+                player.rectangle.y = 400;
+                index = 0;
+                load_level_1(renderer , levels[1]);
+                load_level_2(renderer , levels[2]);
+                load_level_3_A(renderer , levels[3]);
+                load_level_3_B(renderer , levels[4]);
+                load_minibosses(minibosses, renderer);
+                cur = levels[0];
+                cur_col = colliders[0];
+                cur_enemy = enemies[0];
+                cur_powerup = powerups[0];
+                cur_track = levels[0].level_bgm;
+                enemy_dead_counter = 0;
+                musicplayed = -1;
+
+                break;
+
+                case 0:
+
+                if( level_changing && enemy_dead_counter >= cur.enemy_count)
+                {
+                    
+                     levels[1].fontstart = true;
+                     cur = levels[1];
+                     cur_col = colliders[1];
+                     cur_enemy = enemies[1];
+                     cur_powerup = powerups[1]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[1].level_bgm;
+
+                     player.rectangle.x = 120 - CAMX;
+                     player.rectangle.y = 230 - CAMY;
+                     index = 1;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     musicplayed = -1;
+                }   
+                break;  
+
+                case 1:
+
+                if( level_changing && (enemy_dead_counter >= cur.enemy_count || level_1_completed)){
+
+                     levels[2].fontstart = true;
+                     cur = levels[2];
+                     cur_col = colliders[2];
+                     cur_enemy = enemies[2];
+                     cur_powerup = powerups[2]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[2].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 512;
+                     player.rectangle.y = 480;
+                     index = 2;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+                     level_1_completed = true;
+                     powerups[1].clear();
+
+                } 
+
+                break; 
+                case 2:
+
+                if( level_changing && (dead_boss >= 3) ){
+
+                     levels[3].fontstart = true;
+                     cur = levels[3];
+                     cur_col = colliders[3];
+                     cur_enemy = enemies[3];
+                     cur_powerup = powerups[3]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[3].level_bgm;
+
+                     CAMX = 320;
+                     CAMY = 304;
+                     player.rectangle.x = 100;
+                     player.rectangle.y = 480;
+                     index = 3;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+                     level_2_completed = true;
+
+                }  
+                break;
+
+                case 3:
+
+                if(changeboss == 1){
+
+                     changeboss++;
+                     levels[4].fontstart = true;
+                     cur = levels[4];
+                     cur_col = colliders[4];
+                     cur_enemy = enemies[4];
+                     cur_powerup = powerups[4]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[4].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 512;
+                     player.rectangle.y = 480;
+                     index = 4;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+
+                }  
+                break;
+
+                case 4:
+
+                if(level_changing && machinegun_started){
+                        changeboss++;
+                     cur = levels[3];
+                     cur_col = colliders[3];
+                     cur_enemy = enemies[3];
+                     cur_powerup = powerups[3]; 
+                     cur_track.fadeout_music();
+                     cur_track = levels[3].level_bgm;
+
+                     CAMX = 320 - 512;
+                     CAMY = 304;
+                     player.rectangle.x = 512;
+                     player.rectangle.y = 480;
+                     index = 3;
+                     eBullets.clear();
+                     level_changing = false;
+                     enemy_dead_counter = 0;
+                     player.health = 10;
+                     musicplayed = -1;
+
+
+                }              
+                    break;         
+     
+                }
+
+               
+                
+
+     }
+
 
       
 

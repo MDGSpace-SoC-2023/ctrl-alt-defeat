@@ -115,15 +115,16 @@ int main ( int argc , char* argv[] )
         load_levels( levels , colliders , enemies , powerups );
         load_animations( renderer);
         
-        level cur_level = levels[3];
-        vector <int> cur_collider = colliders[3];
-        int cur_level_index = 3;
-        vector <Enemy> cur_enemies = enemies[3];
-        vector <powerup> cur_powerup = powerups[3];
+        level cur_level = levels[2];
+        vector <int> cur_collider = colliders[2];
+        int cur_level_index = 2;
+        vector <Enemy> cur_enemies = enemies[2];
+        vector <powerup> cur_powerup = powerups[2];
         Music cur_track = cur_level.level_bgm;
         machinegun machine_gun(renderer,window);
         machine_gun.spawn_machinegun(960,1084);
-        player.rectangle.x = 100;
+      //   player.rectangle.x = 100;
+        player.bullet_damage = 100;
 
       while(!quit) //gameloop
       {      
@@ -164,6 +165,8 @@ int main ( int argc , char* argv[] )
             process_cam_input( player );
             }
 
+            level_changing = false;
+
             if(check_collision_for_level(cur_level , player , cur_collider, 0, cur_level_index)){
                               player.reverse_input(gkey,player);
                               reverse_cam_input(gkey , player);
@@ -174,7 +177,7 @@ int main ( int argc , char* argv[] )
             }  
 
             
-            level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup, renderer , cur_track);
+            level_transition(levels , colliders , enemies ,cur_level_index , cur_level , cur_collider ,cur_enemies ,  player , powerups , cur_powerup, renderer , cur_track , minibosses);
       
                  if( player.dashing)
                             {
@@ -184,6 +187,8 @@ int main ( int argc , char* argv[] )
                                      player.reverse_dash();
                                }
                             }
+
+                            cout << level_changing << endl;
 
             clear_display(); //clear screen to black or level texture
             

@@ -100,15 +100,25 @@ class Boss{
                     bosscounter2 = 0;
             }
             if( bosscounter2 == 20 || bosscounter2 == 80){
-              projectile bullet1( x , y  , 1 , renderer , player.window , size , bullet_down);                     
-              projectile bullet2( x , y  , 2 , renderer , player.window , size , bullet_up);                     
-              projectile bullet3( x , y  , 3 , renderer , player.window , size , bullet_right);                     
-              projectile bullet4( x , y  , 4 , renderer , player.window , size , bullet_left);                     
+              projectile bullet1( x , y  , 1 , renderer , player.window , 40 , bullet_down);                     
+              projectile bullet2( x , y  , 2 , renderer , player.window , 40 , bullet_up);                     
+              projectile bullet3( x , y  , 3 , renderer , player.window , 40 , bullet_right);                     
+              projectile bullet4( x , y  , 4 , renderer , player.window , 40 , bullet_left);                     
               mainboss_bullets.push_back(bullet1);
               mainboss_bullets.push_back(bullet2);
               mainboss_bullets.push_back(bullet3);
               mainboss_bullets.push_back(bullet4);
             }
+            if(player.rectangle.x+CAMX>=x && player.rectangle.x+CAMX<= (x+800) && player.rectangle.y+CAMY>=(y+400) && player.rectangle.y+CAMY<= (y+800)){
+                  cur_boss_animation = attack;
+                  if(cur_index >= cur_boss_animation.first+cur_boss_animation.second-1 && bosscounter == speed -1){
+                        player.health -= 2;
+                        cur_boss_animation = standing;
+                        cout<<player.health<<" ";
+                  }
+   
+            }
+            else cur_boss_animation = standing;
             if(cur_index>cur_boss_animation.first+cur_boss_animation.second-1) cur_index = cur_boss_animation.first;           
 
       }
@@ -121,7 +131,7 @@ class Boss{
 
 void load_main_boss( SDL_Renderer* renderer , vector <Boss>& main_bosses){
 
-         Boss main_boss( renderer , 500 , 150 , 700);
+         Boss main_boss( renderer , 500 , 150 , 800);
          main_bosses.push_back(main_boss);
          main_boss.dest.w = 500;
          main_boss.dest.h = 500;

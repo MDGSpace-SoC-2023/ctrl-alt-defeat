@@ -212,7 +212,7 @@ int main ( int argc , char* argv[] )
              update_animations( renderer);
              if( cur_level_index == 2)update_minibosses( minibosses , renderer , player);
              if( cur_level_index == 3){
-                  main_boss[0].update_boss(renderer);
+                  main_boss[0].update_boss(renderer, player);
                   if(bombcounter>300){
                         bomb temp(renderer);
                         active_bombs.push_back(temp);
@@ -228,6 +228,30 @@ int main ( int argc , char* argv[] )
 
                         bomb temp4(renderer);
                         active_bombs.push_back(temp4);
+
+                        bomb temp5(renderer);
+                        active_bombs.push_back(temp5);
+
+                        bomb temp6(renderer);
+                        active_bombs.push_back(temp6);
+
+                        bomb temp7(renderer);
+                        active_bombs.push_back(temp7);
+
+                        bomb temp8(renderer);
+                        active_bombs.push_back(temp8);
+
+                        bomb temp9(renderer);
+                        active_bombs.push_back(temp9);
+
+                        bomb temp10(renderer);
+                        active_bombs.push_back(temp10);
+
+                        bomb temp11(renderer);
+                        active_bombs.push_back(temp11);
+
+                        bomb temp12(renderer);
+                        active_bombs.push_back(temp12);
 
                         bombcounter = 0;
                         

@@ -15,6 +15,7 @@ class bomb{
         int x,y;
         int framecounter = 0 , index = 0;
         SDL_Texture* text = NULL;
+        int zoom = 0;
 
         bomb(SDL_Renderer* ren){
             SDL_Surface* tmp = IMG_Load("Assets/bomb.png");
@@ -32,9 +33,11 @@ class bomb{
                 src.y = 0;
 
                 SDL_Rect dest;
-                dest.w = dest.h = 64;
-                dest.x = x-CAMX;
-                dest.y = y-CAMY; 
+                dest.w = dest.h = 64 + zoom;
+                dest.x = x-CAMX-zoom/2;
+                dest.y = y-CAMY-zoom/2; 
+
+                if(index >= 36) zoom+=5;
 
                 SDL_RenderCopy(ren,text,&src,&dest);
 

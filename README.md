@@ -51,3 +51,6 @@ Embark on an epic top-down adventure in our thrilling game, where you assume the
 3. Nitin Raj (IIT Roorkee CSE)
 - github = https://github.com/Nitinn-Rajj
 - mail = rajnitin088@gmail.com
+
+Special Thanks
+-https://github.com/kituuu
